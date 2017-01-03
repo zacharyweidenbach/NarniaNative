@@ -16,6 +16,9 @@ class Home extends React.Component {
       <div>
         Hello World!
       </div>
+      <div>
+         {/* add test product rendering here*/}
+      </div>
     );
   }
 }

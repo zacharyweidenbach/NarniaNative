@@ -30,4 +30,8 @@ node_modules/
 bower_components/
 
 **/.DS_Store
+
 .env
+**/config.json
+*config.json
+
