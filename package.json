@@ -21,9 +21,13 @@
   "homepage": "git+https://github.com/OutrageousOcelot/Narnia#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "jquery": "^3.1.1",
     "mysql": "^2.12.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
     "path": "^0.12.7",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
