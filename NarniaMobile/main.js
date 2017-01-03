@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
+import ProfileScreen from './screens/profileScreen';
 
 export default class App extends Component {
   render() {
@@ -27,6 +28,8 @@ export default class App extends Component {
       return (<SocialFeed navigator={navigator} title='SocialFeed'/>);
     case 'LikesScreen':
       return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
+    case 'ProfileScreen':
+      return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
     }
   }
 }

@@ -99,19 +99,19 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed style={styles.page} />
+          <FriendsFeed navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <DesignerFeed style={styles.page} />
+          <DesignerFeed navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <TrendingFeed style={styles.page} />
+          <TrendingFeed navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     default:
