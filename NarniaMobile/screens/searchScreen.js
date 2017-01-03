@@ -11,9 +11,9 @@ import {
   TouchableHighlight,
   TextInput,
 } from 'react-native';
-import FriendsFeed from './friendsFeed.js';
-import DesignerFeed from './designerFeed.js';
-import TrendingFeed from './trendingFeed.js';
+import SearchPeople from './searchPeople.js';
+import SearchTags from './searchTags.js';
+import SearchShop from './searchShop.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
+  },
+  searchBar: {
+    flex: 1,
   },
   tabbar: {
     backgroundColor: '#fff',
@@ -97,19 +100,19 @@ export default class searchScreen extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed navigator={this.props.navigator} style={styles.page} />
+          <SearchPeople navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <DesignerFeed navigator={this.props.navigator} style={styles.page} />
+          <SearchTags navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <TrendingFeed navigator={this.props.navigator} style={styles.page} />
+          <SearchShop navigator={this.props.navigator} style={styles.page} />
         </ScrollView>
       );
     default:
@@ -135,8 +138,8 @@ export default class searchScreen extends Component {
             </View>
           </TouchableHighlight>
           <Text style={{fontWeight: 'bold', fontSize: 26}}>Search</Text>
-          <TextInput style={{fontWeight: 'bold', fontSize: 26}} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
         </View>
+        <TextInput style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
         <TabViewAnimated
           style={[ styles.tabViewContainer, this.props.style ]}
           navigationState={this.state}
