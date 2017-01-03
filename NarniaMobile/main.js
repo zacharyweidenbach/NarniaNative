@@ -7,6 +7,7 @@ import {
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
+import SearchScreen from './screens/searchScreen';
 
 export default class App extends Component {
   render() {
@@ -30,6 +31,8 @@ export default class App extends Component {
       return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
     case 'ProfileScreen':
       return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
+    case 'SearchScreen':
+      return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
     }
   }
 }
