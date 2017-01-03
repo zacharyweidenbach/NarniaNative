@@ -6,10 +6,14 @@ class Search extends REact.component {
   constructor(props) {
     super(props);\;
     this.state = {
-      SearchIndex: "Fashion";
+      SearchIndex: '';
       Keywords: '';
-      ResponseGroup: 'Images, ImagesAttributes';
       Sort: '';
     }
   }
+
+  
+
 }
+
+
