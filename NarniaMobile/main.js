@@ -14,7 +14,7 @@ export default class App extends Component {
     return (
       <Navigator
         initialRoute = {{
-          id: 'SocialFeed'
+          id: 'SearchScreen'
         }}
         renderScene={
           this.navigatorRenderScene
