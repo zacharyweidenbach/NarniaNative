@@ -64,6 +64,10 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
+	var _Login = __webpack_require__(236);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_reactDom2.default.render(_react2.default.createElement(
@@ -26477,6 +26481,14 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _Login = __webpack_require__(236);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _Signup = __webpack_require__(237);
+
+	var _Signup2 = _interopRequireDefault(_Signup);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26498,15 +26510,12 @@
 	  }
 
 	  _createClass(Home, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        '"Hello World!"'
+	        'Hello World!'
 	      );
 	    }
 	  }]);
@@ -36741,6 +36750,240 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(32);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _jquery = __webpack_require__(235);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Login = function (_React$Component) {
+	  _inherits(Login, _React$Component);
+
+	  function Login(props) {
+	    _classCallCheck(this, Login);
+
+	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+
+	    _this.state = {
+	      username: '',
+	      password: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Login, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // $.ajax({
+	      //   method: 'GET',
+	      //   url: 'auth/facebook',
+	      //   data: this.state,
+	      //   beforeSend: function(xhr) { xhr.setRequestHeader('Access-Control-Allow-Origin', 'test'); },
+	      //   success: (function(resp) {
+	      //     console.log('Success', resp);
+	      //   }),
+	      //   error: (function(resp) {
+	      //     console.log('Failure', resp);
+	      //   })
+	      // });
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(event) {
+	      event.preventDefault();
+	      if (this.state.username && this.state.password) {
+	        _jquery2.default.ajax({
+	          method: 'POST',
+	          url: 'api/users/login',
+	          data: this.state,
+	          success: function success(resp) {
+	            console.log('SUCCESS, this was the response:', resp);
+	          },
+	          error: function error(resp) {
+	            console.log('FAILED, this was the response:', resp);
+	          }
+	        });
+	      } else {
+	        console.log('Enter a username and password!');
+	      }
+	    }
+	  }, {
+	    key: 'usernameHandler',
+	    value: function usernameHandler(event) {
+	      this.setState({ username: event.target.value });
+	    }
+	  }, {
+	    key: 'passwordHandler',
+	    value: function passwordHandler(event) {
+	      this.setState({ password: event.target.value });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.login.bind(this) },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Username'
+	          ),
+	          _react2.default.createElement('input', { value: this.state.username, onChange: this.usernameHandler.bind(this) }),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Password'
+	          ),
+	          _react2.default.createElement('input', { value: this.state.password, onChange: this.passwordHandler.bind(this) }),
+	          _react2.default.createElement('input', { type: 'submit' })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Login;
+	}(_react2.default.Component);
+
+	exports.default = Login;
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(32);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _jquery = __webpack_require__(235);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Signup = function (_React$Component) {
+	  _inherits(Signup, _React$Component);
+
+	  function Signup(props) {
+	    _classCallCheck(this, Signup);
+
+	    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
+
+	    _this.state = {
+	      username: '',
+	      password: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Signup, [{
+	    key: 'signup',
+	    value: function signup(event) {
+	      event.preventDefault();
+	      if (this.state.username && this.state.password) {
+	        _jquery2.default.ajax({
+	          method: 'POST',
+	          url: 'api/users/signup',
+	          data: this.state,
+	          success: function success(resp) {
+	            console.log('SUCCESS, this was the response:', resp);
+	          },
+	          error: function error(resp) {
+	            console.log('FAILED, this was the response:', resp);
+	          }
+	        });
+	      } else {
+	        console.log('Enter a username and password!');
+	      }
+	    }
+	  }, {
+	    key: 'usernameHandler',
+	    value: function usernameHandler(event) {
+	      this.setState({ username: event.target.value });
+	    }
+	  }, {
+	    key: 'passwordHandler',
+	    value: function passwordHandler(event) {
+	      this.setState({ password: event.target.value });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.signup.bind(this) },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'New Username'
+	          ),
+	          _react2.default.createElement('input', { value: this.state.username, onChange: this.usernameHandler.bind(this) }),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'New Password'
+	          ),
+	          _react2.default.createElement('input', { value: this.state.password, onChange: this.passwordHandler.bind(this) }),
+	          _react2.default.createElement('input', { type: 'submit' })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Signup;
+	}(_react2.default.Component);
+
+	exports.default = Signup;
 
 /***/ }
 /******/ ]);

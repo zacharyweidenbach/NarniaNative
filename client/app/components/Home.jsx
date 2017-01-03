@@ -2,17 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  componentDidMount() {}
 
   render() {
     return (
       <div>
-        "Hello World!"
+        Hello World!
       </div>
     );
   }
