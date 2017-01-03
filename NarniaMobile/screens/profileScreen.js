@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 12,
   },
-  profileStats: {
-    // flex: 2,
+  // profileStats: {
+  //   // flex: 2,
 
-  },
-  gallery: {
-    // flex: 2,
-  },
+  // },
+  // gallery: {
+  //   // flex: 2,
+  // },
   backBtn: {
     // flex: 1,
     // position: 'absolute',
@@ -79,8 +79,8 @@ export default class profileScreen extends Component {
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats style={styles.profileStats}/>
-            <ProfileGallery style={styles.gallery}/>
+            <ProfileStats />
+            <ProfileGallery />
           </ScrollView>
         </View>
       </View>
