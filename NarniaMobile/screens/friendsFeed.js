@@ -89,11 +89,11 @@ export default class FriendsFeed extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail.jpg')} />
-          <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>Outrageous Ocelot</Text>   
+          <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
+          <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>   
         </View>
         <View>
-          <Image style={styles.imgContainer} source={require('../assets/images/post1.jpg')} />
+          <Image style={styles.imgContainer} source={{uri: this.props.post.image}} />
         </View>
         <View style={styles.actionBar}>
           <View style={styles.likesContainer}>

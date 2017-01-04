@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
 require('dotenv').config();
 
 // var passport = require('passport');
@@ -18,7 +19,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/../client/public'));
 app.use(express.static(__dirname + '/../NarniaMobile'));
 app.use('/scripts', express.static(__dirname + '/../node_modules'));
-
 
 // PASSPORT CODE FOR DESKTOP - COMMENTED OUT FOR USE LATER
 // var users = [

@@ -12,6 +12,6 @@ module.exports = function(app, express) {
   // app.post('/api/users/fblogin', appAuth.fblogin);
   app.post('/api/users/mobileFbLogin', appAuth.mobileFbLogin);
 //add amazonAPI route
-  app.post('/api/search', amazonAPI.fetchClothes)
+  app.post('/api/search', amazonAPI.fetchClothes);
 
 };
