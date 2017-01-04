@@ -7,6 +7,7 @@ import {
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
+import SearchScreen from './screens/searchScreen';
 
 async function storeToken(token) {
   if (token) {
@@ -73,7 +74,7 @@ export default class App extends Component {
     return (
       <Navigator
         initialRoute = {{
-          id: 'SocialFeed'
+          id: 'SearchScreen'
         }}
         renderScene={
           this.navigatorRenderScene
@@ -90,6 +91,10 @@ export default class App extends Component {
       return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
     case 'ProfileScreen':
       return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
+    case 'SearchScreen':
+      return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
+    case 'CommentScreen':
+      return (<SearchScreen navigator={navigator} title='CommentScreen'/>);
     }
   }
 }

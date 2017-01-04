@@ -141,9 +141,9 @@ export default class socialFeed extends Component {
       console.log('Post Button');
       break;
     case 'search':
-      // this.props.navigator.push({
-      //   id: ''
-      // });
+      this.props.navigator.push({
+        id: 'SearchScreen'
+      });
       console.log('Search Button');
       break;
     }
