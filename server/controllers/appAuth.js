@@ -1,8 +1,8 @@
 var connection = require('../../db/index.js');
-// var passport = require('passport');
-// var FacebookStrategy = require('passport-facebook').Strategy;
-// require('dotenv').config();
-// var session = require('express-session');
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
+require('dotenv').config();
+var session = require('express-session');
 
 
 
@@ -115,5 +115,37 @@ module.exports = {
     //   }
     // }));
 
+  },
+
+  mobileFbLogin: function(req, res, next) {
+    var body = JSON.parse(req.body._bodyText);
+    var token = req.body.url.slice(43);
+    connection.query({
+      sql: 'SELECT * FROM `users` WHERE `username` = ?',
+      timeout: 40000,
+      values: [body.id]
+    },
+    function(err, result) {
+      if (result.length > 0) {
+        console.log('user exists already');
+      } else {
+        var time = new Date();
+        var newUser = {
+          name: body.name,
+          email: null,
+          token: token,
+          username: body.id,
+          password: null,
+          createdAt: time,
+          updatedAt: time
+        };
+        connection.query('INSERT INTO users SET ?', newUser, function(err, result) {
+          var response = err || result;
+          // console.log(response);
+        });
+      }
+    });
+
+    // console.log(req.body);
   }
 };

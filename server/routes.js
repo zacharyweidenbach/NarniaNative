@@ -8,5 +8,5 @@ module.exports = function(app, express) {
   app.post('/api/users/login', appAuth.login);
   app.post('/api/users/signup', appAuth.signup);
   // app.post('/api/users/fblogin', appAuth.fblogin);
-
+  app.post('/api/users/mobileFbLogin', appAuth.mobileFbLogin);
 };
