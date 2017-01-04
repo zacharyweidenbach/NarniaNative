@@ -7,6 +7,8 @@ import {
   Image,
 } from 'react-native';
 
+import SearchTagsGallery from './searchTagsGallery';
+
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 18,
@@ -44,18 +46,7 @@ export default class SearchTags extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail3.jpg')} />
-          <Text style={styles.textStyle}>Lethargic Lion</Text>   
-        </View>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail.jpg')} />
-          <Text style={styles.textStyle}>Outrageous Ocelot</Text>   
-        </View>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail2.jpg')} />
-          <Text style={styles.textStyle}>Timorous Tiger</Text>   
-        </View>
+        <SearchTagsGallery />
       </View>
     ); 
   }
