@@ -14,7 +14,7 @@ export default class App extends Component {
     return (
       <Navigator
         initialRoute = {{
-          id: 'SearchScreen'
+          id: 'SocialFeed'
         }}
         renderScene={
           this.navigatorRenderScene
@@ -33,6 +33,8 @@ export default class App extends Component {
       return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
     case 'SearchScreen':
       return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
+    case 'CommentScreen':
+      return (<SearchScreen navigator={navigator} title='CommentScreen'/>);
     }
   }
 }
