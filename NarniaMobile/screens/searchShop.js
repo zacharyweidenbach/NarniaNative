@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+
 import SearchShopGallery from './searchShopGallery';
 
 const styles = StyleSheet.create({

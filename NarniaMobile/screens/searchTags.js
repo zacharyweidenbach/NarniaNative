@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+
 import SearchTagsGallery from './searchTagsGallery';
 
 const styles = StyleSheet.create({
