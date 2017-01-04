@@ -49,15 +49,15 @@ var ProfileStats = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.thumbnailContainer}>
-        <Image style={styles.thumbnail} source={require('../assets/images/thumbnail.jpg')} />
+        <Image style={styles.thumbnail} source={{uri: props.profileImage}} />
       </View>
       <View style={styles.statsContainer}>
         <View>
-          <Text style={styles.textStyle}>87,378</Text>
+          <Text style={styles.textStyle}>{props.likesCount}</Text>
           <Text style={styles.textStyle}>Likes</Text>
         </View>
         <View>
-          <Text style={styles.textStyle}>793</Text>
+          <Text style={styles.textStyle}>{props.postCount}</Text>
           <Text style={styles.textStyle}>Posts</Text>
         </View>
       </View>

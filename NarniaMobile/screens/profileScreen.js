@@ -55,6 +55,9 @@ export default class profileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      profileImage: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
+      likesCount: 8723,
+      postCount: 9,
     };
   }
 
@@ -79,7 +82,7 @@ export default class profileScreen extends Component {
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats />
+            <ProfileStats profileImage={this.state.profileImage} likesCount={this.state.likesCount} postCount={this.state.postCount}/>
             <ProfileGallery />
           </ScrollView>
         </View>
