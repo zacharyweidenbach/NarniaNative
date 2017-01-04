@@ -74,17 +74,10 @@ export default class SearchShop extends Component {
   //   });
   // }
   render() {
-     var clothing = this.state.items.map(function(item){
-        return (
-          <View style={styles.userContainer}>
-            <Image style={styles.thumbnail} source={{uri: item}} />   
-          </View>
-        )
-      });
     return (
       <View style={styles.container}>
-        <SearchShopGallery />
-        {clothing}
+        <SearchShopGallery items={this.state.items} />
+        
       </View>
     ); 
   }

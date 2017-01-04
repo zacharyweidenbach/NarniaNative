@@ -28,8 +28,8 @@ module.exports = {
         AmazonResponse = response.result.ItemSearchResponse.Items.Item
         var images = [];
         for (var i = 0; i < AmazonResponse.length; i++) {
-          if (AmazonResponse[i].MediumImage) {
-            images.push(AmazonResponse[i].MediumImage.URL)
+          if (AmazonResponse[i].LargeImage) {
+            images.push(AmazonResponse[i].LargeImage.URL)
           }
         }
         console.log(images)
