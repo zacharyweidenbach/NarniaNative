@@ -1,8 +1,14 @@
 var connection = require('../../db/index.js');
+
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
 var session = require('express-session');
+
+// var passport = require('passport');
+// var FacebookStrategy = require('passport-facebook').Strategy;
+// require('dotenv').config();
+// var session = require('express-session');
 
 
 
