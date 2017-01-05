@@ -1,7 +1,6 @@
 var connection = require('../../db/index.js');
 
 module.exports = {
-<<<<<<< HEAD
   dummyUser: function(req, res, next) {
     var user = {
       name: 'Jonathan',
@@ -26,7 +25,7 @@ module.exports = {
       body: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
       description: 'Check out this awesome outfit of mine.',
       type: 'image'
-
+    };
     connection.query('INSERT INTO posts SET ?', post, function(err, result) {
       var response = err || result;
       res.json(response);
