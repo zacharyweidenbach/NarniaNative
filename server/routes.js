@@ -1,6 +1,7 @@
 var appController = require('./controllers/appController.js');
 var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/AmazonAPI.js')
+var appPosts = require('./controllers/appPosts.js');
 
 
 // ROUTES
@@ -13,5 +14,6 @@ module.exports = function(app, express) {
   app.post('/api/users/mobileFbLogin', appAuth.mobileFbLogin);
 //add amazonAPI route
   app.post('/api/search', amazonAPI.fetchClothes);
-
+  //jw
+  app.post('/api/postToDb', appPosts.postToDb);
 };

@@ -20,6 +20,11 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(express.static(__dirname + '/../NarniaMobile'));
 app.use('/scripts', express.static(__dirname + '/../node_modules'));
 
+// app.use(express.static(path.join(__dirname, '/../client/public')));
+// app.use(express.static(path.join(__dirname, '/../NarniaMobile')));
+// app.use('/scripts', express.static(path.join(__dirname, '/../node_modules')));
+
+
 // PASSPORT CODE FOR DESKTOP - COMMENTED OUT FOR USE LATER
 // var users = [
 //   {id: 111, username: 'amy', password: 'amy'},
