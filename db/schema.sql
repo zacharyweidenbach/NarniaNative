@@ -108,7 +108,7 @@ CREATE TABLE `userPosts` (
   PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
-ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
-ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
+-- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
+-- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
+-- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
 
