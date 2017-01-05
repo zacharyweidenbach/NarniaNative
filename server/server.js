@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // SERVER STATIC FILES
 app.use(express.static(__dirname + '/../client/public'));
-app.use(express.static(__dirname + '/../NarniaMobile'));
 app.use('/scripts', express.static(__dirname + '/../node_modules'));
 
 
