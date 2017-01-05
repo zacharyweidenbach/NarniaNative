@@ -14,6 +14,7 @@ import {
 import FriendsFeed from './friendsFeed.js';
 import DesignerFeed from './designerFeed.js';
 import TrendingFeed from './trendingFeed.js';
+import Mixer from './mixer.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +136,9 @@ export default class socialFeed extends Component {
       // this.props.navigator.push({
       //   id: ''
       // });
-      console.log('Post Button');
+      this.props.navigator.push({
+        id: 'Mixer'
+      });
       break;
     case 'search':
       this.props.navigator.push({

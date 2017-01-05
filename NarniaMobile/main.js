@@ -9,6 +9,7 @@ import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
 import auth from './auth.js';
+import Mixer from './screens/mixer.js'
 
 
 export default class App extends Component {
@@ -48,6 +49,8 @@ export default class App extends Component {
       return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
     case 'CommentScreen':
       return (<SearchScreen navigator={navigator} title='CommentScreen'/>);
+    case 'Mixer':
+      return (<Mixer navigator={navigator} title='CommentScreen'/>);
     }
   }
 }
