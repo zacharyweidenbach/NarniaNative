@@ -31,6 +31,12 @@ module.exports = {
       res.json(response);
     });
   },
+  getFromDb: function(req, res, next) {
+    connection.query('SELECT users.username, users.thumbnail, posts.body, posts.description, posts.likesCount, posts.type FROM users INNER JOIN posts on users.id=posts.userId', function(err, result) {
+      var response = err || result;
+      res.json(response);  
+    });
+  },
   increaseLikeCount: function(req, res, next) {
     connection.query('UPDATE posts SET likesCount = likesCount + 1 WHERE id = 1', function(err, result) {
       var response = err || result;
@@ -43,10 +49,4 @@ module.exports = {
       res.json(response); 
     });
   },
-  getFromDb: function(req, res, next) {
-    connection.query('SELECT users.username, users.thumbnail, posts.body, posts.description, posts.likesCount, posts.type FROM users INNER JOIN posts on users.id=posts.userId', function(err, result) {
-      var response = err || result;
-      res.json(response);  
-    });
-  }
 };
