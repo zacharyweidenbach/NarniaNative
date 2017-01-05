@@ -3,7 +3,6 @@ var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
 
-
 // ROUTES
 module.exports = function(app, express) {
 
@@ -21,4 +20,6 @@ module.exports = function(app, express) {
   app.post('/api/increaseLikeCount', appPosts.increaseLikeCount);
   app.post('/api/decreaseLikeCount', appPosts.decreaseLikeCount);
   app.post('/api/createDummy', appPosts.dummyUser);
+  //jw
+  app.post('/api/postToDb', appPosts.postToDb);
 };
