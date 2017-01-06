@@ -70,15 +70,52 @@ export default class socialFeed extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Friends' },
-        { key: '2', title: 'Designer' },
-        { key: '3', title: 'Trending' },
+        { key: '1', title: 'Feed' },
+        { key: '2', title: 'Trending' },
+        { key: '3', title: 'Likes' },
       ],
-      post: {
-        username: 'Outrageous Ocelot',
-        thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
-        image: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
-      } 
+      trendingPosts: [
+        {
+          "username": "Rick",
+          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
+          "id": 1,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
+          "description": "this should be a new post from Rick.",
+          "likesCount": 10,
+          "type": "image",
+          "createdAt": "3456871348"
+        },
+        {
+          "username": "MrJonWu",
+          "thumbnail": "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460",
+          "id": 2,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-pictures-kitties.jpg",
+          "description": "this should be a new post from MrJonWu.",
+          "likesCount": 7,
+          "type": "image",
+          "createdAt": "3456871349"
+        },
+        {
+          "username": "Haris",
+          "thumbnail": "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460",
+          "id": 3,
+          "body": "http://www.londoubros.com/assets/mainmenu/1142/editor/cat-fashion-septem_1773575i.jpg?0.24798612928882752",
+          "description": "this should be a new post from Haris.",
+          "likesCount": 3,
+          "type": "image",
+          "createdAt": "3456871350"
+        },
+        {
+          "username": "Zach",
+          "thumbnail": "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460",
+          "id": 4,
+          "body": "http://i.telegraph.co.uk/multimedia/archive/01773/cat-fashion-may_1773579i.jpg",
+          "description": "this should be a new post from Zach.",
+          "likesCount": 9,
+          "type": "image",
+          "createdAt": "3456871351"
+        }
+      ]
     }
   };
 
@@ -105,19 +142,19 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed navigator={this.props.navigator} style={styles.page} post={this.state.post}/>
+          <FriendsFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <DesignerFeed navigator={this.props.navigator} style={styles.page} />
+          <TrendingFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <TrendingFeed navigator={this.props.navigator} style={styles.page} />
+          <TrendingFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
         </ScrollView>
       );
     default:
