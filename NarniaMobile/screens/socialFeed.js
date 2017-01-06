@@ -11,9 +11,8 @@ import {
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
-import FriendsFeed from './friendsFeed.js';
-import DesignerFeed from './designerFeed.js';
-import TrendingFeed from './trendingFeed.js';
+
+import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 
 const styles = StyleSheet.create({
@@ -74,6 +73,18 @@ export default class socialFeed extends Component {
         { key: '2', title: 'Trending' },
         { key: '3', title: 'Likes' },
       ],
+      feedPosts: [
+        {
+          "username": "mah Feed",
+          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
+          "id": 1,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
+          "description": "this is mah feed mah feed maaaaaah feed",
+          "likesCount": 348934,
+          "type": "image",
+          "createdAt": "3456871348"
+        }
+      ],
       trendingPosts: [
         {
           "username": "Rick",
@@ -115,7 +126,19 @@ export default class socialFeed extends Component {
           "type": "image",
           "createdAt": "3456871351"
         }
-      ]
+      ],
+      likesFeed: [
+        {
+          "username": "mah Likes",
+          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
+          "id": 1,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
+          "description": "this is mah likes mah likes maaaaaah likes",
+          "likesCount": 434,
+          "type": "image",
+          "createdAt": "3456871348"
+        }
+      ],
     }
   };
 
@@ -142,19 +165,25 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
+          {this.state.feedPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
+          })}
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <TrendingFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
+          {this.state.trendingPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
+          })}
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <TrendingFeed navigator={this.props.navigator} style={styles.page} post={this.state.trendingPosts[0]}/>
+          {this.state.likesFeed.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
+          })}
         </ScrollView>
       );
     default:
