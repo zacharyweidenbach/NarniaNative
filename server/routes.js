@@ -2,6 +2,7 @@ var appController = require('./controllers/appController.js');
 var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
+var appUsers = require('./controllers/appUsers.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -22,5 +23,12 @@ module.exports = function(app, express) {
   app.post('/api/createDummy', appPosts.dummyUser);
 
   app.post('/api/postToDb', appPosts.postToDb);
+
+  app.get('/api/test', appAuth.test);
+  app.post('/api/test/setUser', appUsers.setUser);
+  app.get('/api/test/getUser', appUsers.getUser);
+  app.post('/api/test/deleteUser', appUsers.deleteUser);
+
   app.post('/api/deletePost', appPosts.deletePost);
+
 };

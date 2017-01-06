@@ -153,5 +153,9 @@ module.exports = {
     });
 
     // console.log(req.body);
+  },
+
+  test: function(req, res, next) {
+    res.json('success');
   }
 };
