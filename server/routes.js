@@ -26,5 +26,6 @@ module.exports = function(app, express) {
   app.get('/api/test', appAuth.test);
   app.post('/api/test/setUser', appUsers.setUser);
   app.get('/api/test/getUser', appUsers.getUser);
+  app.post('/api/test/deleteUser', appUsers.deleteUser);
 
 };

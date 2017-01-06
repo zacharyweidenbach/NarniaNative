@@ -8,13 +8,7 @@ var connection = require('../db/index.js');
 
 
 describe('server should', function() {
-  // describe('POST from /api/users/mobileFbLogin and', function () {
-  //   it('store a new user in the users table', function (done) {
-  //     request
-  //     .post('/api/users/mobileFbLogin')
-  //     .expect(200, /<input/, done);
-  //   });
-  // });
+
   describe('GET from /api/test', function () {
     it('returns "success"', function (done) {
       request
@@ -22,21 +16,6 @@ describe('server should', function() {
       .expect('"success"', done);
     });
   });
-
-  // describe('POST from /api/createDummy and', function() {
-  //   it('return response', function(done) {
-  //     request.post('/api/createDummy');
-  //     // .expect('response', null, done);
-  //     connection.query({
-  //       sql: 'SELECT * FROM `users` WHERE `username` = ?',
-  //       timeout: 40000,
-  //       values: ['MrJonWu']
-  //     },
-  //     function(err, result) {
-  //       return expect(result, done);
-  //     });
-  //   });
-  // });
 
   describe('POST from /api/test/setUser', function() {
     it('returns response', function(done) {
@@ -51,24 +30,35 @@ describe('server should', function() {
       request
       .post('/api/test/setUser')
       .send(testUser)
-      .expect('user has been stored', done);
+      .expect('1')
+      .end(function(err, resp) {
+        var response = JSON.parse(resp.text).affectedRows.toString();
+        done();
+        return response;
+      });
     });
   });
 
   describe('GET from /api/test/getUser', function() {
+    var testUser = {
+      name: 'Jonathan',
+      email: 'mrjonwu@gmail.com',
+      token: '12345678910',
+      username: 'MrJonWu',
+      thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
+      password: 'password'
+    };
     it('returns response', function(done) {
-      var testUser = {
-        name: 'Jonathan',
-        email: 'mrjonwu@gmail.com',
-        token: '12345678910',
-        username: 'MrJonWu',
-        password: 'password',
-        thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg'
-      };
       request
       .get('/api/test/getUser')
       .send({username: testUser.username})
-      .expect('password', done);
+      .expect(JSON.stringify([testUser]));
+
+      request.post('/api/test/deleteUser')
+      .send({username: testUser.username})
+      .end(function() {
+        done();
+      });
     });
   });
 
