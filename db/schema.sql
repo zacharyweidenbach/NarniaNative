@@ -93,12 +93,13 @@ DROP TABLE IF EXISTS `posts`;
 
 CREATE TABLE `posts` (
   `id` INTEGER AUTO_INCREMENT,
-  `postId` INTEGER NOT NULL,
+  `postId` INTEGER NULL DEFAULT NULL,
   `userId` INTEGER NOT NULL,
-  `likesCount` INTEGER NOT NULL,
+  `likesCount` INTEGER NULL DEFAULT NULL,
   `body` VARCHAR(255) NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NULL DEFAULT NULL,
   `type` VARCHAR(255) NOT NULL,
+  `createdAt` VARCHAR(60) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -111,6 +112,28 @@ CREATE TABLE `userPosts` (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jonathan", "MrJonWu@gmail.com", "12345678910", "MrJonWu", "password", "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460");
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Haris", "haris@haris.com", "12345678910", "Haris", "password", "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460");
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Rick", "Rick@rick.com", "12345678910", "Rick", "password", "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460");
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Zach", "Zach@zach.com", "12345678910", "Zach", "password", "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460");
+
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg", "this should be a new post from Rick.", "image", "3456871348");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-pictures-kitties.jpg", "this should be a new post from MrJonWu.", "image", "3456871349");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "http://www.londoubros.com/assets/mainmenu/1142/editor/cat-fashion-septem_1773575i.jpg?0.24798612928882752", "this should be a new post from Haris.", "image", "3456871350");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://i.telegraph.co.uk/multimedia/archive/01773/cat-fashion-may_1773579i.jpg", "this should be a new post from Zach.", "image", "3456871351");
+
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 2, "this is a comment on Rick's post by Haris", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 2, "this is a comment on Rick's post by Haris", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 3, "this is a comment on Rick's post by Rick", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 3, "this is a comment on Rick's post by Rick", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 2, "this is a comment on Rick's post by Haris", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 3, "this is a comment on Rick's post by Rick", "comment", "3456871350");
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
 -- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);

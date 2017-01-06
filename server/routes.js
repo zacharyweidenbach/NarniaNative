@@ -15,17 +15,20 @@ module.exports = function(app, express) {
   //add amazonAPI route
   app.post('/api/search', amazonAPI.fetchClothes);
   //jw
-  app.post('/api/postToDb', appPosts.postToDb);
-  app.get('/api/getFromDb', appPosts.getFromDb);
+  app.post('/api/getCommentsFromDb', appPosts.getCommentsFromDb);
+  app.get('/api/getPostsFromDb', appPosts.getPostsFromDb);
 
   app.post('/api/increaseLikeCount', appPosts.increaseLikeCount);
   app.post('/api/decreaseLikeCount', appPosts.decreaseLikeCount);
   app.post('/api/createDummy', appPosts.dummyUser);
-  //jw
+
   app.post('/api/postToDb', appPosts.postToDb);
+
   app.get('/api/test', appAuth.test);
   app.post('/api/test/setUser', appUsers.setUser);
   app.get('/api/test/getUser', appUsers.getUser);
   app.post('/api/test/deleteUser', appUsers.deleteUser);
+
+  app.post('/api/deletePost', appPosts.deletePost);
 
 };
