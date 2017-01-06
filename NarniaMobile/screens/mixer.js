@@ -11,6 +11,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //paddingTop: 20,
+  },
+  backBtn: {
+    // position: 'absolute',
+    left: -100, 
+    // alignItems: 'center', 
+    // paddingTop: 13,
+  },
   tuserContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -48,7 +63,16 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height / 3,
     borderWidth: 1,
     borderColor: '#fff',
-  }
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
 });
 
 export default class Mixer extends Component {
@@ -66,6 +90,9 @@ export default class Mixer extends Component {
 
   onButtonPress(button) {
     switch (button) {
+      case 'back':
+        this.props.navigator.pop();
+        break;
       case 'topLess':
         console.log("decrease press", this.state.topIndex)
         if (this.state.topIndex > 0) {
@@ -103,32 +130,47 @@ export default class Mixer extends Component {
   render() { 
     return (
       <View style={styles.container} >
+        <View style={styles.header}>
+          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
+            <View>
+              <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
+            </View>
+          </TouchableHighlight>
+          <Text style={{fontWeight: 'bold', fontSize: 26}}>Mixer</Text>
+        </View>
         <View style={styles.tuserContainer}>
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight>
           <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex]}} /> 
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight>  
         </View>
         <View style={styles.muserContainer}>
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight>
           <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex]}} /> 
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight>   
         </View>
         <View style={styles.buserContainer}>
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight> 
           <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex]}} />   
-          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')} >
+          <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight> 
+        </View>
+        <View class="footer" style={styles.footer}>
+          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
+            <View>
+              <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
