@@ -1,10 +1,10 @@
 import Exponent, { Asset, Components } from 'exponent';
 import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
-import DrawerNavigationScreen from './components/DrawerNavigationScreen';
-import LoginScreen from './components/LoginScreen';
-import AboutScreen from './components/AboutScreen';
-import SlidingTabScreen from './components/SlidingTabScreen';
+import DrawerNavigationScreen from './screens/DrawerNavigationScreen';
+import LoginScreen from './screens/LoginScreen';
+import AboutScreen from './screens/AboutScreen';
+import SlidingTabScreen from './screens/SlidingTabScreen';
 
 import {
   createRouter,

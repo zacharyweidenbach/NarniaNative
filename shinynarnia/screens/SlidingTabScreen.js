@@ -15,8 +15,9 @@ import {
 } from '@exponent/ex-navigation';
 
 import ActionButton from 'react-native-action-button';
-import PostItem from './PostItem.js';
-import SearchButton from './SearchButton.js'
+import PostItem from '../components/PostItem.js';
+import SearchButton from '../components/SearchButton.js';
+import SearchModal from '../components/SearchModal.js';
 
 export default class SlidingTabScreen extends Component {
   static route = {
@@ -90,6 +91,7 @@ export default class SlidingTabScreen extends Component {
         {/*Likes Tab*/}
           <SlidingTabNavigationItem id="likes">
             <View style={styles.tabContainer}>
+              <SearchModal />
             </View>
           </SlidingTabNavigationItem>
         </SlidingTabNavigation>
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: Dimensions.get('window').width,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f0f0f0',
   },
   tabLabel: {
     margin: 8,

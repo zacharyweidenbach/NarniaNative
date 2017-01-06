@@ -48,9 +48,6 @@ export default function PostItem({ username, thumbnail, image, description, like
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginBottom: 15,
   },
   username: {
     fontSize: 16,
@@ -60,9 +57,8 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     flex: 5,
-    alignItems: 'center',
-    width: Dimensions.get('window').width * .90,
-    height: Dimensions.get('window').width * .90,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width, 
   },
   userContainer: {
     flex: 1,
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   thumbnail: {
-    marginLeft: 10,
+    marginLeft: 5,
     height: 50,
     width: 50,
     borderRadius: 25,
@@ -89,10 +85,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   likesBtn: {
-    paddingLeft: 10,
+    paddingLeft: 5,
   },
   commentBtn: {
-    paddingLeft: 10,
+    paddingLeft: 5,
   },
   actionBar: {
     //contains likesContainer, likesBtn, and commentBtn
