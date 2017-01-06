@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TrendingFeed extends Component {
+export default class FeedPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,7 +78,7 @@ export default class TrendingFeed extends Component {
       this.props.navigator.pop();
       break;
     case 'like':
-      console.log('Like Pressed');
+      console.log(this.props.post.id);
       break;
     case 'comment':
       console.log('Comment Pressed');
