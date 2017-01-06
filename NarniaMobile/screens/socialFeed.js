@@ -14,6 +14,7 @@ import {
 import FriendsFeed from './friendsFeed.js';
 import DesignerFeed from './designerFeed.js';
 import TrendingFeed from './trendingFeed.js';
+import Mixer from './mixer.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -72,7 +73,12 @@ export default class socialFeed extends Component {
         { key: '1', title: 'Friends' },
         { key: '2', title: 'Designer' },
         { key: '3', title: 'Trending' },
-      ], 
+      ],
+      post: {
+        username: 'Outrageous Ocelot',
+        thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
+        image: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
+      } 
     }
   };
 
@@ -99,7 +105,7 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed navigator={this.props.navigator} style={styles.page} />
+          <FriendsFeed navigator={this.props.navigator} style={styles.page} post={this.state.post}/>
         </ScrollView>
       );
     case '2':
@@ -125,20 +131,14 @@ export default class socialFeed extends Component {
       this.props.navigator.push({
         id: 'LikesScreen'
       });
-      // Alert.alert(
-      //   'Alert',
-      //   'Route Length: ' + this.props.navigator.getCurrentRoutes.length.toString(),
-      //   [
-      //     // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-      //     {text: 'OK', onPress: () => console.log('OK Pressed')},
-      //   ]
-      // )
       break;
     case 'post':
       // this.props.navigator.push({
       //   id: ''
       // });
-      console.log('Post Button');
+      this.props.navigator.push({
+        id: 'Mixer'
+      });
       break;
     case 'search':
       this.props.navigator.push({

@@ -60,9 +60,8 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     flex: 5,
-    alignItems: 'center',
-    width: Dimensions.get('window').width * .90,
-    height: Dimensions.get('window').width * .90,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
   },
   userContainer: {
     flex: 1,

@@ -27,43 +27,24 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
   },
   imgSmall: {
-    width: Dimensions.get('window').width / 3,
-    height: Dimensions.get('window').width / 3,
+    width: Dimensions.get('window').width / 2,
+    height: Dimensions.get('window').width / 2,
     borderWidth: 1,
     borderColor: '#fff',
   },
 });
 
 var SearchShopGallery = (props) => {
+  var clothing = props.items.map(function(item){
+    return (
+      <View style={styles.userContainer}>
+        <Image style={styles.imgSmall} source={{uri: item}} />   
+      </View>
+    )
+  });
   return (
     <View style={styles.container}>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post2.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post3.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post1.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post4.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post5.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post9.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post6.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post7.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post8.jpg')} />
-      </View>
+      {clothing}
     </View>
   );
 };

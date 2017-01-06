@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js 2>&1 | log/.predate.sh | tee -a log/server.log ",
+    "start": "nodemon server/server.js",
     "start-blind": "nodemon server/server.js 2>&1 | log/.predate.sh >> log/server.log & ",
     "tail": "tail -f log/server.log",
     "build": "webpack --watch"
@@ -20,6 +20,7 @@
   },
   "homepage": "git+https://github.com/OutrageousOcelot/Narnia#readme",
   "dependencies": {
+    "apac": "^3.0.0",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",

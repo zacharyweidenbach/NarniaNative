@@ -36,6 +36,17 @@ export default class SearchPeople extends Component {
     this.state = {
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+     if (nextProps.triggerSearch != this.props.triggerSearch && nextProps.index === 0) {
+      // console.log('wait')
+      // console.log('wait')
+      // console.log('wait')
+      // console.log('wait')
+      // console.log('new index', this.props.index)
+      // console.log('there was a change in the props', this.props.triggerSearch)
+    }
+  } 
   // onNamePress() {
   //   this.props.navigator.push({
   //     id: 'ProfileScreen'

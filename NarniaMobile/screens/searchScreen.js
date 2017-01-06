@@ -74,12 +74,13 @@ export default class searchScreen extends Component {
         { key: '2', title: 'Tags' },
         { key: '3', title: 'Shop' },
       ], 
-      searchText: 'Search',
+      searchText: '',
+      triggerSearch: ''
     };
   }
   _handleChangeTab = (index) => {
     this.setState({
-      index,
+      index, searchText:''
     });
   };
 
@@ -100,19 +101,19 @@ export default class searchScreen extends Component {
     case '1':
       return (
         <ScrollView>
-          <SearchPeople navigator={this.props.navigator} style={styles.page} />
+          <SearchPeople navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <SearchTags navigator={this.props.navigator} style={styles.page} />
+          <SearchTags navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <SearchShop navigator={this.props.navigator} style={styles.page} />
+          <SearchShop navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     default:
@@ -124,6 +125,10 @@ export default class searchScreen extends Component {
     switch (button) {
     case 'back':
       this.props.navigator.pop();
+      break;
+    case 'search':
+      console.log('search button click')
+      this.setState({ triggerSearch: this.state.searchText})
       break;
     }
   }
@@ -139,7 +144,12 @@ export default class searchScreen extends Component {
           </TouchableHighlight>
           <Text style={{fontWeight: 'bold', fontSize: 26}}>Search</Text>
         </View>
-        <TextInput style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
+        <TextInput placeholder= 'Search' style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
+         <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
+            <View>
+              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+            </View>
+          </TouchableHighlight>
         <TabViewAnimated
           style={[ styles.tabViewContainer, this.props.style ]}
           navigationState={this.state}
