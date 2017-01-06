@@ -89,11 +89,11 @@ export default class TrendingFeed extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail2.jpg')} />
-          <Text style={styles.textStyle}>Timorous Tiger</Text>   
+          <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
+          <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>   
         </View>
         <View>
-          <Image style={styles.imgContainer} source={require('../assets/images/post7.jpg')} />
+          <Image style={styles.imgContainer} source={{uri: this.props.post.body}} />
         </View>
         <View style={styles.actionBar}>
           <View style={styles.likesContainer}>
@@ -102,7 +102,7 @@ export default class TrendingFeed extends Component {
                 <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35 }}/>
               </View>
             </TouchableHighlight>
-            <Text style={styles.textStyle}>368 Likes</Text>
+            <Text style={styles.textStyle}>{this.props.post.likesCount} Likes</Text>
           </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'comment')} style={styles.commentBtn} underlayColor='transparent'>
             <View>
@@ -111,11 +111,7 @@ export default class TrendingFeed extends Component {
           </TouchableHighlight>
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={{paddingLeft: 10, paddingRight: 10, color: '#4f4f4f'}}>Check out this awesome outfit I put together just now! #CatFashion #LookingPawsome #PicturePurrfect #PawsitiveBodyImage</Text>
-        </View>
-        <View style={styles.commentContainer}>
-          <Text style={{paddingLeft: 10, fontWeight: 'bold'}}>Haris: </Text>
-          <Text style={{paddingRight: 10, color: '#4f4f4f'}}>I have the same dress!</Text>
+          <Text style={{paddingLeft: 10, paddingRight: 10, color: '#4f4f4f'}}>{this.props.post.description}</Text>
         </View>
       </View>
     );
