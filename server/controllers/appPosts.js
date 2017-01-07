@@ -80,7 +80,7 @@ module.exports = {
       type: 'comment',
       createdAt: time
     };
-    connection.query('INSERT INTO posts SET ?', post, function(err, result) {
+    connection.query('INSERT INTO posts SET ?', req.body, function(err, result) {
       var response = err || result;
       res.json(response);
     });

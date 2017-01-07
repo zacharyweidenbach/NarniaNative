@@ -1,67 +1,91 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableWithoutFeedback, TouchableOpacity, View, StyleSheet, Dimensions, ScrollView, Button } from 'react-native';
-import FeedPost from './feedPost.js';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput } from 'react-native';
+
+import { Ionicons } from '@exponent/vector-icons';
+import Comment from './comment.js';
 
 export default class CommentsModal extends Component {
-
-  state = {
-    modalVisible: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: [],
+      post: '',
+    };
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  componentDidMount() {
+    //change ip address to either wifi address or deployed server
+    this.getComments();
+  }
+
+  getComments() {
+    return fetch('http://10.6.23.166:3000/api/getCommentsFromDb', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: this.props.id})
+    })
+      .then((res) => res.json())
+      .then((resJSON) => this.setState({comments: resJSON}))
+      .then(() => console.log(this.state.comments))
+      .catch((err) => console.log(err))
+  }
+
+  sendPost(post) {
+    var that = this;
+    if (that.state.post !== '') {
+      return fetch('http://10.6.23.166:3000/api/postToDb', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          postid: that.props.id,
+          userid: 3,
+          body: that.state.post,
+          type: 'comment',
+          createdAt: new Date()       
+        })
+      })
+        .then((res) => {
+          console.log('success posting');
+          that.setState({post: ''});
+          that.getComments();
+        })
+        .catch((err) => console.log(err))
+    }
   }
 
   render() {
     return (
-      <View>
-        <Modal
-          animationType={"fade"}
+      <Modal
+          animationType={"slide"}
           transparent={false}
-          visible={this.state.modalVisible}
-          >
+          visible={this.props.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+        >
          <View style={styles.container}>
-          <View style={styles.actionBar}>
-            
-            <TouchableOpacity style={styles.btn} onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
+          <View>
+            <TouchableWithoutFeedback onPress={() => {
+              this.props.setModalVisible(false)
             }}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btn}>
-             <Text>Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btn}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btn}>
-              <Text>Close</Text>
-            </TouchableOpacity>
+              <Ionicons name="ios-close" size={36} color="#ff9554" />
+            </TouchableWithoutFeedback>
           </View>
-          <ScrollView>
-            <FeedPost post={{
-              "username": "Rick",
-              "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
-              "id": 1,
-              "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
-              "description": "this should be a new post from Rick.",
-              "likesCount": 10,
-              "type": "image",
-              "createdAt": "3456871348"
-            }}/>
-          </ScrollView>
+          <TextInput multiline={true} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
+          <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
+          <View style={styles.comments}>
+            <ScrollView>
+              {this.state.comments.map((comment, key) => {
+                return <Comment comment={comment} key={key} />
+              })}
+            </ScrollView>
+          </View>
          </View>
         </Modal>
-
-        <TouchableWithoutFeedback onPress={() => {
-          this.setModalVisible(true)
-        }}>
-          <View>
-            <Text>Show Modal</Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-      </View>
     );
   }
 }
@@ -70,16 +94,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 6,
-    marginLeft: 0,
-    marginRight: 0,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
     marginBottom: 0,
   },
-  actionBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',  
+  postcomment: {
+    flex: 1,
   },
-  btn: {
-    justifyContent: 'flex-end',
-  },
+  comments: {
+    flex: 8,
+    flexWrap: 'wrap'
+  }
 });
