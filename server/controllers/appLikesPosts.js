@@ -40,3 +40,5 @@ module.exports = {
     });
   }
 };
+
+// 'SELECT users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image"'

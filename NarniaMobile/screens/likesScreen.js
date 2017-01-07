@@ -64,7 +64,7 @@ export default class likesScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: 1,
+        userId: currentUser,
       })
     })
     .then((res) => res.json())
