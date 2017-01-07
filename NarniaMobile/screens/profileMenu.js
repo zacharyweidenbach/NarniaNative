@@ -8,9 +8,11 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  Button,
 } from 'react-native';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
+import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,26 +28,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ff9554'
   },
   scrollContainer: {
+    paddingTop: 20,
     flex: 12,
+    left: -140,
+    fontSize: 80
   },
-  // profileStats: {
-  //   // flex: 2,
-
-  // },
-  // gallery: {
-  //   // flex: 2,
-  // },
   backBtn: {
-    // flex: 1,
-    // position: 'absolute',
-    left: -50,
-    // alignItems: 'center',
-    // paddingTop: 13,
-  },
-  menu: {
-    right: -50
+    left: -140
   }
 });
 
@@ -58,9 +52,6 @@ export default class profileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileImage: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
-      likesCount: 8723,
-      postCount: 9,
     };
   }
 
@@ -69,12 +60,16 @@ export default class profileScreen extends Component {
     case 'back':
       this.props.navigator.pop();
       break;
-    case 'menu':
-      this.props.navigator.push({
-        id: 'ProfileMenu'
-      });
-      break;
     }
+  }
+
+  logoutHandler() {
+    Auth.destroySession()
+    .then(function() {
+      this.props.navigator.push({
+        id: 'Login'
+      });
+    }.bind(this));
   }
 
   render() {
@@ -86,17 +81,16 @@ export default class profileScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{ fontWeight: 'bold', fontSize: 26}}>Outrageous Ocelot</Text>
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent' style={styles.menu}>
-            <View>
-              <Image source={require('../assets/buttons/menu.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
-            </View>
-          </TouchableHighlight>
+          <Text style={{ fontWeight: 'bold', fontSize: 26}}>Menu</Text>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats profileImage={this.state.profileImage} likesCount={this.state.likesCount} postCount={this.state.postCount}/>
-            <ProfileGallery />
+            <Button
+              onPress={this.logoutHandler.bind(this)}
+              title="Logout"
+              color="#ff9554"
+              accessibilityLabel="Logout"
+            />
           </ScrollView>
         </View>
       </View>
