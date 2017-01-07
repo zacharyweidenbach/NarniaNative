@@ -88,6 +88,35 @@ export default class Mixer extends Component {
     }
   }
 
+  componentWillMount(){
+    return fetch('http://10.6.21.47:3000/api/clothing', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    }).then((res) => {console.log('returned', res); return res.json()})
+      .then((resJson) => {
+        var topImgs = [];
+        var midImgs = [];
+        var bottomImgs = [];
+        for (var i = 0; i < resJson.length; i ++) {
+          if (resJson[i].position === 'top') {
+            topImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+          } else if (resJson[i].position === 'mid') {
+            midImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+          } else if (resJson[i].position === 'bottom') {
+            bottomImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+          } 
+        }
+        this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs})
+        console.log('top', this.state.topImages)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   onButtonPress(button) {
     switch (button) {
       case 'back':
@@ -127,24 +156,26 @@ export default class Mixer extends Component {
         break;
       case 'post':
         console.log('posty posty posty')
-        // fetch("http://10.6.21.47:3000/api/outfitPost", {
-        //   method: 'POST', 
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        //   }, 
-        //   body: JSON.stringify({
-        //     topImage: this.state.topImages[this.state.topIndex],
-        //     midImage: this.state.midImages[this.state.midIndex],
-        //     bottomImage: this.state.bottomImages[this.state.topIndex]
-        //     }).then((res) => res.json())
-        //       .then((resJson) => {
-        //         console.log(resJson)
-        //       })
-        //       .catch((error) => {
-        //         console.werror(error)
-        //       })
-        // })
+        fetch("http://10.6.21.47:3000/api/postToDB", {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify({
+            body: this.state.topImages[this.state.topIndex],
+            shirtId: this.state.topImages[this.state.topIndex].id,
+            pantId: this.state.midImages[this.state.midIndex].id,
+            shoesId: this.state.bottomImages[this.state.bottomIndex].id,
+            type: 'post'
+            }).then((res) => res.json())
+              .then((resJson) => {
+                console.log(resJson)
+              })
+              .catch((error) => {
+                console.werror(error)
+              })
+        })
         break;
     }
   }
