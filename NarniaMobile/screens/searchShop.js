@@ -51,7 +51,6 @@ export default class SearchShop extends Component {
 
   FetchAmazon () {
     //change the path of this request to match the server IP address
-    console.log('test')
     this.setState({items: []});
     return fetch('http://10.6.21.47:3000/api/search', {
       method: 'POST',
@@ -60,7 +59,7 @@ export default class SearchShop extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({keyword: this.state.keyword, page: this.state.page})
-    }).then((res) => res.json())
+    }).then((res) => {console.log('returned'); return res.json()})
       .then((resJson) => {
         this.setState({items: this.state.items.concat(resJson)});
         console.log(this.state.items);
