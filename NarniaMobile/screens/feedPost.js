@@ -84,7 +84,6 @@ export default class FeedPost extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-<<<<<<< HEAD
       comments: [],
       likesCount: this.props.post.likesCount, 
     };
@@ -190,11 +189,6 @@ export default class FeedPost extends Component {
     .catch((err) => console.log(err));
   }
 
-=======
-    };
-  }
-
->>>>>>> 1d6e477cd7195a0dc024be6da91068a7b588ee0b
   onNamePress() {
     this.props.navigator.push({
       id: 'ProfileScreen'
