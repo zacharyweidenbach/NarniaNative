@@ -10,6 +10,8 @@ module.exports = function(app, express) {
   app.get('/', appController.homepage);
   app.post('/api/users/login', appAuth.login);
   app.post('/api/users/signup', appAuth.signup);
+  app.post('/api/users/mbSignup', appUsers.createUser);
+
   // app.post('/api/users/fblogin', appAuth.fblogin);
   app.post('/api/users/mobileFbLogin', appAuth.mobileFbLogin);
   //add amazonAPI route
@@ -25,9 +27,9 @@ module.exports = function(app, express) {
   app.post('/api/postToDb', appPosts.postToDb);
 
   app.get('/api/test', appAuth.test);
-  app.post('/api/test/setUser', appUsers.setUser);
-  app.get('/api/test/getUser', appUsers.getUser);
-  app.post('/api/test/deleteUser', appUsers.deleteUser);
+  app.post('/api/test/createUser', appUsers.createUser);
+  app.get('/api/test/findUser', appUsers.findUser);
+  app.post('/api/test/removeUser', appUsers.removeUser);
 
   app.post('/api/deletePost', appPosts.deletePost);
 

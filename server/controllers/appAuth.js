@@ -4,6 +4,7 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
 var session = require('express-session');
+var users = require('./appUsers');
 
 // var passport = require('passport');
 // var FacebookStrategy = require('passport-facebook').Strategy;
@@ -67,7 +68,6 @@ module.exports = {
         });
       }
     });
-
   },
 
   fblogin: function(req, res, next) {

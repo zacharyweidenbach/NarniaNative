@@ -2,32 +2,55 @@ import Exponent from 'exponent';
 import React, { Component } from 'react';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
-  Navigator, Alert, AsyncStorage,
+  Navigator,
+  Alert,
+  AsyncStorage,
+  Text,
+  View,
 } from 'react-native';
+import Signup from './screens/signup';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
-import auth from './auth.js';
-import Mixer from './screens/mixer.js'
+import Auth from './auth.js';
+import Mixer from './screens/mixer.js';
+
 
 export default class App extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: 'Loading'
+    };
+  }
 
-    auth.getToken()
+  componentWillMount() {
+    // Auth.destroySession();
+
+    Auth.getToken() // checks if they have a token, if not, show facebook login
     .then(function(resp) {
-      if (!resp) { // checks if they have a token, if not, show facebook login
-        auth.logIn();
+      if (!resp) {
+        this.setState({
+          screen: 'Signup'
+        });
+      } else {
+        this.setState({
+          screen: 'SocialFeed'
+        });
       }
-    });
+    }.bind(this));
 
   }
 
   render() {
+    if (this.state.screen === 'Loading') {
+      return <View><Text>Loading...</Text></View>;
+    }
     return (
       <Navigator
         initialRoute = {{
-          id: 'SocialFeed'
+          id: this.state.screen
         }}
         renderScene={
           this.navigatorRenderScene
@@ -35,9 +58,12 @@ export default class App extends Component {
       />
     );
   }
+
   navigatorRenderScene(route, navigator) {
     _navigator = navigator;
     switch (route.id) {
+    case 'Signup':
+      return (<Signup navigator={navigator} title='Signup'/>);
     case 'SocialFeed':
       return (<SocialFeed navigator={navigator} title='SocialFeed'/>);
     case 'LikesScreen':
