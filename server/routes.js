@@ -37,5 +37,6 @@ module.exports = function(app, express) {
   app.post('/api/insertLikesPosts', appLikesPosts.insertLike);
   app.post('/api/deleteLikesPosts', appLikesPosts.deleteLike);
   app.post('/api/checkLikeExists', appLikesPosts.checkLikeExists);
+  app.post('/api/findLikedByUser', appLikesPosts.findLikedByUser);
 
 };
