@@ -49,6 +49,27 @@ export default class likesScreen extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getLikedPostId();
+  }
+
+  getLikedPostId() {
+    var that = this;
+    fetch('http://10.6.19.12:3000/api/checkLikeExists', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+        postId: this.props.post.id,
+      })
+    })
+    .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
+    .catch((err) => console.log(err));
+  }
+
   onButtonPress(button) {
     switch (button) {
     case 'back':

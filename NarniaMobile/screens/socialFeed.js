@@ -14,6 +14,7 @@ import {
 
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
+import LikesScreen from './likesScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -181,9 +182,7 @@ export default class socialFeed extends Component {
     case '3':
       return (
         <ScrollView>
-          {this.state.likesFeed.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
-          })}
+          <LikesScreen />
         </ScrollView>
       );
     default:

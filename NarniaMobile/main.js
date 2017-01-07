@@ -32,7 +32,8 @@ export default class App extends Component {
     .then(function(resp) {
       if (!resp) {
         this.setState({
-          screen: 'Signup'
+          // screen: 'Signup'
+          screen: 'SocialFeed'
         });
       } else {
         this.setState({
@@ -72,8 +73,6 @@ export default class App extends Component {
       return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
     case 'SearchScreen':
       return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
-    case 'CommentScreen':
-      return (<SearchScreen navigator={navigator} title='CommentScreen'/>);
     case 'Mixer':
       return (<Mixer navigator={navigator} title='CommentScreen'/>);
     }
