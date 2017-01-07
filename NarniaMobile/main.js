@@ -3,19 +3,19 @@ import React, { Component } from 'react';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
   Navigator,
-  Alert,
   AsyncStorage,
   Text,
   View,
 } from 'react-native';
 import Signup from './screens/signup';
+import Login from './screens/login';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
 import Auth from './auth.js';
 import Mixer from './screens/mixer.js';
-
+import ProfileMenu from './screens/profileMenu.js';
 
 export default class App extends Component {
   constructor(props) {
@@ -26,13 +26,12 @@ export default class App extends Component {
   }
 
   componentWillMount() {
-    // Auth.destroySession();
 
     Auth.getToken() // checks if they have a token, if not, show facebook login
     .then(function(resp) {
       if (!resp) {
         this.setState({
-          screen: 'Signup'
+          screen: 'Login'
         });
       } else {
         this.setState({
@@ -62,8 +61,8 @@ export default class App extends Component {
   navigatorRenderScene(route, navigator) {
     _navigator = navigator;
     switch (route.id) {
-    case 'Signup':
-      return (<Signup navigator={navigator} title='Signup'/>);
+    case 'Login':
+      return (<Login navigator={navigator} title='Login'/>);
     case 'SocialFeed':
       return (<SocialFeed navigator={navigator} title='SocialFeed'/>);
     case 'LikesScreen':
@@ -76,6 +75,8 @@ export default class App extends Component {
       return (<SearchScreen navigator={navigator} title='CommentScreen'/>);
     case 'Mixer':
       return (<Mixer navigator={navigator} title='CommentScreen'/>);
+    case 'ProfileMenu':
+      return (<ProfileMenu navigator={navigator} title='ProfileMenu'/>);
     }
   }
 }
