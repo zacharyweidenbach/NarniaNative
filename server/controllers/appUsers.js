@@ -17,7 +17,7 @@ var query = function(qString, arrVal) { // generic promisified query function
   });
 };
 
-var findUser = function(username) {
+var getUser = function(username) {
   return new Promise(function(resolve, reject) {
     connection.query({
       sql: 'SELECT * FROM `users` WHERE `username` = ?',
@@ -30,7 +30,7 @@ var findUser = function(username) {
   });
 };
 
-var createUser = function(newUser) {
+var setUser = function(newUser) {
   return new Promise(function(resolve, reject) {
     connection.query({
       sql: 'INSERT INTO users SET ?',
@@ -43,7 +43,7 @@ var createUser = function(newUser) {
   });
 };
 
-var removeUser = function(username) {
+var deleteUser = function(username) {
   return new Promise(function(resolve, reject) {
     connection.query({
       sql: 'DELETE FROM `users` where `username` = ?',
@@ -57,21 +57,21 @@ var removeUser = function(username) {
 };
 
 /*************API FUNCTIONS**************/
-var getUser = function(req, res, next) {
+var findUser = function(req, res, next) {
   if (!req.body.username) {
     res.send('no username provided');
     return;
   }
-  return findUser(req.body.username)
+  return getUser(req.body.username)
   .then(function(result) {
-    delete result[0].id;
-    delete result[0].createdAt;
-    delete result[0].updatedAt;
+    // delete result[0].id;
+    // delete result[0].createdAt;
+    // delete result[0].updatedAt;
     res.json(result);
   });
 };
 
-var setUser = function(req, res, next) {
+var createUser = function(req, res, next) {
   if (!req.body.username) {
     res.json('no user information');
     return;
@@ -87,12 +87,15 @@ var setUser = function(req, res, next) {
     createdAt: req.body.createdAt || time,
     updatedAt: req.body.updatedAt || time
   };
-  return findUser(newUser.username)
+  return getUser(newUser.username)
   .then(function(response) {
     if (response.length === 0) {
-      return createUser(newUser)
-      .then(function(result) {
-        res.json(result);
+      return setUser(newUser)
+      .then(function(result) { // NEED TO GIVE TOKEN AT THIS POINT
+        res.json({
+          token: 'token',
+          id: result.insertId
+        });
       });
     } else {
       res.send('user already exists');
@@ -100,11 +103,11 @@ var setUser = function(req, res, next) {
   });
 };
 
-var deleteUser = function(req, res, next) {
+var removeUser = function(req, res, next) {
   if (!req.body.username) {
     res.json('no user information');
   }
-  return removeUser(req.body.username)
+  return deleteUser(req.body.username)
   .then(function(response) {
     res.json(response);
   });

@@ -19,23 +19,28 @@ module.exports = {
   getToken: async function() {
     try { // returns boolean for whether or not they are logged in;
       const value = await AsyncStorage.getItem('@Sessiontoken:token');
-      if (value !== null){
-        // We have data!!
+      if (value !== null) {
         return value;
       } else {
         return null;
       }
     } catch (error) {
-      // Error retrieving data
       console.log(error, 'GET TOKEN ERROR');
       return null;
     }
   },
 
   setId: async function(id) {
+    console.log(id, 'async side')
     if (id) {
+      if (typeof id === 'number') {
+        id = id.toString();
+      }
+      console.log('pass if')
       try {
+        console.log('pass try')
         await AsyncStorage.setItem('@SessionId:id', id);
+        console.log('pass await')
       } catch (error) {
         console.error(error, 'SET ID ERROR')
       }
@@ -59,7 +64,6 @@ module.exports = {
   },
 
   destroySession: async function() {
-    var blank = null;
     try {
       await AsyncStorage.removeItem('@Sessiontoken:token');
       await AsyncStorage.removeItem('@SessionId:id');
@@ -69,7 +73,7 @@ module.exports = {
     }
   },
 
-  logIn: async function() {
+  FbLogIn: async function() {
     const { type, token, expires } = await Exponent.Facebook.logInWithReadPermissionsAsync(
       '365948040432096', {
         permissions: ['public_profile', 'email', 'user_friends'],
@@ -99,6 +103,18 @@ module.exports = {
       // send user to public view
     }
   },
+
+  signUp: async function(newUser) {
+    fetch('http://10.6.19.8:3000/api/users/mobileFbLogin', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(resp)
+    })
+  },
+
 
   test: function() {
     console.log('THIS IS NOT A DRILL');
