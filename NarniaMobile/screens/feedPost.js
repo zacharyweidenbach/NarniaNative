@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   Modal,
+  TextArea
 } from 'react-native';
 
 import CommentsModal from './commentsModal.js';
@@ -69,17 +70,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 6,
-    marginLeft: 0,
-    marginRight: 0,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
     marginBottom: 0,
-  },
-  actionBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',  
-  },
-  btn: {
-    justifyContent: 'flex-end',
   },
 });
 
@@ -134,6 +128,7 @@ export default class FeedPost extends Component {
     })
     .catch((err) => console.log(err));
   }
+
   increaseLikeCount() {
     var that = this;
     fetch('http://10.6.19.12:3000/api/increaseLikeCount', {
@@ -163,6 +158,7 @@ export default class FeedPost extends Component {
     .then((resJSON) => console.log('successful insertLike'))
     .catch((err) => console.log(err));
   }
+
   decreaseLikeCount() {
     var that = this;
     fetch('http://10.6.19.12:3000/api/decreaseLikeCount', {
@@ -192,11 +188,13 @@ export default class FeedPost extends Component {
     .then((resJSON) => cnosole.log('successful deleteLike'))
     .catch((err) => console.log(err));
   }
+
   onNamePress() {
     this.props.navigator.push({
       id: 'ProfileScreen'
     });
   }
+  
   onButtonPress(button) {
     var that = this;
     switch (button) {
@@ -211,6 +209,9 @@ export default class FeedPost extends Component {
       this.setState({modalVisible: true});
       break;
     }
+  }
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   render() {
@@ -242,25 +243,9 @@ export default class FeedPost extends Component {
           <Text style={{paddingLeft: 10, paddingRight: 10, color: '#4f4f4f'}}>{this.props.post.description}</Text>
         </View>
 
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-        >
-         <View style={{marginTop: 22}}>
-          <View>
-            <Text>Hello World!</Text>
-            <TouchableWithoutFeedback onPress={() => {
-              this.setState({modalVisible: false})
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableWithoutFeedback>
-          </View>
-         </View>
-        </Modal>
+        {this.state.modalVisible ? <CommentsModal id={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
       </View>
-    );
+    )
   }
 }
