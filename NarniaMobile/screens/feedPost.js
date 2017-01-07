@@ -6,7 +6,11 @@ import {
   Dimensions,
   Image,
   TouchableHighlight,
+  TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
+
+import CommentsModal from './commentsModal.js';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -59,14 +63,47 @@ const styles = StyleSheet.create({
     width: 50,
     borderRadius: 25,
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 6,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
+  },
+  actionBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',  
+  },
+  btn: {
+    justifyContent: 'flex-end',
+  },
 });
 
 export default class FeedPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
+      comments: [] 
     };
   }
+
+  componentDidMount() {
+    //change ip address to either wifi address or deployed server
+    return fetch('http://10.6.23.166:3000/api/getCommentsFromDb', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: this.props.post.id})
+    })
+      .then((res) => res.json())
+      .then((resJSON) => this.setState({comments: resJSON}))
+      .catch((err) => console.log(err))
+  }
+
   onNamePress() {
     this.props.navigator.push({
       id: 'ProfileScreen'
@@ -82,9 +119,11 @@ export default class FeedPost extends Component {
       break;
     case 'comment':
       console.log('Comment Pressed');
+      this.setState({modalVisible: true})
       break;
     }
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -113,6 +152,25 @@ export default class FeedPost extends Component {
         <View style={styles.descriptionContainer}>
           <Text style={{paddingLeft: 10, paddingRight: 10, color: '#4f4f4f'}}>{this.props.post.description}</Text>
         </View>
+
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+        >
+         <View style={{marginTop: 22}}>
+          <View>
+            <Text>Hello World!</Text>
+            <TouchableWithoutFeedback onPress={() => {
+              this.setState({modalVisible: false})
+            }}>
+              <Text>Hide Modal</Text>
+            </TouchableWithoutFeedback>
+          </View>
+         </View>
+        </Modal>
+
       </View>
     );
   }

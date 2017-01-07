@@ -77,7 +77,6 @@ export default class SearchShop extends Component {
     return (
       <View style={styles.container}>
         <SearchShopGallery items={this.state.items} />
-        
       </View>
     ); 
   }
