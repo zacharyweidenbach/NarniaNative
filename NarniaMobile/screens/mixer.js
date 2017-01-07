@@ -79,9 +79,9 @@ export default class Mixer extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      topImages: ['http://clothing.beautysay.net/wp-content/uploads/images/red-shirt-mens-1.jpg', 'https://s-media-cache-ak0.pinimg.com/736x/c6/8d/c2/c68dc2038bb0791ae00e98179e00bd7f.jpg', 'http://www.cotondoux.com/23514-thickbox/chemise-homme-coupe-cintree-bourgogne-.jpg'],
-      midImages: ['https://images-na.ssl-images-amazon.com/images/I/410WYjhVEtL.jpg','https://images-na.ssl-images-amazon.com/images/I/41PWqy28FtL.jpg','https://images-na.ssl-images-amazon.com/images/I/41HdkQOWkzL.jpg'],
-      bottomImages: ['http://www.svrimaging.com/images/puma/Puma-Speed-Cat-Big-Red-Shoes-Mens-For-Men_2.jpg','http://www.aepic.fr/images/large/aepic/New_Arrived_Puma_90_2013_Men_Red_White_Shoes_1_1_LRG.jpg','http://www.vizitkz.com/images/Tods-Herren-Fahren-Rot-Schuhe-Iconic-online-Basel.jpg','http://i1076.photobucket.com/albums/w458/robertben100/MensShoes/sem061712/DSC04139.jpg'],
+      topImages: [{ URL: 'http://clothing.beautysay.net/wp-content/uploads/images/red-shirt-mens-1.jpg'}, { URL: 'https://s-media-cache-ak0.pinimg.com/736x/c6/8d/c2/c68dc2038bb0791ae00e98179e00bd7f.jpg'}, { URL: 'http://www.cotondoux.com/23514-thickbox/chemise-homme-coupe-cintree-bourgogne-.jpg'}],
+      midImages: [{ URL: 'https://images-na.ssl-images-amazon.com/images/I/410WYjhVEtL.jpg'},{ URL: 'https://images-na.ssl-images-amazon.com/images/I/41PWqy28FtL.jpg'},{ URL: 'https://images-na.ssl-images-amazon.com/images/I/41HdkQOWkzL.jpg'}],
+      bottomImages: [{ URL: 'http://www.svrimaging.com/images/puma/Puma-Speed-Cat-Big-Red-Shoes-Mens-For-Men_2.jpg'},{ URL: 'http://www.aepic.fr/images/large/aepic/New_Arrived_Puma_90_2013_Men_Red_White_Shoes_1_1_LRG.jpg'},{ URL: 'http://www.vizitkz.com/images/Tods-Herren-Fahren-Rot-Schuhe-Iconic-online-Basel.jpg'},{ URL: 'http://i1076.photobucket.com/albums/w458/robertben100/MensShoes/sem061712/DSC04139.jpg'}],
       topIndex: 0,
       midIndex: 0,
       bottomIndex: 0,
@@ -125,6 +125,27 @@ export default class Mixer extends Component {
           this.setState({bottomIndex: this.state.bottomIndex+=1})
         }
         break;
+      case 'post':
+        console.log('posty posty posty')
+        // fetch("http://10.6.21.47:3000/api/outfitPost", {
+        //   method: 'POST', 
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        //   }, 
+        //   body: JSON.stringify({
+        //     topImage: this.state.topImages[this.state.topIndex],
+        //     midImage: this.state.midImages[this.state.midIndex],
+        //     bottomImage: this.state.bottomImages[this.state.topIndex]
+        //     }).then((res) => res.json())
+        //       .then((resJson) => {
+        //         console.log(resJson)
+        //       })
+        //       .catch((error) => {
+        //         console.werror(error)
+        //       })
+        // })
+        break;
     }
   }
   render() { 
@@ -142,7 +163,7 @@ export default class Mixer extends Component {
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight>
-          <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex]}} /> 
+          <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} /> 
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight>  
@@ -151,7 +172,7 @@ export default class Mixer extends Component {
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight>
-          <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex]}} /> 
+          <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} /> 
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight>   
@@ -160,7 +181,7 @@ export default class Mixer extends Component {
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
           </TouchableHighlight> 
-          <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex]}} />   
+          <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} />   
           <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')}  underlayColor='transparent' >
             <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
           </TouchableHighlight> 
