@@ -191,6 +191,11 @@ export default class socialFeed extends Component {
         id: 'ProfileScreen'
       });
       break;
+    case 'profile':
+      this.props.navigator.push({
+        id: 'ProfileScreen'
+      });
+      break;
     }
   }
 
