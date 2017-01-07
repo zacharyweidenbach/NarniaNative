@@ -127,7 +127,6 @@ export default class searchScreen extends Component {
       this.props.navigator.pop();
       break;
     case 'search':
-      console.log('search button click')
       this.setState({ triggerSearch: this.state.searchText})
       break;
     }

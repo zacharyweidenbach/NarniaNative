@@ -24,7 +24,10 @@ module.exports = {
     }).then((response) => {
         //console.log("Results object: ", response.result.ItemSearchResponse.Items.Item[0]);
         // console.log("Raw response body: ", response.responseBody);
-        //fs.writeFileSync(__dirname+"/test.json", JSON.stringify(response.result.ItemSearchResponse.Items))
+    /*//creates MYsql insertion query syntax for dummy data
+        var clothingSchema = "INSERT INTO 'clothing' (detailUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, Title, UPC, ASIN) VALUES (" + '"' + response.result.ItemSearchResponse.Items.Item[0].DetailPageURL + '", "' + response.result.ItemSearchResponse.Items.Item[0].SmallImage.URL + '", "' + response.result.ItemSearchResponse.Items.Item[0].MediumImage.URL + '", "' + response.result.ItemSearchResponse.Items.Item[0].LargeImage.URL + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.Brand + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.Color + '", "' +response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.Department + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.ListPrice.FormattedPrice + '", "'+ response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.ProductGroup + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.ProductTypeName + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.Title + '", "' + response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.UPC + '", "' + response.result.ItemSearchResponse.Items.Item[0].ASIN + '");'
+        fs.writeFileSync(__dirname+"/clothingInsertionSchema.txt", clothingSchema)
+      */
       AmazonResponse = response.result.ItemSearchResponse.Items.Item;
       var images = [];
       for (var i = 0; i < AmazonResponse.length; i++) {
@@ -39,6 +42,9 @@ module.exports = {
     });
   }
 };
+
+
+
 
 
 

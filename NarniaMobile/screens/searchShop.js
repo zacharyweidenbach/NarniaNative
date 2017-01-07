@@ -59,7 +59,7 @@ export default class SearchShop extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({keyword: this.state.keyword, page: this.state.page})
-    }).then((res) => res.json())
+    }).then((res) => {console.log('returned'); return res.json()})
       .then((resJson) => {
         this.setState({items: this.state.items.concat(resJson)});
         console.log(this.state.items);
