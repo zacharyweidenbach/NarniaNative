@@ -37,33 +37,13 @@ const styles = StyleSheet.create({
 var LikesGallery = (props) => {
   return (
     <View style={styles.container}>
-      <View>
-        <Image style={styles.imgLarge} source={require('../assets/images/post3.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post1.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post2.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post4.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post5.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post6.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post7.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post8.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post9.jpg')} />
-      </View>
+      {props.likes.map((like, key) => {
+        if (key === 0) {
+          return <View key={key}><Image style={styles.imgLarge} source={{uri: like.body}} /></View>;
+        } else {
+          return <View key={key}><Image style={styles.imgSmall} source={{uri: like.body}} /></View>;
+        }
+      })}
     </View>
   );
 };

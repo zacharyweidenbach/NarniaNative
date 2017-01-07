@@ -64,7 +64,7 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-const ipAddress = '10.6.23.166';
+const ipAddress = '10.6.19.12';
 
 export default class socialFeed extends Component {
   constructor(props) {
@@ -74,7 +74,6 @@ export default class socialFeed extends Component {
       routes: [
         { key: '1', title: 'Feed' },
         { key: '2', title: 'Trending' },
-        { key: '3', title: 'Likes' },
       ],
       feedPosts: [
         {

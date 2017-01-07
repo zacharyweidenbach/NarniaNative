@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     // paddingTop: 13,
   }
 });
-
+const ipAddress = '10.6.19.12';
+const currentUser = 1;
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -46,6 +47,7 @@ export default class likesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      likes: [],
     };
   }
 
@@ -55,19 +57,19 @@ export default class likesScreen extends Component {
 
   getLikedPostId() {
     var that = this;
-    fetch('http://10.6.19.12:3000/api/checkLikeExists', {
+    fetch('http://' + ipAddress + ':3000/api/findLikedPostId', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: currentUser,
-        postId: this.props.post.id,
+        userId: 1,
       })
     })
-    .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
-    .catch((err) => console.log(err));
+    .then((res) => res.json())
+    .then((resJSON) => { that.setState({likes: resJSON}); })
+    .catch((err) => console.log('error: ' + err));
   }
 
   onButtonPress(button) {
@@ -91,7 +93,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            <LikesGallery />
+            <LikesGallery likes={this.state.likes}/>
           </ScrollView>
         </View>
       </View>
