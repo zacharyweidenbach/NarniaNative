@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 });
 
 const currentUser = 1; //MrJonWu;
-const ipAddress = '10.6.23.166';
+const ipAddress = '10.6.19.12';
 
 export default class FeedPost extends Component {
   constructor(props) {

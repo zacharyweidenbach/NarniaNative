@@ -60,6 +60,10 @@ export default class profileScreen extends Component {
       postCount: 9,
     };
   }
+  
+  componentDidMount() {
+
+  }
 
   onButtonPress(button) {
     switch (button) {
