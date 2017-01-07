@@ -86,7 +86,7 @@ module.exports = {
     });
   },
   getPostsFromDb: function(req, res, next) {
-    connection.query('SELECT users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image"', function(err, result) {
+    connection.query('SELECT users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image" ORDER BY likesCount DESC', function(err, result) {
       var response = err || result;
       res.json(response);  
     });

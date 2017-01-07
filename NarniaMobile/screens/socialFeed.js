@@ -63,6 +63,8 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
+const ipAddress = '10.6.23.166';
+
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -85,48 +87,7 @@ export default class socialFeed extends Component {
           "createdAt": "3456871348"
         }
       ],
-      trendingPosts: [
-        {
-          "username": "Rick",
-          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
-          "id": 1,
-          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
-          "description": "this should be a new post from Rick.",
-          "likesCount": 10,
-          "type": "image",
-          "createdAt": "3456871348"
-        },
-        {
-          "username": "MrJonWu",
-          "thumbnail": "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460",
-          "id": 2,
-          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-pictures-kitties.jpg",
-          "description": "this should be a new post from MrJonWu.",
-          "likesCount": 7,
-          "type": "image",
-          "createdAt": "3456871349"
-        },
-        {
-          "username": "Haris",
-          "thumbnail": "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460",
-          "id": 3,
-          "body": "http://www.londoubros.com/assets/mainmenu/1142/editor/cat-fashion-septem_1773575i.jpg?0.24798612928882752",
-          "description": "this should be a new post from Haris.",
-          "likesCount": 3,
-          "type": "image",
-          "createdAt": "3456871350"
-        },
-        {
-          "username": "Zach",
-          "thumbnail": "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460",
-          "id": 4,
-          "body": "http://i.telegraph.co.uk/multimedia/archive/01773/cat-fashion-may_1773579i.jpg",
-          "description": "this should be a new post from Zach.",
-          "likesCount": 9,
-          "type": "image",
-          "createdAt": "3456871351"
-        }
-      ],
+      trendingPosts: [],
       likesFeed: [
         {
           "username": "mah Likes",
@@ -141,6 +102,23 @@ export default class socialFeed extends Component {
       ],
     }
   };
+
+  componentDidMount() {
+    this.getTrendingPosts();
+  }
+
+  getTrendingPosts() {
+    return fetch('http://' + ipAddress + ':3000/api/getPostsFromDb', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((resJSON) => this.setState({trendingPosts: resJSON}))
+      .catch((err) => console.log(err))
+  }
 
   _handleChangeTab = (index) => {
     this.setState({
