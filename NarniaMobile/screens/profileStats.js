@@ -54,7 +54,7 @@ var ProfileStats = (props) => {
       <View style={styles.statsContainer}>
         <View>
           <Text style={styles.textStyle}>{props.likesCount}</Text>
-          <Text style={styles.textStyle}>Likes</Text>
+          <Text style={styles.textStyle}>Followers</Text>
         </View>
         <View>
           <Text style={styles.textStyle}>{props.postCount}</Text>
