@@ -108,6 +108,7 @@ export default class socialFeed extends Component {
   }
 
   getTrendingPosts() {
+    console.log('getting trending posts...');
     return fetch('http://' + ipAddress + ':3000/api/getPostsFromDb', {
       method: 'GET',
       headers: {
@@ -177,9 +178,6 @@ export default class socialFeed extends Component {
       });
       break;
     case 'post':
-      // this.props.navigator.push({
-      //   id: ''
-      // });
       this.props.navigator.push({
         id: 'Mixer'
       });
@@ -188,7 +186,6 @@ export default class socialFeed extends Component {
       this.props.navigator.push({
         id: 'SearchScreen'
       });
-      console.log('Search Button');
       break;
     }
   }

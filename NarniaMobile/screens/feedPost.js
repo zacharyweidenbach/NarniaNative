@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
 });
 
 const currentUser = 1; //MrJonWu;
+const ipAddress = '10.6.23.166';
 
 export default class FeedPost extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ export default class FeedPost extends Component {
 
   componentDidMount() {
     //change ip address to either wifi address or deployed server
-    return fetch('http://10.6.19.12:3000/api/getCommentsFromDb', {
+    return fetch('http://' + ipAddress + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -105,7 +106,7 @@ export default class FeedPost extends Component {
   }
   checkLikeExists() {
     var that = this;
-    fetch('http://10.6.19.12:3000/api/checkLikeExists', {
+    fetch('http://' + ipAddress + ':3000/api/checkLikeExists', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -131,7 +132,7 @@ export default class FeedPost extends Component {
 
   increaseLikeCount() {
     var that = this;
-    fetch('http://10.6.19.12:3000/api/increaseLikeCount', {
+    fetch('http://' + ipAddress + ':3000/api/increaseLikeCount', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -144,7 +145,7 @@ export default class FeedPost extends Component {
     .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
     .catch((err) => console.log(err));
 
-    fetch('http://10.6.19.12:3000/api/insertLikesPosts', {
+    fetch('http://' + ipAddress + ':3000/api/insertLikesPosts', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -161,7 +162,7 @@ export default class FeedPost extends Component {
 
   decreaseLikeCount() {
     var that = this;
-    fetch('http://10.6.19.12:3000/api/decreaseLikeCount', {
+    fetch('http://' + ipAddress + ':3000/api/decreaseLikeCount', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -174,7 +175,7 @@ export default class FeedPost extends Component {
     .then((resJSON) => that.setState({likesCount: that.state.likesCount - 1}))
     .catch((err) => console.log(err));
 
-    fetch('http://10.6.19.12:3000/api/deleteLikesPosts', {
+    fetch('http://' + ipAddress + ':3000/api/deleteLikesPosts', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

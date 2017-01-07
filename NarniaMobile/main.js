@@ -32,7 +32,7 @@ export default class App extends Component {
     .then(function(resp) {
       if (!resp) {
         this.setState({
-          screen: 'Signup'
+          screen: 'SocialFeed'
         });
       } else {
         this.setState({
