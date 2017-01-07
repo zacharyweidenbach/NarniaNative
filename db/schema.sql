@@ -115,6 +115,13 @@ CREATE TABLE `userPosts` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `likesPosts` (
+  `id` INTEGER AUTO_INCREMENT,
+  `userId` INTEGER NOT NULL,
+  `postId` INTEGER NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 INSERT INTO 'clothing' (detailUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, Title, UPC, ASIN) VALUES ("https://www.amazon.com/Hanes-Mens-X-Temp-Performance-X-Large/dp/B0132MGK5Q%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGK5Q", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL.jpg", "Hanes", "Deep Red", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Red, X-Large", "078715978150", "B0132MGK5Q");
 INSERT INTO 'clothing' (detailUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, Title, UPC, ASIN) VALUES ("https://www.amazon.com/Hanes-X-Temp-Performance-Royal-Large/dp/B0132MGJGQ%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGJGQ", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L.jpg", "Hanes", "Deep Royal", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Royal, Large", "078715978204", "B0132MGJGQ");
 INSERT INTO 'clothing' (detailUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, Title, UPC, ASIN) VALUES ("https://www.amazon.com/Hanes-STEDMAN-Blended-Jersey-XL-Deep/dp/B0009GHM0G%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0009GHM0G", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL.jpg", "Hanes", "Deep Forest", "mens", "$7.69", "Apparel", "SHIRT", "Hanes Men's 5.2 oz Hanes STEDMAN Blended Jersey Polo, XL-Deep Forest", "766369121700", "B0009GHM0G");

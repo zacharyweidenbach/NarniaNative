@@ -11,7 +11,10 @@ import {
 } from 'react-native';
 
 import CommentsModal from './commentsModal.js';
-
+// import Auth from '../auth.js';
+//Auth.getId().then(function(resp) {
+  // console.log(resp);
+  // })
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 18,
@@ -80,18 +83,21 @@ const styles = StyleSheet.create({
   },
 });
 
+const currentUser = 1; //MrJonWu;
+
 export default class FeedPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalVisible: false,
-      comments: [] 
+      comments: [],
+      likesCount: this.props.post.likesCount, 
     };
   }
 
   componentDidMount() {
     //change ip address to either wifi address or deployed server
-    return fetch('http://10.6.23.166:3000/api/getCommentsFromDb', {
+    return fetch('http://10.6.19.12:3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -101,25 +107,108 @@ export default class FeedPost extends Component {
     })
       .then((res) => res.json())
       .then((resJSON) => this.setState({comments: resJSON}))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }
+  checkLikeExists() {
+    var that = this;
+    fetch('http://10.6.19.12:3000/api/checkLikeExists', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+        postId: this.props.post.id,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => { 
+      console.log('postId', this.props.post.id);
+      console.log('length', resJSON.length);
+      if (resJSON.length > 0) {
+        that.decreaseLikeCount();
+      } else {
+        that.increaseLikeCount();
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+  increaseLikeCount() {
+    var that = this;
+    fetch('http://10.6.19.12:3000/api/increaseLikeCount', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: this.props.post.id,
+      })
+    })
+    .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
+    .catch((err) => console.log(err));
 
+    fetch('http://10.6.19.12:3000/api/insertLikesPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+        postId: that.props.post.id,
+      })
+    })
+    .then((resJSON) => console.log('successful insertLike'))
+    .catch((err) => console.log(err));
+  }
+  decreaseLikeCount() {
+    var that = this;
+    fetch('http://10.6.19.12:3000/api/decreaseLikeCount', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: that.props.post.id,
+      })
+    })
+    .then((resJSON) => that.setState({likesCount: that.state.likesCount - 1}))
+    .catch((err) => console.log(err));
+
+    fetch('http://10.6.19.12:3000/api/deleteLikesPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+        postId: this.props.post.id,
+      })
+    })
+    .then((resJSON) => cnosole.log('successful deleteLike'))
+    .catch((err) => console.log(err));
+  }
   onNamePress() {
     this.props.navigator.push({
       id: 'ProfileScreen'
     });
   }
   onButtonPress(button) {
+    var that = this;
     switch (button) {
     case 'back':
       this.props.navigator.pop();
       break;
     case 'like':
-      console.log(this.props.post.id);
+      that.checkLikeExists();
       break;
     case 'comment':
       console.log('Comment Pressed');
-      this.setState({modalVisible: true})
+      this.setState({modalVisible: true});
       break;
     }
   }
@@ -141,7 +230,7 @@ export default class FeedPost extends Component {
                 <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35 }}/>
               </View>
             </TouchableHighlight>
-            <Text style={styles.textStyle}>{this.props.post.likesCount} Likes</Text>
+            <Text style={styles.textStyle}>{this.state.likesCount} Likes</Text>
           </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'comment')} style={styles.commentBtn} underlayColor='transparent'>
             <View>

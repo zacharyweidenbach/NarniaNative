@@ -3,6 +3,7 @@ var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
 var appUsers = require('./controllers/appUsers.js');
+var appLikesPosts = require('./controllers/appLikesPosts.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -30,5 +31,9 @@ module.exports = function(app, express) {
   app.post('/api/test/deleteUser', appUsers.deleteUser);
 
   app.post('/api/deletePost', appPosts.deletePost);
+  //likesPosts join table
+  app.post('/api/insertLikesPosts', appLikesPosts.insertLike);
+  app.post('/api/deleteLikesPosts', appLikesPosts.deleteLike);
+  app.post('/api/checkLikeExists', appLikesPosts.checkLikeExists);
 
 };
