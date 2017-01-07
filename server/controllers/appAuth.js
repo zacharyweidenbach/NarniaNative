@@ -1,30 +1,10 @@
 var connection = require('../../db/index.js');
-
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
-var session = require('express-session');
-var users = require('./appUsers');
-
-// var passport = require('passport');
-// var FacebookStrategy = require('passport-facebook').Strategy;
-// require('dotenv').config();
-// var session = require('express-session');
-
-
-
-// var isLoggedIn = function (req, res, next) {
-//   if (req.isAuthenticated()) {
-//     return next();
-//   }
-//   res.sendStatus(401);
-// };
-
-
-
+var dbUser = require('./appUsers');
 
 module.exports = {
 
+  // Originally written for desktop - possibly should be deleted
   login: function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
@@ -43,6 +23,7 @@ module.exports = {
     });
   },
 
+  // Originally written for desktop - possibly should be deleted
   signup: function(req, res, next) {
     connection.query({
       sql: 'SELECT * FROM `users` WHERE `username` = ?',
@@ -70,59 +51,6 @@ module.exports = {
     });
   },
 
-  fblogin: function(req, res, next) {
-
-    // var users = [
-    //   {id: 111, username: 'amy', password: 'amy'},
-    //   {
-    //     id: '222',
-    //     email: 'test@test.com',
-    //     name: 'Ben',
-    //     token: 'DeSag3sEgaEGaYRNKlQp05@diorw'
-    //   }
-    // ];
-
-    // var findUser = function(id) {
-    //   for (var i = 0; i < users.length; i++) {
-    //     if (id === users[i].id) {
-    //       return users[i];
-    //     }
-    //   }
-    //   return null;
-    // };
-
-    // passport.serializeUser(function (user, done) {
-    //   done(null, users[0].id);
-    // });
-    // passport.deserializeUser(function (id, done) {
-    //   done(null, users[0]);
-    // });
-
-    // passport.use(new FacebookStrategy({
-    //   clientID: process.env.FACEBOOK_APP_ID,
-    //   clientSecret: process.env.FACEBOOK_APP_SECRET,
-    //   callbackURL: 'http://localhost:3000/auth/facebook/callback'
-    // },
-    // function (token, refreshToken, profile, done) {
-    //   var user = findUser(profile.id);
-    //   if (user) {
-    //     console.log(users);
-    //     return done(null, user);
-    //   } else {
-    //     var newUser = {
-    //       id: profile.id,
-    //       name: profile.name.givenName + ' ' + profile.name.familyName,
-    //       email: (profile.emails[0].value || '').toLowerCase(),
-    //       token: token
-    //     };
-    //     users.push(newUser);
-    //     console.log(users);
-    //     return done(null, newUser);
-    //   }
-    // }));
-
-  },
-
   mobileFbLogin: function(req, res, next) {
     var body = JSON.parse(req.body._bodyText);
     var token = req.body.url.slice(43);
@@ -147,12 +75,85 @@ module.exports = {
         };
         connection.query('INSERT INTO users SET ?', newUser, function(err, result) {
           var response = err || result;
-          // console.log(response);
         });
       }
     });
+  },
 
-    // console.log(req.body);
+  // SHOULD BE REMOVED ONCE TEST IS REWRITTEN TO US mbLogin
+  findUser: function(req, res, next) {
+    if (!req.body.username) {
+      res.send('no username provided');
+      return;
+    }
+    return dbUser.getUser(req.body.username)
+    .then(function(result) {
+      res.json(result);
+    });
+  },
+
+  mbLogin: function(req, res, next) {
+    if (!req.body.username || !req.body.password) {
+      res.send('no username or password provided');
+      return;
+    }
+    return dbUser.getUser(req.body.username)
+    .then(function(result) {
+      if (Array.isArray(result) && result.length > 0) {
+        if (req.body.password === result[0].password) {
+          res.json({// NEED TO GIVE TOKEN AT THIS POINT
+            token: 'token',
+            id: result[0].id
+          });
+        } else {
+          res.send('Invalid username or password.');
+        }
+      } else {
+        res.send('Invalid username or password.');
+      }
+    });
+  },
+
+  createUser: function(req, res, next) {
+    if (!req.body.username) {
+      res.json('no user information');
+      return;
+    }
+    var time = new Date();
+    var newUser = {
+      name: req.body.name || null,
+      email: req.body.email || null,
+      token: req.body.token || null,
+      username: req.body.username || null,
+      password: req.body.password || null,
+      thumbnail: req.body.thumbnail || null,
+      createdAt: req.body.createdAt || time,
+      updatedAt: req.body.updatedAt || time
+    };
+    return dbUser.getUser(newUser.username)
+    .then(function(response) {
+      if (response.length === 0) {
+        return dbUser.setUser(newUser)
+        .then(function(result) { // NEED TO GIVE TOKEN AT THIS POINT
+          res.json({
+            token: 'token',
+            id: result.insertId
+          });
+        });
+      } else {
+        res.send('User already exists.');
+      }
+    });
+  },
+
+  removeUser: function(req, res, next) {
+    if (!req.body.username) {
+      res.json('no user information');
+    }
+    return dbUser.deleteUser(req.body.username)
+    .then(function(response) {
+      res.json(response);
+    });
   },
 
   test: function(req, res, next) {
