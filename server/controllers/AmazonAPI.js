@@ -16,6 +16,7 @@ var opHelper = new apac.OperationHelper ({
 module.exports = {
 
   fetchClothes: function(req, res, next) {
+    console.log('hit')
     opHelper.execute('ItemSearch', {
       'SearchIndex': 'Fashion',
       'Keywords': req.body.keyword,
