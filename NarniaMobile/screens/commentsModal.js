@@ -4,6 +4,7 @@ import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollVi
 import { Ionicons } from '@exponent/vector-icons';
 import Comment from './comment.js';
 import ip from '../network.js';
+import Auth from '../auth.js';
 
 export default class CommentsModal extends Component {
   constructor(props) {
@@ -11,7 +12,17 @@ export default class CommentsModal extends Component {
     this.state = {
       comments: [],
       post: '',
+      id: ''
     };
+  }
+
+  componentWillMount() {
+    Auth.getId()
+    .then(function(resp) {
+      this.setState({
+        id: resp
+      });
+    }.bind(this));
   }
 
   componentDidMount() {
@@ -45,7 +56,7 @@ export default class CommentsModal extends Component {
         },
         body: JSON.stringify({
           postid: that.props.id,
-          userid: 3,
+          userid: this.state.id,
           body: that.state.post,
           type: 'comment',
           createdAt: new Date()

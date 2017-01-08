@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
   }
 });
 const currentUser = 4;
-const ipAddress = '10.6.19.12';
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -73,18 +73,18 @@ export default class profileScreen extends Component {
 
   getLoggedInProfile() {
     var that = this;
-    fetch('http://' + ipAddress + ':3000/api/getLoggedInProfile', {
+    fetch('http://' + ip.address + ':3000/api/getLoggedInProfile', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: currentUser,
+        userId: this.props.id,
       })
     })
     .then((res) => res.json())
-    .then((resJSON) => { 
+    .then((resJSON) => {
       var tempArr = [];
       for (var i = 0; i < resJSON.length; i++) {
         tempArr.push(resJSON[i].body);
