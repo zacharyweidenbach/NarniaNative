@@ -49,7 +49,7 @@ module.exports = function(app, express) {
   app.post('/api/checkFollower', appUsersFollowers.checkFollower);
   app.post('/api/getNumberOfFollowers', appUsersFollowers.getNumberOfFollowers);
   app.post('/api/getAllFollowersPosts', appUsersFollowers.getAllFollowersPosts);
-
+  
   //get Logged in user's profile information
   app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
