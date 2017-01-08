@@ -45,6 +45,7 @@ module.exports = function(app, express) {
   app.post('/api/addFollower', appUsersFollowers.addFollower);
   app.post('/api/deleteFollower', appUsersFollowers.deleteFollower);
   app.post('/api/checkFollower', appUsersFollowers.checkFollower);
-  app.post('/api/getAllFollowers', appUsersFollowers.getAllFollowers);
+  app.post('/api/getNumberOfFollowers', appUsersFollowers.getNumberOfFollowers);
+  app.post('/api/getAllFollowersPosts', appUsersFollowers.getAllFollowersPosts);
 
 };

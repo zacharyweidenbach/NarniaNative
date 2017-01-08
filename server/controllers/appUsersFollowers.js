@@ -1,4 +1,4 @@
-// var connection = require('../../db/index.js');
+var connection = require('../../db/index.js');
 
 module.exports = {
   addFollower: function(req, res, next) {
@@ -23,7 +23,13 @@ module.exports = {
       res.json(response);
     });
   },
-  getAllFollowers: function(req, res, next) {
+  getNumberOfFollowers: function(req, res, next) {
+    connection.query('SELECT * FROM userFollowers where userId=' + req.body.userId, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
+  getAllFollowersPosts: function(req, res, next) {
     connection.query('SELECT * FROM userFollowers where userId=' + req.body.userId, function(err, result) {
       var str = '';
       var tempArr = [];
@@ -31,7 +37,7 @@ module.exports = {
         tempArr.push(result[i].followerId);
       }
       str = tempArr.join(',');
-      connection.query('select users.id,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id in (' + str + ') and posts.type="image"', function(err, result) {
+      connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id in (' + str + ') and posts.type="image"', function(err, result) {
         var response = err || result;
         res.json(response); 
       });
