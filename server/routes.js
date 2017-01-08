@@ -4,6 +4,7 @@ var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
 var appLikesPosts = require('./controllers/appLikesPosts.js');
 var appUsersFollowers = require('./controllers/appUsersFollowers.js');
+var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -48,5 +49,8 @@ module.exports = function(app, express) {
   app.post('/api/checkFollower', appUsersFollowers.checkFollower);
   app.post('/api/getNumberOfFollowers', appUsersFollowers.getNumberOfFollowers);
   app.post('/api/getAllFollowersPosts', appUsersFollowers.getAllFollowersPosts);
+  
+  //get Logged in user's profile information
+  app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
 };

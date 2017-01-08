@@ -195,7 +195,7 @@ export default class FeedPost extends Component {
     console.log(this.props.post)
     this.props.viewedUser(this.props.post.userId);
     this.props.navigator.push({
-      id: 'ProfileScreen'
+      id: 'ProfileScreen',
     });
   }
 
