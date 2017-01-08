@@ -3,6 +3,7 @@ import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollVi
 
 import { Ionicons } from '@exponent/vector-icons';
 import Comment from './comment.js';
+import ip from '../network.js';
 
 export default class CommentsModal extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class CommentsModal extends Component {
   }
 
   getComments() {
-    return fetch('http://10.6.23.166:3000/api/getCommentsFromDb', {
+    return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -30,13 +31,13 @@ export default class CommentsModal extends Component {
       .then((res) => res.json())
       .then((resJSON) => this.setState({comments: resJSON}))
       .then(() => console.log(this.state.comments))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   sendPost(post) {
     var that = this;
     if (that.state.post !== '') {
-      return fetch('http://10.6.23.166:3000/api/postToDb', {
+      return fetch('http://' + ip.address + ':3000/api/postToDb', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -47,7 +48,7 @@ export default class CommentsModal extends Component {
           userid: 3,
           body: that.state.post,
           type: 'comment',
-          createdAt: new Date()       
+          createdAt: new Date()
         })
       })
         .then((res) => {
@@ -55,7 +56,7 @@ export default class CommentsModal extends Component {
           that.setState({post: ''});
           that.getComments();
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
   }
 
