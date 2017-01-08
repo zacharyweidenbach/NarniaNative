@@ -31,16 +31,12 @@ module.exports = {
   },
 
   setId: async function(id) {
-    console.log(id, 'async side')
     if (id) {
       if (typeof id === 'number') {
         id = id.toString();
       }
-      console.log('pass if')
       try {
-        console.log('pass try')
         await AsyncStorage.setItem('@SessionId:id', id);
-        console.log('pass await')
       } catch (error) {
         console.error(error, 'SET ID ERROR')
       }

@@ -10,6 +10,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  Button,
 } from 'react-native';
 
 import FeedPost from './feedPost.js';
@@ -167,7 +168,7 @@ export default class socialFeed extends Component {
       return null;
     }
   };
-  
+
   onButtonPress(button) {
     switch (button) {
     case 'likes':
@@ -185,6 +186,16 @@ export default class socialFeed extends Component {
         id: 'SearchScreen'
       });
       break;
+    case 'profile':
+      this.props.navigator.push({
+        id: 'ProfileScreen'
+      });
+      break;
+    case 'profile':
+      this.props.navigator.push({
+        id: 'ProfileScreen'
+      });
+      break;
     }
   }
 
@@ -199,7 +210,7 @@ export default class socialFeed extends Component {
           navigationState={this.state}
           renderScene={this._renderScene}
           renderHeader={this._renderHeader}
-          onRequestChangeTab={this._handleChangeTab} 
+          onRequestChangeTab={this._handleChangeTab}
           initialLayout={initialLayout}
         />
         <View class="footer" style={styles.footer}>
@@ -216,6 +227,11 @@ export default class socialFeed extends Component {
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View>
               <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'profile')} underlayColor='transparent'>
+            <View>
+              <Image source={require('../assets/buttons/avatar.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
             </View>
           </TouchableHighlight>
         </View>
