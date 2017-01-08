@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import { Ionicons } from '@exponent/vector-icons';
+import ip from '../network.js';
 
-var ipAddress = '10.6.21.47'
+
 export default class Mixer extends Component {
   constructor (props) {
     super(props);
@@ -18,7 +19,7 @@ export default class Mixer extends Component {
   }
 
   componentWillMount(){
-    return fetch('http://' + ipAddress + ':3000/api/clothing', {
+    return fetch('http://' + ip.address + ':3000/api/clothing', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

@@ -67,7 +67,6 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-const ipAddress = '10.6.21.47';
 
 export default class socialFeed extends Component {
   constructor(props) {
