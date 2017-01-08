@@ -21,12 +21,14 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: 'Loading'
+      screen: 'Loading',
+      id: ''
     };
+    this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
+    this.viewedUser = this.viewedUser.bind(this);
   }
 
   componentWillMount() {
-
     Auth.getToken() // checks if they have a token, if not, show facebook login
     .then(function(resp) {
       if (!resp) {
@@ -34,12 +36,45 @@ export default class App extends Component {
           screen: 'Login'
         });
       } else {
+        // Auth.getId()
+        // .then(function(id) {
+        //   this.setState({
+        //     screen: 'SocialFeed',
+        //     id: id
+        //   });
+        // }.bind(this));
         this.setState({
           screen: 'SocialFeed'
         });
       }
     }.bind(this));
+  }
 
+  viewedUser(id) { //for looking at user profiles, including your own
+    this.setState({
+      id: id
+    });
+    console.log('triggered viewedUser');
+  }
+
+  navigatorRenderScene(route, navigator) {
+    _navigator = navigator;
+    switch (route.id) {
+    case 'Login':
+      return (<Login navigator={navigator} title='Login'/>);
+    case 'SocialFeed':
+      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser}/>);
+    case 'LikesScreen':
+      return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
+    case 'ProfileScreen':
+      return (<ProfileScreen navigator={navigator} title='ProfileScreen' id={this.state.id}/>);
+    case 'SearchScreen':
+      return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
+    case 'Mixer':
+      return (<Mixer navigator={navigator} title='CommentScreen'/>);
+    case 'ProfileMenu':
+      return (<ProfileMenu navigator={navigator} title='ProfileMenu'/>);
+    }
   }
 
   render() {
@@ -58,25 +93,6 @@ export default class App extends Component {
     );
   }
 
-  navigatorRenderScene(route, navigator) {
-    _navigator = navigator;
-    switch (route.id) {
-    case 'Login':
-      return (<Login navigator={navigator} title='Login'/>);
-    case 'SocialFeed':
-      return (<SocialFeed navigator={navigator} title='SocialFeed'/>);
-    case 'LikesScreen':
-      return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
-    case 'ProfileScreen':
-      return (<ProfileScreen navigator={navigator} title='ProfileScreen'/>);
-    case 'SearchScreen':
-      return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
-    case 'Mixer':
-      return (<Mixer navigator={navigator} title='CommentScreen'/>);
-    case 'ProfileMenu':
-      return (<ProfileMenu navigator={navigator} title='ProfileMenu'/>);
-    }
-  }
 }
 
 Exponent.registerRootComponent(App);

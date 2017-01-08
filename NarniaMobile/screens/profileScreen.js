@@ -63,8 +63,11 @@ export default class profileScreen extends Component {
       postCount: 9,
     };
   }
-  
+
   componentDidMount() {
+    //this.props.id
+    console.log(this.props.id, 'SELECTED ID');
+
 
   }
 

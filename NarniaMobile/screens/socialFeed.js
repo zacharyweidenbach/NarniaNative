@@ -16,6 +16,8 @@ import {
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
+import Auth from '../auth.js';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -65,8 +67,6 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-const ipAddress = '10.6.19.12';
-
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -110,7 +110,7 @@ export default class socialFeed extends Component {
 
   getTrendingPosts() {
     console.log('getting trending posts...');
-    return fetch('http://' + ipAddress + ':3000/api/getPostsFromDb', {
+    return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -146,7 +146,7 @@ export default class socialFeed extends Component {
       return (
         <ScrollView>
           {this.state.feedPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
           })}
         </ScrollView>
       );
@@ -154,7 +154,7 @@ export default class socialFeed extends Component {
       return (
         <ScrollView>
           {this.state.trendingPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key}/>
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
           })}
         </ScrollView>
       );
@@ -187,14 +187,13 @@ export default class socialFeed extends Component {
       });
       break;
     case 'profile':
-      this.props.navigator.push({
-        id: 'ProfileScreen'
-      });
-      break;
-    case 'profile':
-      this.props.navigator.push({
-        id: 'ProfileScreen'
-      });
+      Auth.getId()
+      .then(function(id) {
+        this.props.viewedUser(id);
+        this.props.navigator.push({
+          id: 'ProfileScreen'
+        });
+      }.bind(this))
       break;
     }
   }
