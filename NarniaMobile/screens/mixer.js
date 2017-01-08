@@ -99,7 +99,7 @@ export default class Mixer extends Component {
             shirtId: this.state.topImages[this.state.topIndex].id,
             pantId: this.state.midImages[this.state.midIndex].id,
             shoesId: this.state.bottomImages[this.state.bottomIndex].id,
-            description: 'this is a holding place for a dynamic description',
+            description: this.state.description,
             type: 'image', 
             createdAt: time
             })
@@ -152,8 +152,9 @@ export default class Mixer extends Component {
             </TouchableHighlight> 
           </View>
         <View class="footer" style={styles.footer}>
+            <TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <View>
+            <View style={styles.post}>
               <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
             </View>
           </TouchableHighlight>
@@ -235,5 +236,10 @@ const styles = StyleSheet.create({
 
   descriptionBar: {
     flex: 1,
+    flexDirection: 'row',
   },
+  post: {
+    flex: 1,
+    flexDirection: 'row',
+  }
 });
