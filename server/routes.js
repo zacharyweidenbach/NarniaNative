@@ -4,6 +4,7 @@ var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
 var appUsers = require('./controllers/appUsers.js');
 var appLikesPosts = require('./controllers/appLikesPosts.js');
+var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -38,5 +39,7 @@ module.exports = function(app, express) {
   app.post('/api/deleteLikesPosts', appLikesPosts.deleteLike);
   app.post('/api/checkLikeExists', appLikesPosts.checkLikeExists);
   app.post('/api/findLikedPostId', appLikesPosts.findLikedPostId);
+  //get Logged in user's profile information
+  app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
 };

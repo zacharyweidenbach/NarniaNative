@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     // paddingTop: 13,
   },
 });
-
+const currentUser = 4;
+const ipAddress = '10.6.19.12';
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -55,14 +56,41 @@ export default class profileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileImage: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
-      likesCount: 8723,
-      postCount: 9,
+      bodyArr: [],
+      username: '',
+      thumbnail: '',
     };
   }
   
   componentDidMount() {
+    this.getLoggedInProfile();
+  }
 
+  getLoggedInProfile() {
+    var that = this;
+    fetch('http://' + ipAddress + ':3000/api/getLoggedInProfile', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => { 
+      var tempArr = [];
+      for (var i = 0; i < resJSON.length; i++) {
+        tempArr.push(resJSON[i].body);
+      }
+      that.setState({
+        bodyArr: tempArr,
+        username: resJSON[0].username,
+        thumbnail: resJSON[0].thumbnail,
+      });
+    })
+    .catch((err) => console.log('error: ' + err));
   }
 
   onButtonPress(button) {
@@ -82,12 +110,12 @@ export default class profileScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{ fontWeight: 'bold', fontSize: 26}}>Outrageous Ocelot</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 26}}>{this.state.username}</Text>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats profileImage={this.state.profileImage} likesCount={this.state.likesCount} postCount={this.state.postCount}/>
-            <ProfileGallery />
+            <ProfileStats profileImage={this.state.thumbnail} likesCount={this.state.bodyArr.length} postCount={this.state.bodyArr.length}/>
+            <ProfileGallery userPosts={this.state.bodyArr} />
           </ScrollView>
         </View>
       </View>

@@ -192,7 +192,8 @@ export default class FeedPost extends Component {
 
   onNamePress() {
     this.props.navigator.push({
-      id: 'ProfileScreen'
+      id: 'ProfileScreen',
+      name: 'bobby boo'
     });
   }
   
