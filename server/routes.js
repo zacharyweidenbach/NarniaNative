@@ -3,6 +3,7 @@ var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/AmazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
 var appLikesPosts = require('./controllers/appLikesPosts.js');
+var appUsersFollowers = require('./controllers/appUsersFollowers.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -34,10 +35,17 @@ module.exports = function(app, express) {
   app.post('/api/test/removeUser', appAuth.removeUser);
 
   app.post('/api/deletePost', appPosts.deletePost);
+  
   //likesPosts join table
   app.post('/api/insertLikesPosts', appLikesPosts.insertLike);
   app.post('/api/deleteLikesPosts', appLikesPosts.deleteLike);
   app.post('/api/checkLikeExists', appLikesPosts.checkLikeExists);
   app.post('/api/findLikedPostId', appLikesPosts.findLikedPostId);
+  
+  //userFollowers join table
+  app.post('/api/addFollower', appUsersFollowers.addFollower);
+  app.post('/api/deleteFollower', appUsersFollowers.deleteFollower);
+  app.post('/api/checkFollower', appUsersFollowers.checkFollower);
+  app.post('/api/getAllFollowers', appUsersFollowers.getAllFollowers);
 
 };
