@@ -232,14 +232,14 @@ export default class FeedPost extends Component {
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>
               <View>
-                <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35 }}/>
+                <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>
               </View>
             </TouchableHighlight>
             <Text style={styles.textStyle}>{this.state.likesCount} Likes</Text>
           </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'comment')} style={styles.commentBtn} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/comment.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35 }}/>
+              <Image source={require('../assets/buttons/comment.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>
             </View>
           </TouchableHighlight>
         </View>
@@ -250,6 +250,6 @@ export default class FeedPost extends Component {
         {this.state.modalVisible ? <CommentsModal id={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
       </View>
-    )
+    );
   }
 }

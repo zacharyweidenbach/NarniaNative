@@ -60,8 +60,9 @@ export default class profileScreen extends Component {
     super(props);
     this.state = {
       bodyArr: [],
+      followers: [],
       username: '',
-      thumbnail: '',
+      thumbnail: ' ',
     };
   }
 
@@ -69,6 +70,7 @@ export default class profileScreen extends Component {
     //this.props.id
     console.log(this.props.id, 'SELECTED ID');
     this.getLoggedInProfile();
+    this.getNumberOfFollowers();
   }
 
   getLoggedInProfile() {
@@ -93,6 +95,31 @@ export default class profileScreen extends Component {
         bodyArr: tempArr,
         username: resJSON[0].username,
         thumbnail: resJSON[0].thumbnail,
+      });
+    })
+    .catch((err) => console.log('error: ' + err));
+  }
+
+  getNumberOfFollowers() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/getNumberOfFollowers', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.id,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      var tempArr = [];
+      for (var i = 0; i < resJSON.length; i++) {
+        tempArr.push(resJSON[i].followerId);
+      }
+      that.setState({
+        followers: tempArr,
       });
     })
     .catch((err) => console.log('error: ' + err));
@@ -129,7 +156,7 @@ export default class profileScreen extends Component {
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats profileImage={this.state.thumbnail} likesCount={this.state.bodyArr.length} postCount={this.state.bodyArr.length}/>
+            <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followers.length} postCount={this.state.bodyArr.length}/>
             <ProfileGallery userPosts={this.state.bodyArr} />
           </ScrollView>
         </View>
