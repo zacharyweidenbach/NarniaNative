@@ -125,7 +125,7 @@ export default class Login extends Component {
               onChangeText={(text) => this.setState({password: text})}
               placeholder="Password"
               // secureTextEntry="true"
-              password={true}
+              password={false}
               placeholderTextColor="#eee"
               value={this.state.password}
             />
