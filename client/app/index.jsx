@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import App from './components/App.jsx';
 import Home from './components/Home.jsx';
+import Login from './components/Login.jsx';
 
 ReactDOM.render((
   <Router history={browserHistory}>

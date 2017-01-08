@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import LikesGallery from './likesGallery';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,12 +32,12 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     // position: 'absolute',
-    left: -100, 
-    // alignItems: 'center', 
+    left: -100,
+    // alignItems: 'center',
     // paddingTop: 13,
   }
 });
-
+const currentUser = 1;
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -46,7 +47,29 @@ export default class likesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      likes: [],
     };
+  }
+
+  componentDidMount() {
+    this.getLikedPostId();
+  }
+
+  getLikedPostId() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: currentUser,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => { that.setState({likes: resJSON}); })
+    .catch((err) => console.log('error: ' + err));
   }
 
   onButtonPress(button) {
@@ -70,7 +93,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            <LikesGallery />
+            <LikesGallery likes={this.state.likes}/>
           </ScrollView>
         </View>
       </View>

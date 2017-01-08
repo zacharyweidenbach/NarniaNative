@@ -10,10 +10,14 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  Button,
 } from 'react-native';
-import FriendsFeed from './friendsFeed.js';
-import DesignerFeed from './designerFeed.js';
-import TrendingFeed from './trendingFeed.js';
+
+import FeedPost from './feedPost.js';
+import Mixer from './mixer.js';
+import LikesScreen from './likesScreen';
+import Auth from '../auth.js';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,18 +67,65 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
+
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Friends' },
-        { key: '2', title: 'Designer' },
-        { key: '3', title: 'Trending' },
-      ], 
+        { key: '1', title: 'Feed' },
+        { key: '2', title: 'Trending' },
+      ],
+      feedPosts: [
+        {
+          "username": "mah Feed",
+          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
+          "id": 1,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
+          "description": "this is mah feed mah feed maaaaaah feed",
+          "likesCount": 348934,
+          "type": "image",
+          "createdAt": "3456871348"
+        },
+      ],
+      trendingPosts: [],
+      likesFeed: [
+        {
+          "username": "mah Likes",
+          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
+          "id": 1,
+          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
+          "description": "this is mah likes mah likes maaaaaah likes",
+          "likesCount": 434,
+          "type": "image",
+          "createdAt": "3456871348"
+        },
+      ],
     }
   };
+
+  componentDidMount() {
+    this.getTrendingPosts();
+  }
+
+  componentWillReceiveProps() {
+    this.getTrendingPosts();
+  }
+
+  getTrendingPosts() {
+    console.log('getting trending posts...');
+    return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((resJSON) => this.setState({trendingPosts: resJSON}))
+      .catch((err) => console.log(err))
+  }
 
   _handleChangeTab = (index) => {
     this.setState({
@@ -99,52 +150,55 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          <FriendsFeed style={styles.page} />
+          {this.state.feedPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
+          })}
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <DesignerFeed style={styles.page} />
+          {this.state.trendingPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
+          })}
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <TrendingFeed style={styles.page} />
+          <LikesScreen />
         </ScrollView>
       );
     default:
       return null;
     }
   };
-  
+
   onButtonPress(button) {
     switch (button) {
     case 'likes':
       this.props.navigator.push({
         id: 'LikesScreen'
       });
-      // Alert.alert(
-      //   'Alert',
-      //   'Route Length: ' + this.props.navigator.getCurrentRoutes.length.toString(),
-      //   [
-      //     // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-      //     {text: 'OK', onPress: () => console.log('OK Pressed')},
-      //   ]
-      // )
       break;
     case 'post':
-      // this.props.navigator.push({
-      //   id: ''
-      // });
-      console.log('Post Button');
+      this.props.navigator.push({
+        id: 'Mixer'
+      });
       break;
     case 'search':
-      // this.props.navigator.push({
-      //   id: ''
-      // });
-      console.log('Search Button');
+      this.props.navigator.push({
+        id: 'SearchScreen'
+      });
+      break;
+    case 'profile':
+      Auth.getId()
+      .then(function(id) {
+        this.props.viewedUser(id);
+        this.props.navigator.push({
+          id: 'ProfileScreen'
+        });
+      }.bind(this))
       break;
     }
   }
@@ -160,7 +214,7 @@ export default class socialFeed extends Component {
           navigationState={this.state}
           renderScene={this._renderScene}
           renderHeader={this._renderHeader}
-          onRequestChangeTab={this._handleChangeTab} 
+          onRequestChangeTab={this._handleChangeTab}
           initialLayout={initialLayout}
         />
         <View class="footer" style={styles.footer}>
@@ -177,6 +231,11 @@ export default class socialFeed extends Component {
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View>
               <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'profile')} underlayColor='transparent'>
+            <View>
+              <Image source={require('../assets/buttons/avatar.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
             </View>
           </TouchableHighlight>
         </View>

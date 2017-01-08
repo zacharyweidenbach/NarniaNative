@@ -1,7 +1,13 @@
 var mysql = require('mysql');
+require('dotenv').config();
 
-mysql.createConnection({
-  user: root,
-  password: null,
-  database: 'narnia'
+var connection = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'Narnia'
 });
+
+connection.connect();
+
+module.exports = connection;

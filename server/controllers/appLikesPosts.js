@@ -1,0 +1,44 @@
+var connection = require('../../db/index.js');
+
+module.exports = {
+  deleteLike: function(req, res, next) {
+    connection.query('DELETE FROM likesPosts where userId=' + req.body.userId + ' and postId=' + req.body.postId, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
+  insertLike: function(req, res, next) {
+    var reqbody = {
+      userId: req.body.userId,
+      postId: req.body.postId,
+    };
+    connection.query('INSERT INTO likesPosts SET ?', reqbody, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
+  checkLikeExists: function(req, res, next) {
+    connection.query('SELECT * FROM likesPosts where userId=' + req.body.userId + ' and postId=' + req.body.postId, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
+  findLikedPostId: function(req, res, next) {
+    connection.query('SELECT * FROM likesPosts where userId=' + req.body.userId, function(err, result) {
+      var str = '';
+      var tempArr = [];
+      for (var i = 0; i < result.length; i++) {
+        tempArr.push(result[i].postId);
+      }
+      str = tempArr.join(',');
+      console.log('here', str);
+      connection.query('select * from posts where id in (' + str + ')', function(err, result) {
+        var response = err || result;
+        res.json(response); 
+        console.log(response);   
+      });
+    });
+  }
+};
+
+// 'SELECT users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image"'
