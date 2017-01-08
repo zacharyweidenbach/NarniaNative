@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 
 import CommentsModal from './commentsModal.js';
+import ip from '../network';
+
 // import Auth from '../auth.js';
 //Auth.getId().then(function(resp) {
   // console.log(resp);
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
   actionBar: {
     //contains likesContainer, likesBtn, and commentBtn
     flex: 1,
-    justifyContent: 'space-between',  
+    justifyContent: 'space-between',
     flexDirection: 'row',
   },
   likesContainer: {
@@ -78,7 +80,6 @@ const styles = StyleSheet.create({
 });
 
 const currentUser = 1; //MrJonWu;
-const ipAddress = '10.6.19.12';
 
 export default class FeedPost extends Component {
   constructor(props) {
@@ -86,13 +87,13 @@ export default class FeedPost extends Component {
     this.state = {
       modalVisible: false,
       comments: [],
-      likesCount: this.props.post.likesCount, 
+      likesCount: this.props.post.likesCount,
     };
   }
 
   componentDidMount() {
     //change ip address to either wifi address or deployed server
-    return fetch('http://' + ipAddress + ':3000/api/getCommentsFromDb', {
+    return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -106,7 +107,7 @@ export default class FeedPost extends Component {
   }
   checkLikeExists() {
     var that = this;
-    fetch('http://' + ipAddress + ':3000/api/checkLikeExists', {
+    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -118,7 +119,7 @@ export default class FeedPost extends Component {
       })
     })
     .then((res) => res.json())
-    .then((resJSON) => { 
+    .then((resJSON) => {
       console.log('postId', this.props.post.id);
       console.log('length', resJSON.length);
       if (resJSON.length > 0) {
@@ -132,7 +133,7 @@ export default class FeedPost extends Component {
 
   increaseLikeCount() {
     var that = this;
-    fetch('http://' + ipAddress + ':3000/api/increaseLikeCount', {
+    fetch('http://' + ip.address + ':3000/api/increaseLikeCount', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -145,7 +146,7 @@ export default class FeedPost extends Component {
     .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ipAddress + ':3000/api/insertLikesPosts', {
+    fetch('http://' + ip.address + ':3000/api/insertLikesPosts', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -162,7 +163,7 @@ export default class FeedPost extends Component {
 
   decreaseLikeCount() {
     var that = this;
-    fetch('http://' + ipAddress + ':3000/api/decreaseLikeCount', {
+    fetch('http://' + ip.address + ':3000/api/decreaseLikeCount', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -175,7 +176,7 @@ export default class FeedPost extends Component {
     .then((resJSON) => that.setState({likesCount: that.state.likesCount - 1}))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ipAddress + ':3000/api/deleteLikesPosts', {
+    fetch('http://' + ip.address + ':3000/api/deleteLikesPosts', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -191,11 +192,13 @@ export default class FeedPost extends Component {
   }
 
   onNamePress() {
+    console.log(this.props.post)
+    this.props.viewedUser(this.props.post.userId);
     this.props.navigator.push({
       id: 'ProfileScreen'
     });
   }
-  
+
   onButtonPress(button) {
     var that = this;
     switch (button) {
@@ -220,7 +223,7 @@ export default class FeedPost extends Component {
       <View style={styles.container}>
         <View style={styles.userContainer}>
           <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
-          <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>   
+          <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>
         </View>
         <View>
           <Image style={styles.imgContainer} source={{uri: this.props.post.body}} />

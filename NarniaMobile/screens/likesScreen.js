@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import LikesGallery from './likesGallery';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,12 +32,11 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     // position: 'absolute',
-    left: -100, 
-    // alignItems: 'center', 
+    left: -100,
+    // alignItems: 'center',
     // paddingTop: 13,
   }
 });
-const ipAddress = '10.6.19.12';
 const currentUser = 1;
 const initialLayout = {
   height: 0,
@@ -57,7 +57,7 @@ export default class likesScreen extends Component {
 
   getLikedPostId() {
     var that = this;
-    fetch('http://' + ipAddress + ':3000/api/findLikedPostId', {
+    fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

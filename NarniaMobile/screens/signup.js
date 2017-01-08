@@ -14,6 +14,7 @@ import {
 import Auth from '../auth.js';
 import Main from '../main.js';
 import Login from './login.js';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -74,7 +75,7 @@ export default class Signup extends Component {
       email: this.state.email
     };
 
-    fetch('http://10.6.19.8:3000/api/users/mbSignup', {
+    fetch('http://' + ip.address + ':3000/api/users/mbSignup', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
