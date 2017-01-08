@@ -67,6 +67,7 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
+
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +87,7 @@ export default class socialFeed extends Component {
           "likesCount": 348934,
           "type": "image",
           "createdAt": "3456871348"
-        }
+        },
       ],
       trendingPosts: [],
       likesFeed: [
@@ -99,12 +100,16 @@ export default class socialFeed extends Component {
           "likesCount": 434,
           "type": "image",
           "createdAt": "3456871348"
-        }
+        },
       ],
     }
   };
 
   componentDidMount() {
+    this.getTrendingPosts();
+  }
+
+  componentWillReceiveProps() {
     this.getTrendingPosts();
   }
 

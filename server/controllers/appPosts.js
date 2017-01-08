@@ -61,27 +61,30 @@ module.exports = {
   },
 
   postToDb: function(req, res, next) {
-    var time = new Date();
-    var post = {
-      postId: 0,
-      userId: 3,
-      likesCount: 0,
-      body: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
-      description: 'this should be a new post from Rick.',
-      type: 'image',
-      createdAt: time
-    };
-    var comment = {
-      postId: 1,
-      userId: 4,
-      likesCount: 0,
-      body: 'blah!',
-      description: 'null',
-      type: 'comment',
-      createdAt: time
-    };
+    console.log('hit')
+    console.log(req.body)
+    // var time = new Date();
+    // var post = {
+    //   postId: 0,
+    //   userId: 3,
+    //   likesCount: 0,
+    //   body: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
+    //   description: 'this should be a new post from Rick.',
+    //   type: 'image',
+    //   createdAt: time
+    // };
+    // var comment = {
+    //   postId: 1,
+    //   userId: 4,
+    //   likesCount: 0,
+    //   body: 'blah!',
+    //   description: 'null',
+    //   type: 'comment',
+    //   createdAt: time
+    // };
     connection.query('INSERT INTO posts SET ?', req.body, function(err, result) {
       var response = err || result;
+      console.log('made it here', response)
       res.json(response);
     });
   },
