@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import SearchShopGallery from './searchShopGallery';
+import ip from '../network.js';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -52,7 +53,7 @@ export default class SearchShop extends Component {
   FetchAmazon () {
     //change the path of this request to match the server IP address
     this.setState({items: []});
-    return fetch('http://10.6.21.47:3000/api/search', {
+    return fetch('http://' + ip.address + ':3000/api/search', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
