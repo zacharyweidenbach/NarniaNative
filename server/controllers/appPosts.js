@@ -92,7 +92,7 @@ module.exports = {
     });
   },
   getCommentsFromDb: function(req, res, next) {
-    connection.query('SELECT users.username, users.thumbnail, posts.id, posts.postId, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="comment" and posts.postId =' + req.body.id, function(err, result) {
+    connection.query('SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.postId, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="comment" and posts.postId =' + req.body.id, function(err, result) {
       var response = err || result;
       res.json(response);
     });
