@@ -89,10 +89,10 @@ export default class socialFeed extends Component {
     this.getFollowingPosts();
   }
 
-  // componentWillReceiveProps() {
-  //   this.getTrendingPosts();
-  //   this.getFollowingPosts();
-  // }
+  componentWillReceiveProps() {
+    this.getTrendingPosts();
+    this.getFollowingPosts();
+  }
 
   getTrendingPosts() {
     console.log('getting trending posts...');
@@ -148,17 +148,17 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          {this.state.feedPosts.map((post, key) => {
+          {this.state.feedPosts.length > 0 ? this.state.feedPosts.map((post, key) => {
             return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
-          })}
+          }) : <Text style={{color:'#888'}}>No posts available</Text> }
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          {this.state.trendingPosts.map((post, key) => {
+          { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
             return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
-          })}
+          }) : <Text style={{color:'#888'}}>No posts available</Text> }
         </ScrollView>
       );
     case '3':
