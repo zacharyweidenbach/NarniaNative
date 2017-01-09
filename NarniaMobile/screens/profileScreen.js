@@ -8,10 +8,12 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  Button
 } from 'react-native';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
 import ip from '../network.js';
+import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,12 +75,22 @@ export default class profileScreen extends Component {
       followers: [],
       username: '',
       thumbnail: ' ',
+      following: false,
+      LoggedInId: null,
+      followerCount: 0
     };
   }
 
-  componentDidMount() {
-    //this.props.id
-    console.log(this.props.id, 'SELECTED ID');
+  componentWillMount() {
+    Auth.getId()
+    .then(function(resp) {
+      this.setState({
+        LoggedInId: resp
+      });
+      this.checkFollower(true);
+    }.bind(this))
+
+   
     this.getLoggedInProfile();
     this.getNumberOfFollowers();
   }
@@ -130,9 +142,79 @@ export default class profileScreen extends Component {
       }
       that.setState({
         followers: tempArr,
+        followerCount: tempArr.length
       });
     })
     .catch((err) => console.log('error: ' + err));
+  }
+
+  checkFollower(init) {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/checkFollower', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.state.LoggedInId,
+        followerId: this.props.id,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      console.log('resJSON', resJSON);
+      if (init) {
+        console.log('init true');
+        if (resJSON.length > 0) {
+          that.setState({following: true});
+          console.log('state set to true');
+        } else {
+          that.setState({following: false});
+          console.log('state set to false');
+        }
+      } else {
+        if (resJSON.length > 0) {
+          that.removeFollower();
+        } else {
+          that.addFollower();
+        }
+      }
+    })
+  }
+
+  addFollower() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/addFollower', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.state.LoggedInId,
+        followerId: this.props.id,
+      })
+    })
+    .then(() => that.setState({following: true, followerCount: this.state.followerCount + 1}))
+    .then(() => console.log('added follower'));
+  }
+
+  removeFollower() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/deleteFollower', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.state.LoggedInId,
+        followerId: this.props.id,
+      })
+    })
+    .then(() => that.setState({following: false, followerCount: this.state.followerCount - 1}))
+    .then(() => console.log('removed follower'));
   }
 
   onButtonPress(button) {
@@ -168,7 +250,10 @@ export default class profileScreen extends Component {
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
-            <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followers.length} postCount={this.state.bodyArr.length}/>
+            <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
+            <View style={{backgroundColor:"#fff"}}>
+              {this.state.LoggedInId !== this.props.id ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
+            </View> 
             <ProfileGallery userPosts={this.state.bodyArr} />
           </ScrollView>
         </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text } from 'react-native';
 
 import { Ionicons } from '@exponent/vector-icons';
 import Comment from './comment.js';
@@ -91,9 +91,9 @@ export default class CommentsModal extends Component {
           <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
           <View style={styles.comments}>
             <ScrollView>
-              {this.state.comments.map((comment, key) => {
+              {this.state.comments.length > 0 ? this.state.comments.map((comment, key) => {
                 return <Comment comment={comment} key={key} />
-              })}
+              }) : <Text style={{color: '#888'}}>No comments available</Text>}
             </ScrollView>
           </View>
          </View>

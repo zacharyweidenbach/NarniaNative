@@ -24,7 +24,7 @@ module.exports = {
     });
   },
   getNumberOfFollowers: function(req, res, next) {
-    connection.query('SELECT * FROM userFollowers where userId=' + req.body.userId, function(err, result) {
+    connection.query('SELECT * FROM userFollowers where followerId=' + req.body.userId, function(err, result) {
       var response = err || result;
       res.json(response);
     });
