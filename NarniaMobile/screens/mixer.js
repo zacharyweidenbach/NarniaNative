@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import { Ionicons } from '@exponent/vector-icons';
 import ip from '../network.js';
-
+import Auth from '../auth.js';
 
 export default class Mixer extends Component {
   constructor (props) {
@@ -15,10 +15,17 @@ export default class Mixer extends Component {
       midIndex: 0,
       bottomIndex: 0,
       description: '',
+      id: ''
     }
   }
 
   componentWillMount(){
+    Auth.getId()
+    .then(function(resp) {
+      this.setState({
+        id: resp
+      });
+    }.bind(this));
     return fetch('http://' + ip.address + ':3000/api/clothing', {
       method: 'GET',
       headers: {
@@ -37,7 +44,7 @@ export default class Mixer extends Component {
             midImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
           } else if (resJson[i].position === 'bottom') {
             bottomImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
-          } 
+          }
         }
         this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs})
       })
@@ -86,21 +93,21 @@ export default class Mixer extends Component {
       case 'post':
         console.log('posty posty posty')
         var time = new Date();
-        fetch("http://10.6.21.47:3000/api/postToDB", {
-          method: 'POST', 
+        fetch("http://" + ip.address + ":3000/api/postToDB", {
+          method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          }, 
+          },
           body: JSON.stringify({
-            userId: 3,
+            userId: this.state.id,
             likesCount: 0,
             body: this.state.topImages[this.state.topIndex].URL,
             shirtId: this.state.topImages[this.state.topIndex].id,
             pantId: this.state.midImages[this.state.midIndex].id,
             shoesId: this.state.bottomImages[this.state.bottomIndex].id,
             description: this.state.description,
-            type: 'image', 
+            type: 'image',
             createdAt: time
             })
         }).then((res) => res.json())
@@ -115,7 +122,7 @@ export default class Mixer extends Component {
         break;
     }
   }
-  render() { 
+  render() {
     return (
       <View style={styles.container} >
         <View style={styles.header}>
@@ -134,28 +141,28 @@ export default class Mixer extends Component {
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
             </TouchableHighlight>
-            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} /> 
+            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
-            </TouchableHighlight>  
+            </TouchableHighlight>
           </View>
           <View style={styles.muserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
             </TouchableHighlight>
-            <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} /> 
+            <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
-            </TouchableHighlight>   
+            </TouchableHighlight>
           </View>
           <View style={styles.buserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropleft" size={32} color="orange" />
-            </TouchableHighlight> 
-            <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />   
+            </TouchableHighlight>
+            <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')}  underlayColor='transparent' >
               <Ionicons name="ios-arrow-dropright" size={32} color="orange" />
-            </TouchableHighlight> 
+            </TouchableHighlight>
           </View>
         <View class="footer" style={styles.footer}>
             <TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />
