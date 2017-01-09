@@ -23,14 +23,16 @@ const styles = StyleSheet.create({
   imgLarge: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width,
-    borderWidth: 1,
-    borderColor: '#fff',
+    marginTop: 2,
+    marginLeft: 1,
+    marginRight: 1,
   },
   imgSmall: {
     width: Dimensions.get('window').width / 2,
     height: Dimensions.get('window').width / 2,
-    borderWidth: 1,
-    borderColor: '#fff',
+    marginTop: 2,
+    marginLeft: 1,
+    marginRight: 1,
   },
 });
 

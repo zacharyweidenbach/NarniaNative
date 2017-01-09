@@ -16,13 +16,13 @@ import ip from '../network.js';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f7f5',
     justifyContent: 'center',
   },
   header: {
     flex: 1,
     flexDirection: 'row',
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -39,14 +39,24 @@ const styles = StyleSheet.create({
   //   // flex: 2,
   // },
   backBtn: {
-    // flex: 1,
-    // position: 'absolute',
-    left: -50,
-    // alignItems: 'center',
-    // paddingTop: 13,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
   },
   menu: {
-    right: -50
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 15,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
   }
 });
 const currentUser = 4;
@@ -147,10 +157,12 @@ export default class profileScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{ fontWeight: 'bold', fontSize: 26}}>{this.state.username}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>{this.state.username}</Text>
+          </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent' style={styles.menu}>
             <View>
-              <Image source={require('../assets/buttons/menu.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
+              <Image source={require('../assets/buttons/menu.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30}}/>
             </View>
           </TouchableHighlight>
         </View>

@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ff9554',
+    backgroundColor: '#fff',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ff9554',
   },
   thumbnailContainer: {
     flex: 3,
