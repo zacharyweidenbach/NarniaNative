@@ -160,8 +160,8 @@ export default class searchScreen extends Component {
         </View>
         <TextInput placeholder= 'Search' style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
-            <View>
-              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35, alignItems: 'center'}}/>
+            <View style={{alignItems: 'center'}}>
+              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
             </View>
           </TouchableHighlight>
         <TabViewAnimated
