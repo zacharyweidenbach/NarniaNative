@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   tabViewContainer: {
-    flex: 11,
+    flex: 12,
   },
   header: {
     flex: 1,
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -77,40 +77,28 @@ export default class socialFeed extends Component {
         { key: '1', title: 'Feed' },
         { key: '2', title: 'Trending' },
       ],
-      feedPosts: [
-        {
-          "username": "mah Feed",
-          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
-          "id": 1,
-          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
-          "description": "this is mah feed mah feed maaaaaah feed",
-          "likesCount": 348934,
-          "type": "image",
-          "createdAt": "3456871348"
-        },
-      ],
+      feedPosts: [],
       trendingPosts: [],
-      likesFeed: [
-        {
-          "username": "mah Likes",
-          "thumbnail": "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460",
-          "id": 1,
-          "body": "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg",
-          "description": "this is mah likes mah likes maaaaaah likes",
-          "likesCount": 434,
-          "type": "image",
-          "createdAt": "3456871348"
-        },
-      ],
+      id: null,
+      // likesFeed: [],
     }
   };
 
   componentDidMount() {
+    Auth.getId()
+    .then(function(resp) {
+      this.setState({
+        id: resp
+      });
+      this.getFollowingPosts();
+    }.bind(this));
     this.getTrendingPosts();
+    
   }
 
   componentWillReceiveProps() {
     this.getTrendingPosts();
+    this.getFollowingPosts();
   }
 
   getTrendingPosts() {
@@ -124,6 +112,23 @@ export default class socialFeed extends Component {
     })
       .then((res) => res.json())
       .then((resJSON) => this.setState({trendingPosts: resJSON}))
+      .catch((err) => console.log(err))
+  }
+
+  getFollowingPosts() {
+    console.log('getting following posts...');
+    return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: this.state.id,
+      })
+    })
+      .then((res) => res.json())
+      .then((resJSON) => this.setState({feedPosts: resJSON}))
       .catch((err) => console.log(err))
   }
 
@@ -150,17 +155,17 @@ export default class socialFeed extends Component {
     case '1':
       return (
         <ScrollView>
-          {this.state.feedPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
-          })}
+          {this.state.feedPosts.length > 0 ? this.state.feedPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
+          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          {this.state.trendingPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser}/>
-          })}
+          { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
+          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
     case '3':
@@ -220,22 +225,22 @@ export default class socialFeed extends Component {
         <View class="footer" style={styles.footer}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'likes')} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height:35}}/>
+              <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height:32}}/>
             </View>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+              <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
             </View>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
             </View>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'profile')} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/avatar.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+              <Image source={require('../assets/buttons/avatar.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
             </View>
           </TouchableHighlight>
         </View>

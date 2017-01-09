@@ -11,17 +11,19 @@ import {
 } from 'react-native';
 import LikesGallery from './likesGallery';
 import ip from '../network.js';
+import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     justifyContent: 'center',
+    backgroundColor: '#f9f7f5'
   },
   header: {
     flex: 1,
     flexDirection: 'row',
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -31,13 +33,24 @@ const styles = StyleSheet.create({
     flex: 12,
   },
   backBtn: {
-    // position: 'absolute',
-    left: -100,
-    // alignItems: 'center',
-    // paddingTop: 13,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
   }
 });
-const currentUser = 1;
+
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -48,14 +61,23 @@ export default class likesScreen extends Component {
     super(props);
     this.state = {
       likes: [],
+      id: ''
     };
+    this.getLikedPostId = this.getLikedPostId.bind(this);
   }
 
   componentDidMount() {
-    this.getLikedPostId();
+    Auth.getId()
+    .then(function(id) {
+      this.setState({
+        id: id
+      });
+      this.getLikedPostId();
+    }.bind(this));
   }
 
   getLikedPostId() {
+    console.log(this.state.id, 'ID IN getLikedPostId');
     var that = this;
     fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
       method: 'POST',
@@ -64,7 +86,7 @@ export default class likesScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: currentUser,
+        userId: this.state.id,
       })
     })
     .then((res) => res.json())
@@ -89,11 +111,15 @@ export default class likesScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{fontWeight: 'bold', fontSize: 26}}>My Likes</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>My Likes</Text>
+          </View>
+          <View style={styles.emptySpace}>
+          </View>
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            <LikesGallery likes={this.state.likes}/>
+            {this.state.likes.length > 0 ? <LikesGallery likes={this.state.likes}/> : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts liked!</Text></View>}
           </ScrollView>
         </View>
       </View>

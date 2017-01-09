@@ -24,7 +24,7 @@ module.exports = {
     });
   },
   getNumberOfFollowers: function(req, res, next) {
-    connection.query('SELECT * FROM userFollowers where userId=' + req.body.userId, function(err, result) {
+    connection.query('SELECT * FROM userFollowers where followerId=' + req.body.userId, function(err, result) {
       var response = err || result;
       res.json(response);
     });
@@ -37,7 +37,7 @@ module.exports = {
         tempArr.push(result[i].followerId);
       }
       str = tempArr.join(',');
-      connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id in (' + str + ') and posts.type="image"', function(err, result) {
+      connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id=posts.userId and users.id in (' + str + ') and posts.type="image" ORDER BY posts.createdAt DESC', function(err, result) {
         var response = err || result;
         res.json(response); 
       });

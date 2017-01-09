@@ -22,17 +22,18 @@ export default class App extends Component {
     super(props);
     this.state = {
       screen: 'Loading',
-      id: ''
+      id: '',
     };
     this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
     this.viewedUser = this.viewedUser.bind(this);
   }
 
   componentWillMount() {
+    var that = this;
     Auth.getToken() // checks if they have a token, if not, show facebook login
     .then(function(resp) {
       if (!resp) {
-        this.setState({
+        that.setState({
           screen: 'Login'
         });
       } else {
@@ -43,11 +44,15 @@ export default class App extends Component {
         //     id: id
         //   });
         // }.bind(this));
-        this.setState({
-          screen: 'SocialFeed'
+        Auth.getId()
+        .then(function(id) {
+          that.setState({
+            screen: 'SocialFeed',
+            id: id
+          });
         });
       }
-    }.bind(this));
+    });
   }
 
   viewedUser(id) { //for looking at user profiles, including your own
@@ -63,7 +68,7 @@ export default class App extends Component {
     case 'Login':
       return (<Login navigator={navigator} title='Login'/>);
     case 'SocialFeed':
-      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser}/>);
+      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} id={this.state.id}/>);
     case 'LikesScreen':
       return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
     case 'ProfileScreen':

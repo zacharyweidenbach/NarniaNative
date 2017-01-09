@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -52,11 +52,22 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   backBtn: {
-    // position: 'absolute',
-    left: -100, 
-    // alignItems: 'center', 
-    // paddingTop: 13,
-  }
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
+  },
 });
 
 const initialLayout = {
@@ -141,11 +152,15 @@ export default class searchScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{fontWeight: 'bold', fontSize: 26}}>Search</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Search</Text>
+          </View>
+          <View style={styles.emptySpace}>
+          </View>
         </View>
         <TextInput placeholder= 'Search' style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
-            <View>
+            <View style={{alignItems: 'center'}}>
               <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
             </View>
           </TouchableHighlight>

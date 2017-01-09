@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
+import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import { Ionicons } from '@exponent/vector-icons';
 import ip from '../network.js';
 
@@ -106,6 +106,8 @@ export default class Mixer extends Component {
         }).then((res) => res.json())
           .then((resJson) => {
             console.log(resJson)
+            Alert.alert('You have successfully posted your outfit')
+            this.props.navigator.pop()
           })
           .catch((error) => {
             console.error(error)
@@ -122,7 +124,11 @@ export default class Mixer extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{fontWeight: 'bold', fontSize: 26}}>Mixer</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Mixer</Text>
+          </View>
+          <View style={styles.emptySpace}>
+          </View>
         </View>
           <View style={styles.tuserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
@@ -172,21 +178,33 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#fff'
   },
   header: {
     flex: 1,
     flexDirection: 'row',
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     //paddingTop: 20,
   },
   backBtn: {
-    // position: 'absolute',
-    left: -100, 
-    // alignItems: 'center', 
-    // paddingTop: 13,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
   },
   tuserContainer: {
     flex: 2,

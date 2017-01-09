@@ -143,28 +143,48 @@ INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, col
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/adidas-Originals-Gazelle-Fashion-Sneaker/dp/B01HLJWS5W%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB01HLJWS5W", "https://images-na.ssl-images-amazon.com/images/I/414ggcdSoJL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/414ggcdSoJL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/414ggcdSoJL.jpg", "adidas", "Green/White/Gold Met.", "mens", "$80.00", "Shoes", "SHOES", "adidas Originals Men's Gazelle Fashion Sneaker, Green/White/Gold Met, 10.5 M US", "889768181806", "B01HLJWS5W", "bottom");
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/adidas-NEO-Baseline-Fashion-Collegiate/dp/B01A1ELRXS%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB01A1ELRXS", "https://images-na.ssl-images-amazon.com/images/I/41dLJg12AhL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dLJg12AhL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dLJg12AhL.jpg", "adidas NEO", "Collegiate Navy/Tech Grey/White", "mens", "$59.95", "Shoes", "SHOES", "adidas NEO Men's Baseline Fashion Sneaker, Collegiate Navy/Tech Grey/White, 10.5 M US", "889138786556", "B01A1ELRXS", "bottom");
 
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jonathan", "MrJonWu@gmail.com", "12345678910", "MrJonWu", "password", "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460");
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jonathan", "MrJonWu@gmail.com", "12345678910", "Jon", "password", "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460");
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Haris", "haris@haris.com", "12345678910", "Haris", "password", "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460");
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Rick", "Rick@rick.com", "12345678910", "Rick", "password", "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460");
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Zach", "Zach@zach.com", "12345678910", "Zach", "password", "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460");
 
-INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg", "this should be a new post from Rick.", "image", "3456871348");
-INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-pictures-kitties.jpg", "this should be a new post from MrJonWu.", "image", "3456871349");
-INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "http://www.londoubros.com/assets/mainmenu/1142/editor/cat-fashion-septem_1773575i.jpg?0.24798612928882752", "this should be a new post from Haris.", "image", "3456871350");
-INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://i.telegraph.co.uk/multimedia/archive/01773/cat-fashion-may_1773579i.jpg", "this should be a new post from Zach.", "image", "3456871351");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg", "Check out this awesome outfit I just put together!", "image", "3456871348");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-pictures-kitties.jpg", "What am I doing with my life?", "image", "3456871349");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "http://www.londoubros.com/assets/mainmenu/1142/editor/cat-fashion-septem_1773575i.jpg?0.24798612928882752", "I love to dress my cat in pretty clothes.", "image", "3456871350");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://i.telegraph.co.uk/multimedia/archive/01773/cat-fashion-may_1773579i.jpg", "Hi, my name is Zach and this is my cat.", "image", "3456871351");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "https://s-media-cache-ak0.pinimg.com/originals/c8/4e/d1/c84ed12bf5414ef6c7ab228a2f947961.jpg", "Check out this awesome outfit I just put together this morning!", "image", "3456873348");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "https://ae01.alicdn.com/kf/HTB1IK3YHVXXXXcrXFXXq6xXFXXX8/Puppy-Spring-Summer-Cotton-Dogs-Vests-Clothes-White-Side-Black-Square-Dog-Vest-Pet-T-shirt.jpg_640x640.jpg", "Puppy vests? Yes please!", "image", "3436871349");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "http://web.tradekorea.com/upload_file2/sell/72/S00012772/Lovely_Letters_Print_Hooded_Pets_Clothing.jpg", "Check this outfit out. It's lit!", "image", "3456831350");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://cuteanimalimages.com/wp-content/uploads/2013/02/dog-wearing-coat-and-hat.jpg", "This is a cute doggy in cute clothes!", "image", "3456851351");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "https://ae01.alicdn.com/kf/HTB100haHVXXXXXKXpXXq6xXFXXX9/Rainbow-cute-girl-pet-dog-clothes-apparel-spring-summer-puppy-dress-clothing-for-dogs-Dog-Supplies.jpg_640x640.jpg", "Check out this awesome outfit I just put together!", "image", "3453871348");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "http://i01.i.aliimg.com/wsphoto/v0/1999368135_1/Fashion-cotton-superman-dog-clothes-cute-chihuahua-clothes-puppy-clothing-for-dogs-cats-chien-overall-ropa.jpg", "This outfit is fantastic!", "image", "3456874359");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "http://petsnstuff.info/wp-content/uploads/2015/03/New-Arrival-Lovely-Totoro-and-Lion-Design-Pet-Costume-Dog-Clothes-Puppy-Cat-Clothing-Grey-Yellow2.jpg", "Outfit, outfit, outfit, outfit, outfit!!!", "image", "5456831350");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://media.galaxant.com/000/106/409/desktop-1420820766.jpg", "Hi, my name is Zach and this is my outfit.", "image", "3476871351");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "http://g03.a.alicdn.com/kf/HTB1LectKFXXXXaKXVXXq6xXFXXXv/2016-Yellow-Minions-Pet-Dog-Clothes-Cartoon-Dog-Coat-Cat-Clothing-Puppy-Animals-Costume-for-Chihuahua.jpg", "Check out this awesome outfit I just put together!", "image", "3456871948");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "https://ae01.alicdn.com/kf/HTB1ScHbLFXXXXa1XpXXq6xXFXXX6/Funny-font-b-Pet-b-font-font-b-Cat-b-font-Pirate-font-b-Costume-b.jpg", "This is looking good so far.", "image", "3456875349");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (2, 3, "https://s-media-cache-ak0.pinimg.com/736x/ab/2e/32/ab2e32b0e8c5273372217713fb146165.jpg", "What an amazing outfit!", "image", "3456471350");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 9, "http://g01.a.alicdn.com/kf/HTB1NR7dLFXXXXczXpXXq6xXFXXXu/Honden-Beer-Gedrukt-Pyjama-Jas-Kat-Puppy-Cozy-Kleding-Kleding-Kleding-Kleding-Kostuum-6412.jpg", "This outfit is too cute.", "image", "5456871351");
 
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 1, "Some people come into our lives and leave footprints on our hearts, while others come into our lives and make us wanna leave footprints on their face.", "comment", "3456871348");
 INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 2, "this is a comment on Rick's post by Haris", "comment", "3456871349");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 2, "this is a comment on Rick's post by Haris", "comment", "3456871348");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 3, "this is a comment on Rick's post by Rick", "comment", "3456871349");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 3, "this is a comment on Rick's post by Rick", "comment", "3456871349");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 4, "this is a comment on Rick's post by Zach", "comment", "3456871350");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 2, "this is a comment on Rick's post by Haris", "comment", "3456871349");
-INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 3, "this is a comment on Rick's post by Rick", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (1, 4, "I am ready to meet my Maker. Whether my Maker is prepared for the great ordeal of meeting me is another matter.", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 2, "Sorry, I can't hangout. My uncle's cousin's sister in law's best friend's insurance agent's roommate's pet goldfish died. Maybe next time.", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 3, "Why go to college? There's Google.", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (2, 4, "I feel sorry for people who don't drink. When they wake up in the morning, that's as good as they're going to feel all day.", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 1, "Don't you find it Funny that after Monday(M) and Tuesday(T), the rest of the week says WTF?", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 3, "Microsoft bought Skype for 8.5 billion!.. what a bunch of idiots! I downloaded it for free!", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 4, "Life is full of temporary situations, ultimately ending in a permanent solution.", "comment", "3456871350");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 1, "A good lawyer knows the law; a clever one takes the judge to lunch.", "comment", "3456871348");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 2, "After one look at this planet any visitor from outer space would say “I WANT TO SEE THE MANAGER.”", "comment", "3456871349");
+INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 3, "The human body was designed by a civil engineer. Who else would run a toxic waste pipeline through a recreational area?", "comment", "3456871350");
+
+INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 2);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 3);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 1);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 4);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 2);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 4);
+
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
 -- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
