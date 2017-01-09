@@ -94,11 +94,14 @@ export default class FeedPost extends Component {
       modalVisible: false,
       comments: [],
       likesCount: this.props.post.likesCount,
+      postLiked: false,
     };
   }
 
   componentDidMount() {
     //change ip address to either wifi address or deployed server
+    this.checkInitialLike();
+
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
@@ -111,7 +114,34 @@ export default class FeedPost extends Component {
       .then((resJSON) => this.setState({comments: resJSON}))
       .catch((err) => console.log(err));
   }
+
   checkLikeExists() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.currentUser,
+        postId: this.props.post.id,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      // console.log('postId', this.props.post.id);
+      // console.log('length', resJSON.length);
+      if (resJSON.length > 0) {
+        that.decreaseLikeCount();
+      } else {
+        that.increaseLikeCount();
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  checkInitialLike() {
     var that = this;
     fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
       method: 'POST',
@@ -129,9 +159,11 @@ export default class FeedPost extends Component {
       console.log('postId', this.props.post.id);
       console.log('length', resJSON.length);
       if (resJSON.length > 0) {
-        that.decreaseLikeCount();
+        //set state of the button color to orange
+        that.setState({postLiked: true});
       } else {
-        that.increaseLikeCount();
+        //set state of button color to grey
+        that.setState({postLiked: false});
       }
     })
     .catch((err) => console.log(err));
@@ -149,7 +181,10 @@ export default class FeedPost extends Component {
         id: this.props.post.id,
       })
     })
-    .then((resJSON) => that.setState({likesCount: that.state.likesCount + 1}))
+    .then((resJSON) => that.setState({
+      likesCount: that.state.likesCount + 1,
+      postLiked: true,
+    }))
     .catch((err) => console.log(err));
 
     fetch('http://' + ip.address + ':3000/api/insertLikesPosts', {
@@ -179,7 +214,9 @@ export default class FeedPost extends Component {
         id: this.props.post.id,
       })
     })
-    .then((resJSON) => that.setState({likesCount: that.state.likesCount - 1}))
+    .then((resJSON) => that.setState({
+      likesCount: that.state.likesCount - 1, postLiked: false,
+    }))
     .catch((err) => console.log(err));
 
     fetch('http://' + ip.address + ':3000/api/deleteLikesPosts', {
@@ -240,7 +277,7 @@ export default class FeedPost extends Component {
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>
               <View>
-                <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>
+                {this.state.postLiked ? <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/> : <Image source={require('../assets/buttons/unliked.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>}
               </View>
             </TouchableHighlight>
             <Text style={styles.textStyle}>{this.state.likesCount} Likes</Text>
