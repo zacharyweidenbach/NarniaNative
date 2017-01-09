@@ -34,4 +34,4 @@ bower_components/
 .env
 **/config.json
 *config.json
-
+network.js
