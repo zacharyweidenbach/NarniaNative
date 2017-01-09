@@ -79,14 +79,21 @@ export default class socialFeed extends Component {
       ],
       feedPosts: [],
       trendingPosts: [],
+      id: null,
       // likesFeed: [],
     }
   };
 
   componentDidMount() {
-    console.log(this.props.id, 'SELECTED ID');
+    Auth.getId()
+    .then(function(resp) {
+      this.setState({
+        id: resp
+      });
+      this.getFollowingPosts();
+    }.bind(this));
     this.getTrendingPosts();
-    this.getFollowingPosts();
+    
   }
 
   componentWillReceiveProps() {
@@ -117,7 +124,7 @@ export default class socialFeed extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: this.props.id,
+        userId: this.state.id,
       })
     })
       .then((res) => res.json())
