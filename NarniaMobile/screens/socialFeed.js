@@ -157,7 +157,7 @@ export default class socialFeed extends Component {
         <ScrollView>
           {this.state.feedPosts.length > 0 ? this.state.feedPosts.map((post, key) => {
             return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
-          }) : <Text style={{color:'#888'}}>No posts available</Text> }
+          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
     case '2':
@@ -165,7 +165,7 @@ export default class socialFeed extends Component {
         <ScrollView>
           { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
             return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
-          }) : <Text style={{color:'#888'}}>No posts available</Text> }
+          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
     case '3':

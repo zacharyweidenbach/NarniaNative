@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   button: {
-    textAlign: 'center',
     backgroundColor: '#eee',
     width: 270,
     height: 40,

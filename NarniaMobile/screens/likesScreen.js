@@ -119,7 +119,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            <LikesGallery likes={this.state.likes}/>
+            {this.state.likes.length > 0 ? <LikesGallery likes={this.state.likes}/> : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts liked!</Text></View>}
           </ScrollView>
         </View>
       </View>

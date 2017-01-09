@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
   actionBar: {
     //contains likesContainer, likesBtn, and commentBtn
     flex: 1,
+    paddingTop: 10,
+    paddingBottom: 5,
     justifyContent: 'space-between',
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     marginBottom: 10,
+    paddingBottom: 10,
   },
   descriptionText: {
     paddingLeft: 15, paddingRight: 10, color: '#4f4f4f',
