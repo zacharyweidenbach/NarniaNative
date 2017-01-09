@@ -156,8 +156,8 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log('postId', this.props.post.id);
-      console.log('length', resJSON.length);
+      // console.log('postId', this.props.post.id);
+      // console.log('length', resJSON.length);
       if (resJSON.length > 0) {
         //set state of the button color to orange
         that.setState({postLiked: true});
