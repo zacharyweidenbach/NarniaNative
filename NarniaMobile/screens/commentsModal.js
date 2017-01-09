@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,
-    marginBottom: 0,
+    // marginBottom: 0,
   },
   postcomment: {
     flex: 1,
   },
   comments: {
     flex: 8,
-    flexWrap: 'wrap'
+    // flexWrap: 'wrap'
   }
 });

@@ -25,18 +25,20 @@ export default class Comment extends Component {
           {this.props.comment.body}
         </Text>   
       </View>
-    )
+    );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     paddingTop: 10,
     paddingBottom: 10,
   },
   textStyle: {
+    flex: 1,
     paddingLeft: 10,
   },
   thumbnail: {
