@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
+import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import { Ionicons } from '@exponent/vector-icons';
 import ip from '../network.js';
 
@@ -106,6 +106,8 @@ export default class Mixer extends Component {
         }).then((res) => res.json())
           .then((resJson) => {
             console.log(resJson)
+            Alert.alert('You have successfully posted your outfit')
+            this.props.navigator.pop()
           })
           .catch((error) => {
             console.error(error)
