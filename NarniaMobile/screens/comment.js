@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
     height: 30,
     width: 30,
-    borderRadius: 10,
+    borderRadius: 15,
   },
   username: {
     paddingLeft: 10,

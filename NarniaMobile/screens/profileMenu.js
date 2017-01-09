@@ -28,18 +28,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
-    paddingBottom: 20,
+    // paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ff9554'
   },
   scrollContainer: {
     paddingTop: 20,
     flex: 12,
-    left: -140,
-    fontSize: 80
+    // fontSize: 80
   },
   backBtn: {
-    left: -140
+    flex: 1,
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
   }
 });
 
@@ -81,7 +90,11 @@ export default class profileScreen extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{ fontWeight: 'bold', fontSize: 26}}>Menu</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Menu</Text>
+          </View>  
+          <View style={styles.backBtn}>
+          </View>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>

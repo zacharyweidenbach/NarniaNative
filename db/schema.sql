@@ -165,6 +165,20 @@ INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (3, 4, "this 
 INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 1, "this is a comment on Rick's post by Jon", "comment", "3456871348");
 INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 2, "this is a comment on Rick's post by Haris", "comment", "3456871349");
 INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 3, "this is a comment on Rick's post by Rick", "comment", "3456871350");
+
+INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 2);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 3);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 4);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 1);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 3);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 4);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 1);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 2);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 4);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (4, 1);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (4, 2);
+INSERT INTO `userFollowers` (userId, followerId) VALUES (4, 3);
+
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
 -- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);

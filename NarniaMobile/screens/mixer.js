@@ -122,7 +122,11 @@ export default class Mixer extends Component {
               <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
             </View>
           </TouchableHighlight>
-          <Text style={{fontWeight: 'bold', fontSize: 26}}>Mixer</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Mixer</Text>
+          </View>
+          <View style={styles.emptySpace}>
+          </View>
         </View>
           <View style={styles.tuserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
@@ -176,17 +180,28 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    elevation: 2,
+    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     //paddingTop: 20,
   },
   backBtn: {
-    // position: 'absolute',
-    left: -100, 
-    // alignItems: 'center', 
-    // paddingTop: 13,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
   },
   tuserContainer: {
     flex: 2,

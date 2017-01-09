@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ff9554',
+    backgroundColor: '#fff',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ff9554',
   },
   thumbnailContainer: {
     flex: 3,
@@ -53,7 +54,7 @@ var ProfileStats = (props) => {
       </View>
       <View style={styles.statsContainer}>
         <View>
-          <Text style={styles.textStyle}>{props.likesCount}</Text>
+          <Text style={styles.textStyle}>{props.followersCount}</Text>
           <Text style={styles.textStyle}>Followers</Text>
         </View>
         <View>
