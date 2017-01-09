@@ -12,11 +12,8 @@ import {
 
 import CommentsModal from './commentsModal.js';
 import ip from '../network';
+import Auth from '../auth.js';
 
-// import Auth from '../auth.js';
-//Auth.getId().then(function(resp) {
-  // console.log(resp);
-  // })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -95,10 +92,15 @@ export default class FeedPost extends Component {
       comments: [],
       likesCount: this.props.post.likesCount,
       postLiked: false,
+      currentUser: null,
     };
   }
 
   componentDidMount() {
+    var that = this;
+    Auth.getId().then(function(resp) {
+      that.setState({currentUser: resp});
+    });
     //change ip address to either wifi address or deployed server
     this.checkInitialLike();
 
@@ -111,7 +113,7 @@ export default class FeedPost extends Component {
       body: JSON.stringify({id: this.props.post.id})
     })
       .then((res) => res.json())
-      .then((resJSON) => this.setState({comments: resJSON}))
+      .then((resJSON) => that.setState({comments: resJSON}))
       .catch((err) => console.log(err));
   }
 
@@ -124,7 +126,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.currentUser,
+        userId: this.state.currentUser,
         postId: this.props.post.id,
       })
     })
@@ -150,7 +152,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.currentUser,
+        userId: this.state.currentUser,
         postId: this.props.post.id,
       })
     })
@@ -194,7 +196,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.currentUser,
+        userId: this.state.currentUser,
         postId: this.props.post.id,
       })
     })
@@ -226,7 +228,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.currentUser,
+        userId: this.state.currentUser,
         postId: this.props.post.id,
       })
     })
