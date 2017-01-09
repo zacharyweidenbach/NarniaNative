@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import LikesGallery from './likesGallery';
 import ip from '../network.js';
+import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-const currentUser = 1;
+
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -60,14 +61,23 @@ export default class likesScreen extends Component {
     super(props);
     this.state = {
       likes: [],
+      id: ''
     };
+    this.getLikedPostId = this.getLikedPostId.bind(this);
   }
 
   componentDidMount() {
-    this.getLikedPostId();
+    Auth.getId()
+    .then(function(id) {
+      this.setState({
+        id: id
+      });
+      this.getLikedPostId();
+    }.bind(this));
   }
 
   getLikedPostId() {
+    console.log(this.state.id, 'ID IN getLikedPostId');
     var that = this;
     fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
       method: 'POST',
@@ -76,7 +86,7 @@ export default class likesScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: currentUser,
+        userId: this.state.id,
       })
     })
     .then((res) => res.json())

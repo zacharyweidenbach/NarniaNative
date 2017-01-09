@@ -230,7 +230,7 @@ export default class FeedPost extends Component {
         postId: this.props.post.id,
       })
     })
-    .then((resJSON) => cnosole.log('successful deleteLike'))
+    .then((resJSON) => console.log('successful deleteLike'))
     .catch((err) => console.log(err));
   }
 
