@@ -35,3 +35,6 @@ bower_components/
 **/config.json
 *config.json
 **/network.js
+
+#NarniaNative
+NarniaNative/android
