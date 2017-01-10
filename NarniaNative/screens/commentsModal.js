@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text } from 'react-native';
+import { Modal, TouchableHighlight, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text } from 'react-native';
 import Comment from './comment.js';
 import ip from '../network.js';
 import Auth from '../auth.js';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    // marginBottom: 0,
+  },
+  postcomment: {
+    flex: 1,
+  },
+  comments: {
+    flex: 8,
+    // flexWrap: 'wrap'
+  }
+});
 export default class CommentsModal extends Component {
   constructor(props) {
     super(props);
@@ -72,25 +89,25 @@ export default class CommentsModal extends Component {
   render() {
     return (
       <Modal
-          animationType={"slide"}
+          animationType={'slide'}
           transparent={false}
           visible={this.props.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          onRequestClose={() => { alert('Modal has been closed.'); } }
         >
          <View style={styles.container}>
           <View>
-            <TouchableWithoutFeedback onPress={() => {
-              this.props.setModalVisible(false)
+            <TouchableHighlight underlayColor='transparent' onPress={() => {
+              this.props.setModalVisible(false);
             }}>
               <Text>x</Text>
-            </TouchableWithoutFeedback>
+            </TouchableHighlight>
           </View>
-          <TextInput multiline={true} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
+          <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
           <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
           <View style={styles.comments}>
             <ScrollView>
               {this.state.comments.length > 0 ? this.state.comments.map((comment, key) => {
-                return <Comment comment={comment} key={key} />
+                return <Comment comment={comment} key={key} />;
               }) : <Text style={{color: '#888'}}>No comments available</Text>}
             </ScrollView>
           </View>
@@ -99,21 +116,3 @@ export default class CommentsModal extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    // marginBottom: 0,
-  },
-  postcomment: {
-    flex: 1,
-  },
-  comments: {
-    flex: 8,
-    // flexWrap: 'wrap'
-  }
-});

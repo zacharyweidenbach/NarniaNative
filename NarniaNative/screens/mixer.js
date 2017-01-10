@@ -85,7 +85,7 @@ export default class Mixer extends Component {
       case 'post':
         console.log('posty posty posty')
         var time = new Date();
-        fetch("http://10.6.21.47:3000/api/postToDB", {
+        fetch("http://" + ip.address + ":3000/api/postToDB", {
           method: 'POST', 
           headers: {
             'Accept': 'application/json',
