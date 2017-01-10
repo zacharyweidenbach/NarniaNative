@@ -20,6 +20,10 @@
     "assetExts": ["ttf", "mp4"]
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": true,
+    "bundleIdentifier": "com.ocelots.narnia" 
+  },
+  "android": {
+    "package": "com.ocelots.narnia"
   }
 }
