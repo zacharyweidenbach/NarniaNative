@@ -29,14 +29,14 @@ module.exports = {
         fs.writeFileSync(__dirname+"/clothingInsertionSchema.txt", clothingSchema)
       */
       AmazonResponse = response.result.ItemSearchResponse.Items.Item;
-      var images = [];
+      var clothing = [];
       for (var i = 0; i < AmazonResponse.length; i++) {
         if (AmazonResponse[i].LargeImage) {
-          images.push(AmazonResponse[i].LargeImage.URL);
+          clothing.push({image:AmazonResponse[i].LargeImage.URL, DetailPageURL:AmazonResponse[i].DetailPageURL, Title:AmazonResponse[i].ItemAttributes.Title, ASIN:AmazonResponse[i].ASIN, UPC:AmazonResponse[i].ItemAttributes.UPC});
         }
       }
-      console.log(images);
-      res.send(JSON.stringify(images));
+      console.log(clothing);
+      res.send(JSON.stringify(clothing));
     }).catch((err) => {
       console.error('Something went wrong!', err);
     });
