@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Button,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
 import Auth from '../auth.js';
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 26,
+    color: '#ff9554'
   },
   textContainer: {
     flex: 4,
@@ -60,6 +62,7 @@ export default class profileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      color: '#ff9554'
     };
   }
 
@@ -85,9 +88,7 @@ export default class profileScreen extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <View>
-              <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
-            </View>
+            <Icon name="ios-arrow-back" size={38} color={this.state.color} />
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Menu</Text>

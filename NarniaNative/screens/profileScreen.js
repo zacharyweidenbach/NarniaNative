@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Button
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
 import ip from '../network.js';
@@ -76,7 +77,8 @@ export default class profileScreen extends Component {
       thumbnail: ' ',
       following: false,
       LoggedInId: null,
-      followerCount: 0
+      followerCount: 0,
+      color: '#ff9554'
     };
   }
 
@@ -234,17 +236,13 @@ export default class profileScreen extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <View>
-              <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
-            </View>
+            <Icon name="ios-arrow-back" size={38} color={this.state.color} />
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>{this.state.username}</Text>
           </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent' style={styles.menu}>
-            <View>
-              <Image source={require('../assets/buttons/menu.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30}}/>
-            </View>
+            <Icon name="ios-menu" size={38} color={this.state.color} />
           </TouchableHighlight>
         </View>
         <View style={styles.scrollContainer}>

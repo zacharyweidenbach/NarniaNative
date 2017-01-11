@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 
 
@@ -8,42 +9,43 @@ export default class Mixer extends Component {
     super(props);
     this.state = {
       topImages: [{ URL: 'http://clothing.beautysay.net/wp-content/uploads/images/red-shirt-mens-1.jpg'}, { URL: 'https://s-media-cache-ak0.pinimg.com/736x/c6/8d/c2/c68dc2038bb0791ae00e98179e00bd7f.jpg'}, { URL: 'http://www.cotondoux.com/23514-thickbox/chemise-homme-coupe-cintree-bourgogne-.jpg'}],
-      midImages: [{ URL: 'https://images-na.ssl-images-amazon.com/images/I/410WYjhVEtL.jpg'},{ URL: 'https://images-na.ssl-images-amazon.com/images/I/41PWqy28FtL.jpg'},{ URL: 'https://images-na.ssl-images-amazon.com/images/I/41HdkQOWkzL.jpg'}],
-      bottomImages: [{ URL: 'http://www.svrimaging.com/images/puma/Puma-Speed-Cat-Big-Red-Shoes-Mens-For-Men_2.jpg'},{ URL: 'http://www.aepic.fr/images/large/aepic/New_Arrived_Puma_90_2013_Men_Red_White_Shoes_1_1_LRG.jpg'},{ URL: 'http://www.vizitkz.com/images/Tods-Herren-Fahren-Rot-Schuhe-Iconic-online-Basel.jpg'},{ URL: 'http://i1076.photobucket.com/albums/w458/robertben100/MensShoes/sem061712/DSC04139.jpg'}],
+      midImages: [{ URL: 'https://images-na.ssl-images-amazon.com/images/I/410WYjhVEtL.jpg'}, { URL: 'https://images-na.ssl-images-amazon.com/images/I/41PWqy28FtL.jpg'}, { URL: 'https://images-na.ssl-images-amazon.com/images/I/41HdkQOWkzL.jpg'}],
+      bottomImages: [{ URL: 'http://www.svrimaging.com/images/puma/Puma-Speed-Cat-Big-Red-Shoes-Mens-For-Men_2.jpg'}, { URL: 'http://www.aepic.fr/images/large/aepic/New_Arrived_Puma_90_2013_Men_Red_White_Shoes_1_1_LRG.jpg'}, { URL: 'http://www.vizitkz.com/images/Tods-Herren-Fahren-Rot-Schuhe-Iconic-online-Basel.jpg'}, { URL: 'http://i1076.photobucket.com/albums/w458/robertben100/MensShoes/sem061712/DSC04139.jpg'}],
       topIndex: 0,
       midIndex: 0,
       bottomIndex: 0,
       description: '',
-    }
+      color: '#ff9554'
+    };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     return fetch('http://' + ip.address + ':3000/api/clothing', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-    }).then((res) => {return res.json()})
+    }).then((res) => { return res.json(); })
       .then((resJson) => {
         var topImgs = [];
         var midImgs = [];
         var bottomImgs = [];
         for (var i = 0; i < resJson.length; i ++) {
           if (resJson[i].position === 'top') {
-            topImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+            topImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
           } else if (resJson[i].position === 'mid') {
-            midImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+            midImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
           } else if (resJson[i].position === 'bottom') {
-            bottomImgs.push({URL: resJson[i].largeImg, id:resJson[i].id});
+            bottomImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
           } 
         }
-        this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs})
+        this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs});
       })
       .catch((error) => {
         console.error(error);
       });
-  };
+  }
 
   onButtonPress(button) {
     switch (button) {
@@ -104,13 +106,13 @@ export default class Mixer extends Component {
             })
         }).then((res) => res.json())
           .then((resJson) => {
-            console.log(resJson)
-            Alert.alert('You have successfully posted your outfit')
-            this.props.navigator.pop()
+            console.log(resJson);
+            Alert.alert('You have successfully posted your outfit');
+            this.props.navigator.pop();
           })
           .catch((error) => {
-            console.error(error)
-          })
+            console.error(error);
+          });
         break;
     }
   }
@@ -119,9 +121,7 @@ export default class Mixer extends Component {
       <View style={styles.container} >
         <View style={styles.header}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <View>
-              <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
-            </View>
+            <Icon name="ios-arrow-back" size={38} color={this.state.color} />
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Mixer</Text>
@@ -131,37 +131,35 @@ export default class Mixer extends Component {
         </View>
           <View style={styles.tuserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
             <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} /> 
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight>  
           </View>
           <View style={styles.muserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
             <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} /> 
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight>   
           </View>
           <View style={styles.buserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight> 
             <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />   
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')}  underlayColor='transparent' >
-              <Text>p</Text>
+              <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight> 
           </View>
         <View class="footer" style={styles.footer}>
             <TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <View style={styles.post}>
-              <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
-            </View>
+            <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
           </TouchableHighlight>
         </View>
       </View>
@@ -235,7 +233,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
   },
   chevron: {
-    width : Dimensions.get('window').width / 4,
+    width: Dimensions.get('window').width / 4,
     // height: Dimensions.get('window').height / 3,
     borderWidth: 1,
     borderColor: '#fff',

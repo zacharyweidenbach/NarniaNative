@@ -9,7 +9,7 @@ import {
   Modal,
   TextArea
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 import CommentsModal from './commentsModal.js';
 import ip from '../network';
 import Auth from '../auth.js';
@@ -96,6 +96,7 @@ export default class FeedPost extends Component {
       likesCount: this.props.post.likesCount,
       postLiked: false,
       currentUser: null,
+      color: '#ff9554',
     };
   }
 
@@ -103,9 +104,9 @@ export default class FeedPost extends Component {
     var that = this;
     Auth.getId().then(function(resp) {
       that.setState({currentUser: resp});
+      that.checkInitialLike();
     });
     //change ip address to either wifi address or deployed server
-    this.checkInitialLike();
 
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
@@ -135,8 +136,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      // console.log('postId', this.props.post.id);
-      // console.log('length', resJSON.length);
+      console.log('resJSON in checkLikeExists', resJSON);
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
       } else {
@@ -161,8 +161,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      // console.log('postId', this.props.post.id);
-      // console.log('length', resJSON.length);
+      console.log('resJSON in checkInitialLike', resJSON);
       if (resJSON.length > 0) {
         //set state of the button color to orange
         that.setState({postLiked: true});
@@ -248,13 +247,12 @@ export default class FeedPost extends Component {
   }
 
   onButtonPress(button) {
-    var that = this;
     switch (button) {
     case 'back':
       this.props.navigator.pop();
       break;
     case 'like':
-      that.checkLikeExists();
+      this.checkLikeExists();
       break;
     case 'comment':
       console.log('Comment Pressed');
@@ -282,14 +280,14 @@ export default class FeedPost extends Component {
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>
               <View>
-                {this.state.postLiked ? <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/> : <Image source={require('../assets/buttons/unliked.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>}
+                {this.state.postLiked ? <Icon name="ios-heart" size={35} color={this.state.color} /> : <Icon name="ios-heart-outline" size={35} color={this.state.color} />}
               </View>
             </TouchableHighlight>
             <Text style={styles.textStyle}>{this.state.likesCount} Likes</Text>
           </View>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'comment')} style={styles.commentBtn} underlayColor='transparent'>
             <View>
-              <Image source={require('../assets/buttons/comment.png')} resizeMode={Image.resizeMode.contain} style={{ width: 30, height: 30 }}/>
+              <Icon name="ios-chatbubbles" size={35} color={this.state.color} />
             </View>
           </TouchableHighlight>
         </View>

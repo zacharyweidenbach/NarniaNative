@@ -11,12 +11,13 @@ import {
   TouchableHighlight,
   Button,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
 import Auth from '../auth.js';
 import ip from '../network.js';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
+    flexDirection: 'row',
     // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -79,6 +81,7 @@ export default class socialFeed extends Component {
       feedPosts: [],
       trendingPosts: [],
       id: null,
+      color: '#ff9554'
       // likesFeed: [],
     }
   };
@@ -180,6 +183,11 @@ export default class socialFeed extends Component {
 
   onButtonPress(button) {
     switch (button) {
+    case 'menu':
+      this.props.navigator.push({
+        id: 'ProfileMenu'
+      });
+      break;
     case 'likes':
       this.props.navigator.push({
         id: 'LikesScreen'
@@ -211,7 +219,19 @@ export default class socialFeed extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{fontWeight: 'bold', fontSize: 26}}>NARNIA</Text>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent'>
+              <Icon name="ios-menu" size={38} color={this.state.color} />
+            </TouchableHighlight>
+          </View>
+          <View style={{flex: 3, alignItems: 'center'}}>
+            <Text style={{fontWeight: 'bold', fontSize: 26, color: this.state.color}}>NARNIA</Text>
+          </View> 
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
+              <Icon name="ios-search" size={38} color={this.state.color} />
+            </TouchableHighlight>
+          </View>
         </View>
         <TabViewAnimated
           style={[ styles.tabViewContainer, this.props.style ]}
@@ -223,24 +243,13 @@ export default class socialFeed extends Component {
         />
         <View class="footer" style={styles.footer}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'likes')} underlayColor='transparent'>
-            <View>
-              <Image source={require('../assets/buttons/likes.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height:32}}/>
-            </View>
+            <Icon name="ios-heart" size={38} color={this.state.color} />
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <View>
-              <Image source={require('../assets/buttons/post.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
-            <View>
-              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
-            </View>
+            <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'profile')} underlayColor='transparent'>
-            <View>
-              <Image source={require('../assets/buttons/avatar.png')} resizeMode={Image.resizeMode.contain} style={{ width: 32, height: 32}}/>
-            </View>
+            <Icon name="ios-contact" size={38} color={this.state.color} />
           </TouchableHighlight>
         </View>
       </View>
