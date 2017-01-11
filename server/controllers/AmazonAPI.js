@@ -32,7 +32,7 @@ module.exports = {
       var clothing = [];
       for (var i = 0; i < AmazonResponse.length; i++) {
         if (AmazonResponse[i].LargeImage) {
-          clothing.push({image:AmazonResponse[i].LargeImage.URL, DetailPageURL:AmazonResponse[i].DetailPageURL, Title:AmazonResponse[i].ItemAttributes.Title, ASIN:AmazonResponse[i].ASIN, UPC:AmazonResponse[i].ItemAttributes.UPC});
+          clothing.push({image:AmazonResponse[i].LargeImage.URL, DetailPageURL:AmazonResponse[i].DetailPageURL, ProductTypeName:AmazonResponse[i].ItemAttributes.ProductTypeName, Title:AmazonResponse[i].ItemAttributes.Title, ASIN:AmazonResponse[i].ASIN, UPC:AmazonResponse[i].ItemAttributes.UPC});
         }
       }
       console.log(clothing);

@@ -72,7 +72,7 @@ export default class SearchShopGallery extends Component {
     return (
       <View style={styles.container}>
         {clothing}
-        {this.state.modalVisible ? <ClothingModal clothing={this.props.items[this.state.clothingInd]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingInd]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View>
     );
   };
