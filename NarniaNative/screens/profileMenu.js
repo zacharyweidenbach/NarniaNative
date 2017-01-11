@@ -12,7 +12,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
-import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +74,7 @@ export default class profileScreen extends Component {
   }
 
   logoutHandler() {
-    Auth.destroySession()
+    this.props.destroySession()
     .then(function() {
       this.props.navigator.push({
         id: 'Login'
@@ -92,7 +91,7 @@ export default class profileScreen extends Component {
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Menu</Text>
-          </View>  
+          </View>
           <View style={styles.backBtn}>
           </View>
         </View>

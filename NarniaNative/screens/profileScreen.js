@@ -13,7 +13,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
 import ip from '../network.js';
-import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-const currentUser = 4;
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
@@ -76,22 +74,16 @@ export default class profileScreen extends Component {
       username: '',
       thumbnail: ' ',
       following: false,
-      LoggedInId: null,
       followerCount: 0,
-      color: '#ff9554'
+      color: '#ff9554',
+      followerCount: 0
     };
   }
 
   componentWillMount() {
-    Auth.getId()
-    .then(function(resp) {
-      this.setState({
-        LoggedInId: resp
-      });
+    if (this.props.userId) {
       this.checkFollower(true);
-    }.bind(this))
-
-   
+    }
     this.getLoggedInProfile();
     this.getNumberOfFollowers();
   }
@@ -105,11 +97,12 @@ export default class profileScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.id,
+        userId: that.props.selectedId,
       })
     })
     .then((res) => res.json())
     .then((resJSON) => {
+      console.log(resJSON, 'RESJSON');
       var tempArr = [];
       for (var i = 0; i < resJSON.length; i++) {
         tempArr.push(resJSON[i].body);
@@ -132,7 +125,7 @@ export default class profileScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.props.id,
+        userId: that.props.selectedId,
       })
     })
     .then((res) => res.json())
@@ -158,13 +151,12 @@ export default class profileScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.LoggedInId,
-        followerId: this.props.id,
+        userId: that.props.userId,
+        followerId: that.props.selectedId,
       })
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log('resJSON', resJSON);
       if (init) {
         console.log('init true');
         if (resJSON.length > 0) {
@@ -181,7 +173,7 @@ export default class profileScreen extends Component {
           that.addFollower();
         }
       }
-    })
+    });
   }
 
   addFollower() {
@@ -193,8 +185,8 @@ export default class profileScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.LoggedInId,
-        followerId: this.props.id,
+        userId: that.props.userId,
+        followerId: that.props.selectedId,
       })
     })
     .then(() => that.setState({following: true, followerCount: this.state.followerCount + 1}))
@@ -210,8 +202,8 @@ export default class profileScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.LoggedInId,
-        followerId: this.props.id,
+        userId: that.props.userId,
+        followerId: that.props.selectedId,
       })
     })
     .then(() => that.setState({following: false, followerCount: this.state.followerCount - 1}))
@@ -249,8 +241,8 @@ export default class profileScreen extends Component {
           <ScrollView>
             <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
             <View style={{backgroundColor:"#fff"}}>
-              {this.state.LoggedInId !== this.props.id ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
-            </View> 
+              {this.props.userId !== this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
+            </View>
             <ProfileGallery userPosts={this.state.bodyArr} />
           </ScrollView>
         </View>

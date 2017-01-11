@@ -8,13 +8,15 @@ import {
   Text,
   View
 } from 'react-native';
+
+import Auth from './auth.js';
+
 import Signup from './screens/signup';
 import Login from './screens/login';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
-import Auth from './auth.js';
 import Mixer from './screens/mixer.js';
 import ProfileMenu from './screens/profileMenu.js';
 
@@ -23,63 +25,58 @@ export default class NarniaNative extends Component {
     super(props);
     this.state = {
       screen: 'Loading',
-      id: '',
+      userId: '',
+      selectedId: ''
     };
     this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
     this.viewedUser = this.viewedUser.bind(this);
   }
 
   componentWillMount() {
-    var that = this;
-    Auth.getToken() // checks if they have a token, if not, show facebook login
+    Auth.getToken()
     .then(function(resp) {
       if (!resp) {
-        that.setState({
+        this.setState({
           screen: 'Login'
         });
       } else {
-        // Auth.getId()
-        // .then(function(id) {
-        //   this.setState({
-        //     screen: 'SocialFeed',
-        //     id: id
-        //   });
-        // }.bind(this));
         Auth.getId()
         .then(function(id) {
-          that.setState({
+          this.setState({
             screen: 'SocialFeed',
-            id: id
+            userId: id
           });
-        });
+        }.bind(this));
       }
-    });
+    }.bind(this));
   }
-  viewedUser(id) { //for looking at user profiles, including your own
+
+  viewedUser(id) { //for looking at user profiles
     this.setState({
-      id: id
+      selectedId: id
     });
-    console.log('triggered viewedUser');
   }
+
   navigatorRenderScene(route, navigator) {
     _navigator = navigator;
     switch (route.id) {
     case 'Login':
-      return (<Login navigator={navigator} title='Login'/>);
+      return (<Login navigator={navigator} title='Login' setId={Auth.setId} setToken={Auth.setToken}/>);
     case 'SocialFeed':
-      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} id={this.state.id}/>);
+      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'LikesScreen':
-      return (<LikesScreen navigator={navigator} title='LikesScreen'/>);
+      return (<LikesScreen navigator={navigator} title='LikesScreen' userId={this.state.userId}/>);
     case 'ProfileScreen':
-      return (<ProfileScreen navigator={navigator} title='ProfileScreen' id={this.state.id}/>);
+      return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'SearchScreen':
-      return (<SearchScreen navigator={navigator} title='SearchScreen'/>);
+      return (<SearchScreen navigator={navigator} title='SearchScreen' userId={this.state.userId}/>);
     case 'Mixer':
-      return (<Mixer navigator={navigator} title='CommentScreen'/>);
+      return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'ProfileMenu':
-      return (<ProfileMenu navigator={navigator} title='ProfileMenu'/>);
+      return (<ProfileMenu navigator={navigator} title='ProfileMenu' destroySession={Auth.destroySession}/>);
     }
   }
+
   render() {
     if (this.state.screen === 'Loading') {
       return <View><Text>Loading...</Text></View>;
@@ -95,25 +92,7 @@ export default class NarniaNative extends Component {
       />
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+}
 
 AppRegistry.registerComponent('NarniaNative', () => NarniaNative);

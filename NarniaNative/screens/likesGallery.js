@@ -40,6 +40,7 @@ var LikesGallery = (props) => {
   return (
     <View style={styles.container}>
       {props.likes.map((like, key) => {
+        console.log(key, 'KEY')
         if (key === 0) {
           return <View key={key}><Image style={styles.imgLarge} source={{uri: like.body}} /></View>;
         } else {

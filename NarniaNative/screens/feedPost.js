@@ -12,7 +12,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import CommentsModal from './commentsModal.js';
 import ip from '../network';
-import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -95,17 +94,12 @@ export default class FeedPost extends Component {
       comments: [],
       likesCount: this.props.post.likesCount,
       postLiked: false,
-      currentUser: null,
-      color: '#ff9554',
+      color: '#ff9554'
     };
   }
 
   componentDidMount() {
     var that = this;
-    Auth.getId().then(function(resp) {
-      that.setState({currentUser: resp});
-      that.checkInitialLike();
-    });
     //change ip address to either wifi address or deployed server
 
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
@@ -130,7 +124,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.currentUser,
+        userId: this.props.userId,
         postId: this.props.post.id,
       })
     })
@@ -155,7 +149,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.currentUser,
+        userId: this.props.userId,
         postId: this.props.post.id,
       })
     })
@@ -198,7 +192,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.currentUser,
+        userId: this.props.userId,
         postId: this.props.post.id,
       })
     })
@@ -230,7 +224,7 @@ export default class FeedPost extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.currentUser,
+        userId: this.props.userId,
         postId: this.props.post.id,
       })
     })
@@ -295,7 +289,7 @@ export default class FeedPost extends Component {
           <Text style={styles.descriptionText}>{this.props.post.description}</Text>
         </View>
 
-        {this.state.modalVisible ? <CommentsModal id={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.modalVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
       </View>
     );
