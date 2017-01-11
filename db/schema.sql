@@ -133,6 +133,16 @@ CREATE TABLE `userFollowers` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `wardrobe` (
+  `id` INTEGER AUTO_INCREMENT,
+  `userId` INTEGER NOT NULL,
+  `clothingId` INTEGER NOT NULL,
+  `list` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES users(`id`),
+  FOREIGN KEY (`clothingId`) REFERENCES clothing(`id`)
+);
+
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/Hanes-Mens-X-Temp-Performance-X-Large/dp/B0132MGK5Q%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGK5Q", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL.jpg", "Hanes", "Deep Red", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Red, X-Large", "078715978150", "B0132MGK5Q", "top");
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/Hanes-X-Temp-Performance-Royal-Large/dp/B0132MGJGQ%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGJGQ", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L.jpg", "Hanes", "Deep Royal", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Royal, Large", "078715978204", "B0132MGJGQ", "top");
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/Hanes-STEDMAN-Blended-Jersey-XL-Deep/dp/B0009GHM0G%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0009GHM0G", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/31nIeEVIJLL.jpg", "Hanes", "Deep Forest", "mens", "$7.69", "Apparel", "SHIRT", "Hanes Men's 5.2 oz Hanes STEDMAN Blended Jersey Polo, XL-Deep Forest", "766369121700", "B0009GHM0G", "top");
@@ -188,4 +198,4 @@ INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 4);
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
 -- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
 -- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
-
+-- select w.*, u.*, c.* from wardrobe w join users u on u.id = w.userId join clothing c on c.id = w.clothingId;
