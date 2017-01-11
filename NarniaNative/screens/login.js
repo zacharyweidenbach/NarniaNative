@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import Auth from '../auth.js';
 import Main from '../index.ios.js';
 import Signup from './signup.js';
 import ip from '../network.js';
@@ -88,9 +87,9 @@ export default class Login extends Component {
         });
       } else { // let them login
         console.log('you can login!');
-        Auth.setToken(JSON.parse(response._bodyText).token)
+        this.props.setToken(JSON.parse(response._bodyText).token)
         .then(function() {
-          Auth.setId(JSON.parse(response._bodyText).id)
+          this.props.setId(JSON.parse(response._bodyText).id)
           .then(function() {
             this.setState({ //send to home page
               screen: 'Main'
@@ -122,8 +121,7 @@ export default class Login extends Component {
             <TextInput style={styles.textInput}
               onChangeText={(text) => this.setState({password: text})}
               placeholder="Password"
-              // secureTextEntry="true"
-              password={false}
+              secureTextEntry="true"
               placeholderTextColor="#eee"
               value={this.state.password}
             />

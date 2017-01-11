@@ -11,7 +11,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import LikesGallery from './likesGallery';
 import ip from '../network.js';
-import Auth from '../auth.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,24 +61,17 @@ export default class likesScreen extends Component {
     super(props);
     this.state = {
       likes: [],
-      id: '',
-      color: '#ff9554'
+      color: '#ff9554',
+      likes: []
     };
     this.getLikedPostId = this.getLikedPostId.bind(this);
   }
 
   componentDidMount() {
-    Auth.getId()
-    .then(function(id) {
-      this.setState({
-        id: id
-      });
-      this.getLikedPostId();
-    }.bind(this));
+    this.getLikedPostId();
   }
 
   getLikedPostId() {
-    console.log(this.state.id, 'ID IN getLikedPostId');
     var that = this;
     fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
       method: 'POST',
@@ -88,7 +80,7 @@ export default class likesScreen extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: this.state.id,
+        userId: this.props.userId,
       })
     })
     .then((res) => res.json())

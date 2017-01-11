@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
-import Auth from '../auth.js';
 import ip from '../network.js';
 
 
@@ -80,22 +79,14 @@ export default class socialFeed extends Component {
       ],
       feedPosts: [],
       trendingPosts: [],
-      id: null,
       color: '#ff9554'
       // likesFeed: [],
     }
   };
 
   componentDidMount() {
-    Auth.getId()
-    .then(function(resp) {
-      this.setState({
-        id: resp
-      });
-      this.getFollowingPosts();
-    }.bind(this));
+    this.getFollowingPosts();
     this.getTrendingPosts();
-    
   }
 
   componentWillReceiveProps() {
@@ -118,7 +109,7 @@ export default class socialFeed extends Component {
   }
 
   getFollowingPosts() {
-    console.log('getting following posts...');
+    console.log('getting following posts...', this.props.userId);
     return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
       method: 'POST',
       headers: {
@@ -126,7 +117,7 @@ export default class socialFeed extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: this.state.id,
+        userId: this.props.userId,
       })
     })
       .then((res) => res.json())
@@ -158,7 +149,7 @@ export default class socialFeed extends Component {
       return (
         <ScrollView>
           {this.state.feedPosts.length > 0 ? this.state.feedPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>
           }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
@@ -166,7 +157,7 @@ export default class socialFeed extends Component {
       return (
         <ScrollView>
           { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} currentUser={this.props.id}/>
+            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>
           }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
         </ScrollView>
       );
@@ -204,13 +195,10 @@ export default class socialFeed extends Component {
       });
       break;
     case 'profile':
-      Auth.getId()
-      .then(function(id) {
-        this.props.viewedUser(id);
-        this.props.navigator.push({
-          id: 'ProfileScreen'
-        });
-      }.bind(this))
+      this.props.viewedUser(this.props.userId);
+      this.props.navigator.push({
+        id: 'ProfileScreen'
+      });
       break;
     }
   }
@@ -226,7 +214,7 @@ export default class socialFeed extends Component {
           </View>
           <View style={{flex: 3, alignItems: 'center'}}>
             <Text style={{fontWeight: 'bold', fontSize: 26, color: this.state.color}}>NARNIA</Text>
-          </View> 
+          </View>
           <View style={{flex: 1, alignItems: 'center'}}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
               <Icon name="ios-search" size={38} color={this.state.color} />
