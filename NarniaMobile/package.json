@@ -1,14 +1,14 @@
 {
   "name": "narnia",
   "version": "0.0.0",
-  "description": "Hello Narnia!",
+  "description": "Hello Exponent!",
   "author": null,
   "private": true,
   "main": "main.js",
   "dependencies": {
     "react": "~15.3.2",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "^0.40.0",
+    "react-native": "git+https://github.com/exponentjs/react-native#sdk-12.0.0",
     "react-native-tab-view": "0.0.42"
   }
 }
