@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, TouchableHighlight, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Comment from './comment.js';
 import ip from '../network.js';
 import Auth from '../auth.js';
@@ -27,7 +28,8 @@ export default class CommentsModal extends Component {
     this.state = {
       comments: [],
       post: '',
-      id: ''
+      id: '',
+      color: '#ff9554'
     };
   }
 
@@ -95,11 +97,11 @@ export default class CommentsModal extends Component {
           onRequestClose={() => { alert('Modal has been closed.'); } }
         >
          <View style={styles.container}>
-          <View>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
             <TouchableHighlight underlayColor='transparent' onPress={() => {
               this.props.setModalVisible(false);
             }}>
-              <Text>x</Text>
+              <Icon name="ios-close" size={38} color={this.state.color} />
             </TouchableHighlight>
           </View>
           <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
@@ -108,7 +110,7 @@ export default class CommentsModal extends Component {
             <ScrollView>
               {this.state.comments.length > 0 ? this.state.comments.map((comment, key) => {
                 return <Comment comment={comment} key={key} />;
-              }) : <Text style={{color: '#888'}}>No comments available</Text>}
+              }) : <View style={{alignItems: 'center'}}><Text style={{color: '#888'}}>No comments available</Text></View>}
             </ScrollView>
           </View>
          </View>

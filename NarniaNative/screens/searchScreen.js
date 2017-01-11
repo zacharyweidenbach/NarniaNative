@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   TextInput,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import SearchPeople from './searchPeople.js';
 import SearchTags from './searchTags.js';
 import SearchShop from './searchShop.js';
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 26,
+    color: '#ff9554'
   },
   textContainer: {
     flex: 4,
@@ -85,7 +87,8 @@ export default class searchScreen extends Component {
         { key: '3', title: 'Shop' },
       ], 
       searchText: '',
-      triggerSearch: ''
+      triggerSearch: '',
+      color: '#ff9554'
     };
   }
   _handleChangeTab = (index) => {
@@ -147,12 +150,10 @@ export default class searchScreen extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <View>
-              <Image source={require('../assets/buttons/back.png')} resizeMode={Image.resizeMode.contain} style={{ width: 26, height: 26}}/>
-            </View>
+            <Icon name="ios-arrow-back" size={38} color={this.state.color} />
           </TouchableHighlight>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>Search</Text>
+            <Text style={styles.text}>SEARCH</Text>
           </View>
           <View style={styles.emptySpace}>
           </View>
@@ -160,7 +161,7 @@ export default class searchScreen extends Component {
         <TextInput placeholder= 'Search' style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View style={{alignItems: 'center'}}>
-              <Image source={require('../assets/buttons/search.png')} resizeMode={Image.resizeMode.contain} style={{ width: 35, height: 35}}/>
+              <Icon name="ios-search" size={38} color={this.state.color} />
             </View>
           </TouchableHighlight>
         <TabViewAnimated
