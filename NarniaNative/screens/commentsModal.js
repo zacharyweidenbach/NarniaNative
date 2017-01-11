@@ -48,6 +48,7 @@ export default class CommentsModal extends Component {
   }
 
   getComments() {
+    var that = this;
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
@@ -57,8 +58,7 @@ export default class CommentsModal extends Component {
       body: JSON.stringify({id: this.props.postId})
     })
     .then((res) => res.json())
-    .then((resJSON) => this.setState({comments: resJSON}))
-    .then(() => console.log(this.state.comments))
+    .then((resJSON) => that.setState({comments: resJSON}))
     .catch((err) => console.log(err));
   }
 
@@ -79,11 +79,11 @@ export default class CommentsModal extends Component {
           createdAt: new Date()
         })
       })
-      .then(function(res) {
+      .then((res) => {
         console.log('success posting');
-        this.setState({post: ''});
-        this.getComments();
-      }.bind(this))
+        that.setState({post: ''});
+        that.getComments();
+      })
       .catch((err) => console.log(err));
     }
   }
