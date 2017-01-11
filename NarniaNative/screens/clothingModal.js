@@ -49,7 +49,6 @@ onButtonPress(button) {
       //send them to amazon item page
       Linking.openURL(this.props.clothing.DetailPageURL).catch(err => console.error('An error occurred', err));
       break;
-
   }
 }
   render() {
