@@ -36,15 +36,10 @@ const styles = StyleSheet.create({
   },
 });
 
-var x = function(item) {
-  console.log(item);
-};
-
 var LikesGallery = (props) => {
   return (
     <View style={styles.container}>
       {props.userPosts.map((body, key) => {
-        x(body);
         if (key === 0) {
           return <View key={key}><Image style={styles.imgLarge} source={{uri: body}} /></View>;
         } else {
