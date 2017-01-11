@@ -47,7 +47,9 @@ export default class clothingModal extends Component {
           <Image  style={styles.imgLarge} source={{uri: this.props.clothing.image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
+          <Button title="Add Outfit Mixer" /> 
           <Button title="Add to Wishlist Wardrobe" /> 
+          <Button title="Buy" /> 
         </View>
       </View>
     </Modal>
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   textcontainer: {
     flex:1,
     alignItems: 'center',
-  }
+  },
   imgSmall: {
     width: Dimensions.get('window').width / 2,
     height: Dimensions.get('window').width / 2,
