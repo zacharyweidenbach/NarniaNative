@@ -46,11 +46,11 @@ export default class SearchShop extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.triggerSearch !== this.props.triggerSearch && nextProps.index === 2) {
       this.setState({keyword: nextProps.triggerSearch});
-      setTimeout(function() {this.FetchAmazon()}.bind(this), 1);
+      setTimeout(function() { this.FetchAmazon(); }.bind(this), 1);
     }
   } 
 
-  FetchAmazon () {
+  FetchAmazon (nextProps) {
     //change the path of this request to match the server IP address
     this.setState({items: []});
     return fetch('http://' + ip.address + ':3000/api/search', {
@@ -60,7 +60,7 @@ export default class SearchShop extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({keyword: this.state.keyword, page: this.state.page})
-    }).then((res) => {console.log('returned'); return res.json()})
+    }).then((res) => { console.log('returned'); return res.json(); })
       .then((resJson) => {
         this.setState({items: this.state.items.concat(resJson)});
         console.log(this.state.items);

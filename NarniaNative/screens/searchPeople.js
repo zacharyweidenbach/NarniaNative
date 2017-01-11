@@ -5,7 +5,10 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  ScrollView,
 } from 'react-native';
+import SearchPeopleResult from './searchPeopleResult';
+import ip from '../network';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -34,40 +37,46 @@ export default class SearchPeople extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      results: [],
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-     if (nextProps.triggerSearch != this.props.triggerSearch && nextProps.index === 0) {
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('new index', this.props.index)
-      // console.log('there was a change in the props', this.props.triggerSearch)
-    }
-  } 
-  // onNamePress() {
-  //   this.props.navigator.push({
-  //     id: 'ProfileScreen'
-  //   });
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  }
+
+  fetchUserData(username) {
+    this.setState({results: []});
+    fetch('http://' + ip.address + ':3000/api/searchUser', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      this.setState({results: resJSON});
+    })
+    .catch((err) => console.log('error: ' + err));
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail3.jpg')} />
-          <Text style={styles.textStyle}>Lethargic Lion</Text>   
-        </View>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail.jpg')} />
-          <Text style={styles.textStyle}>Outrageous Ocelot</Text>   
-        </View>
-        <View style={styles.userContainer}>
-          <Image style={styles.thumbnail} source={require('../assets/images/thumbnail2.jpg')} />
-          <Text style={styles.textStyle}>Timorous Tiger</Text>   
-        </View>
-      </View>
+      <ScrollView style={styles.container}>
+         {this.state.results.map((result, key) => {
+           return (<SearchPeopleResult key={key} result={result}/>);
+         })}
+      </ScrollView>
     ); 
   }
+  componentDidUpdate(nextProps, nextState) {
+    if (nextProps.triggerSearch !== this.props.triggerSearch && nextProps.index === 0) {
+      this.fetchUserData(this.props.triggerSearch);
+    }
+  }
+
 }

@@ -23,9 +23,9 @@ export default class clothingModal extends Component {
   }
 
 onButtonPress(button) {
-  switch (button) {
-    case 
-  }
+  // switch (button) {
+  //   case 
+  // }
 
 }
   render() {
