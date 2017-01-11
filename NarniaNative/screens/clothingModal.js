@@ -22,7 +22,12 @@ export default class clothingModal extends Component {
     }.bind(this));
   }
 
+onButtonPress(button) {
+  switch (button) {
+    case 
+  }
 
+}
   render() {
     return (
       <Modal 
