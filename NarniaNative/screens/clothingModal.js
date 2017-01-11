@@ -43,7 +43,7 @@ onButtonPress(button) {
       })
       .catch((error) => {
         console.error(error);*/
-      });
+      //});
       break;
    case 'buy':
       //send them to amazon item page
