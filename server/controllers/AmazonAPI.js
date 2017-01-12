@@ -10,7 +10,7 @@ var AmazonResponse;
 var opHelper = new apac.OperationHelper ({
   awsId: cred.key,
   awsSecret: cred.secret,
-  assocId: 'donannarni-20',
+  assocId: cred.tag,
 });
 
 module.exports = {
