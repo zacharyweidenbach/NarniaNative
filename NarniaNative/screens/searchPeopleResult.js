@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -40,14 +41,26 @@ export default class SearchPeopleResult extends Component {
     };
   }
 
+  onButtonPress(button) {
+    switch (button) {
+    case 'user':
+      console.log(this.state.username, 'clicked');
+      this.props.viewedUser(this.state.id);
+      this.props.navigator.push({
+        id: 'ProfileScreen'
+      });
+      break;
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <TouchableHighlight style={styles.container} onPress={this.onButtonPress.bind(this, 'user')} underlayColor='transparent'>
         <View style={styles.userContainer}>
           <Image style={styles.thumbnail} source={{uri: this.state.thumbnail}} />
           <Text style={styles.textStyle}>{this.state.username}</Text>   
         </View>
-      </View>
+      </TouchableHighlight>
     ); 
   }
 }

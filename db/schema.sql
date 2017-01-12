@@ -155,6 +155,7 @@ INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES (
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Haris", "haris@haris.com", "12345678910", "Haris", "password", "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460");
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Rick", "Rick@rick.com", "12345678910", "Rick", "password", "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460");
 INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Zach", "Zach@zach.com", "12345678910", "Zach", "password", "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460");
+INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jonathan", "MrJonWu@gmail.com", "12345678910", "Jonathan", "password", "https://s30.postimg.org/spxl38nch/sadpanda.jpg");
 
 INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 5, "https://s23.postimg.org/ev70eu6cb/cat_images_funny_picture.jpg", "Check out this awesome outfit I just put together!", "image", "3456871348");
 INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 8, "https://s30.postimg.org/olxg2hsld/cat_images_funny_pictures_kitties.jpg", "What am I doing with my life?", "image", "3456871349");
