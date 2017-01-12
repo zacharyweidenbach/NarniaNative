@@ -64,7 +64,7 @@ export default class SearchShopGallery extends Component {
       return (
         <View key={index}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'toggleModal', index)} underlayColor='transparent' >
-            <Image style={styles.imgSmall} source={{uri: item.image}} resizeMode={Image.resizeMode.contain}/>   
+            <Image style={styles.imgSmall} source={{uri: item.Image}} resizeMode={Image.resizeMode.contain}/>   
           </TouchableHighlight>
         </View>
       )

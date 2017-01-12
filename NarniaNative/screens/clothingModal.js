@@ -73,7 +73,7 @@ onButtonPress(button) {
           <Text> {this.props.clothing.Title} </Text>
         </View>
         <View >
-          <Image  style={styles.imgLarge} source={{uri: this.props.clothing.image}} resizeMode={Image.resizeMode.contain} />
+          <Image  style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
           <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} /> 
