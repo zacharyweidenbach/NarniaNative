@@ -6,7 +6,8 @@ import {
   View,
   TouchableHighlight,
   Button,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
@@ -38,12 +39,35 @@ const styles = StyleSheet.create({
     color: '#ff9554'
   },
   textContainer: {
-    flex: 4,
+    flex: 1,
     alignItems: 'center',
   },
   thumbnail: {
     height: 150,
     width: 150,
+  },
+  gallery: {
+    flex: 12,
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+  },
+  imgLarge: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  imgSmall: {
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    // marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
   },
 });
 
@@ -96,11 +120,17 @@ export default class profileScreen extends Component {
           </View>
           <View style={{flex: 1}}></View>
         </View>
-        <View>
+        <View style={styles.gallery}>
           <ScrollView>
-            {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing) => {
-              return <Image style={styles.thumbnail} source={{uri: clothing.largeImg}}/>
-            }) : null}
+            <View style={styles.scrollContainer}>
+              {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
+              if (key === 0) {
+                return <View key={key}><Image style={styles.imgLarge} source={{uri: clothing.largeImg}} /></View>;
+              } else {
+                return <View key={key}><Image style={styles.imgSmall} source={{uri: clothing.largeImg}} /></View>;
+              }
+              }) : null}
+            </View>
           </ScrollView>
         </View>
       </View>
