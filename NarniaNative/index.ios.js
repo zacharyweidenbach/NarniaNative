@@ -77,7 +77,7 @@ export default class NarniaNative extends Component {
     case 'ProfileScreen':
       return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'SearchScreen':
-      return (<SearchScreen navigator={navigator} title='SearchScreen' viewedUser={this.viewedUser} userId={this.state.userId}/>);
+      return (<SearchScreen navigator={navigator} title='SearchScreen' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId}/>);
     case 'Mixer':
       return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'ProfileMenu':
