@@ -28,8 +28,8 @@ module.exports = {
           brand: req.body.clothing.Brand,
           color: req.body.clothing.Color,
           thumbnail: req.body.clothing.Thumbnail,
-          productTypeName: thumbnail: req.body.clothing.ProductTypeName,
-          asin: thumbnail: req.body.clothing.ASIN,
+          productTypeName: req.body.clothing.ProductTypeName,
+          asin: req.body.clothing.ASIN,
           upc: req.body.clothing.UPC,
         };
         connection.query('insert into clothing set ?', clothing, function(err, result) {
