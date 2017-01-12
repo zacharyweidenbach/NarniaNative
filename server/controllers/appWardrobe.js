@@ -8,10 +8,12 @@ module.exports = {
     });
   },
   addToWardrobe: function(req, res, next) {
+    console.log('hit', req.body, req.body.clothing.UPC);
     connection.query('select id from clothing where upc=' + req.body.clothing.UPC, function(err, result) {
       if (err) {
         res.send(err)
       } else if (result.length !== 0) {
+        console.log('results', result, result.length, result[0].id)
         var reqbody = {
           userId: req.body.userId,
           clothingId: result[0].id,
@@ -19,6 +21,7 @@ module.exports = {
         };
         connection.query('insert into wardrobe set ?', reqbody, function(err, result) {
           var response = err || result;
+          console.log(response)
           res.json(response);
         });
       } else {
