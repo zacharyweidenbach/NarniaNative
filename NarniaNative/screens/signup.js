@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import Auth from '../auth.js';
 import Main from '../index.ios.js';
 import Login from './login.js';
 import ip from '../network.js';
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   button: {
-    textAlign: 'center',
     backgroundColor: '#eee',
     width: 270,
     height: 40,
@@ -62,25 +60,18 @@ export default class Signup extends Component {
     this.state = {
       username: '',
       password: '',
-      email: '',
-      screen: ''
+      email: ''
     };
   }
 
   buttonHandler() {
-    var newUser = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    };
-
     fetch('http://' + ip.address + ':3000/api/users/mbSignup', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(this.state)
     })
     .then(function(response) {
       if (response._bodyText === 'User already exists.') { // check if valid signup
@@ -91,13 +82,15 @@ export default class Signup extends Component {
           email: ''
         });
       } else { // let them login
-        console.log('you can login!');
-        Auth.setToken(JSON.parse(response._bodyText).token)
+        var userId = JSON.parse(response._bodyText).id;
+        var token = JSON.parse(response._bodyText).token;
+        this.props.setToken(token)
         .then(function() {
-          Auth.setId(JSON.parse(response._bodyText).id)
+          this.props.setUserId({userId: userId});
+          this.props.setId(userId)
           .then(function() {
-            this.setState({ //send to home page
-              screen: 'Main'
+            this.props.navigator.push({ //send to home page
+              id: 'SocialFeed'
             });
           }.bind(this));
         }.bind(this));
@@ -106,75 +99,53 @@ export default class Signup extends Component {
   }
 
   loginHandler() {
-    this.setState({screen: 'Login'});
+    this.props.navigator.push({id: 'Login'});
   }
 
   render() {
-    if (this.state.screen === '') {
-      return (
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={{fontWeight: 'bold', fontSize: 26}}>NARNIA Signup</Text>
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={{fontWeight: 'bold', fontSize: 26}}>NARNIA Signup</Text>
+        </View>
+        <View style={styles.form}>
+          <TextInput style={styles.textInput}
+            onChangeText={(text) => this.setState({username: text})}
+            placeholder="Username"
+            placeholderTextColor="#eee"
+            value={this.state.username}
+          />
+          <TextInput style={styles.textInput}
+            onChangeText={(text) => this.setState({password: text})}
+            placeholder="Password"
+            secureTextEntry={true}
+            placeholderTextColor="#eee"
+            value={this.state.password}
+          />
+          <TextInput style={styles.textInput}
+            onChangeText={(text) => this.setState({email: text})}
+            placeholder="Email"
+            placeholderTextColor="#eee"
+            value={this.state.email}
+          />
+          <View style={styles.button}>
+            <Button
+              onPress={this.buttonHandler.bind(this)}
+              title="Submit"
+              color="#000"
+              accessibilityLabel="Submit to create new account"
+            />
           </View>
-          <View style={styles.form}>
-            <TextInput style={styles.textInput}
-              onChangeText={(text) => this.setState({username: text})}
-              placeholder="Username"
-              placeholderTextColor="#eee"
-              value={this.state.username}
+          <View style ={styles.link}>
+            <Button
+              onPress={this.loginHandler.bind(this)}
+              title="Login"
+              color="#ff9554"
+              accessibilityLabel="Already have an account? Go to login."
             />
-            <TextInput style={styles.textInput}
-              onChangeText={(text) => this.setState({password: text})}
-              placeholder="Password"
-               secureTextEntry="true"
-              placeholderTextColor="#eee"
-              value={this.state.password}
-            />
-            <TextInput style={styles.textInput}
-              onChangeText={(text) => this.setState({email: text})}
-              placeholder="Email"
-              placeholderTextColor="#eee"
-              value={this.state.email}
-            />
-            <View style={styles.button}>
-              <Button
-                onPress={this.buttonHandler.bind(this)}
-                title="Submit"
-                color="#000"
-                accessibilityLabel="Submit to create new account"
-              />
-            </View>
-            <View style ={styles.link}>
-              <Button
-                onPress={this.loginHandler.bind(this)}
-                title="Login"
-                color="#ff9554"
-                accessibilityLabel="Already have an account? Go to login."
-              />
-            </View>
           </View>
         </View>
-      );
-    } else {
-      return (
-        <Navigator
-          initialRoute = {{
-            id: this.state.screen
-          }}
-          renderScene={
-            this.navigatorRenderScene
-          }
-        />
-      );
-    }
-  }
-  navigatorRenderScene(route, navigator) {
-    _navigator = navigator;
-    switch (route.id) {
-    case 'Main':
-      return (<Main navigator={navigator} title='Main'/>);
-    case 'Login':
-      return (<Login navigator={navigator} title='Login'/>);
-    }
+      </View>
+    );
   }
 }
