@@ -121,12 +121,11 @@ module.exports = {
     }
     var time = new Date();
     var newUser = {
-      name: req.body.name || null,
-      email: req.body.email || null,
-      token: req.body.token || null,
-      username: req.body.username || null,
-      password: req.body.password || null,
-      thumbnail: req.body.thumbnail || null,
+      name: req.body.name || req.body.username,
+      email: req.body.email,
+      token: req.body.token,
+      username: req.body.username,
+      password: req.body.password,
       createdAt: req.body.createdAt || time,
       updatedAt: req.body.updatedAt || time
     };

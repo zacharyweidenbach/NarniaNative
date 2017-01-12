@@ -52,7 +52,7 @@ export default class SearchShop extends Component {
       this.setState({keyword: nextProps.triggerSearch, page: '1', loading:true});
       setTimeout(function() {this.FetchAmazon()}.bind(this), 1);
     }
-  } 
+  }
 
   FetchAmazon (nextProps) {
     //change the path of this request to match the server IP address
@@ -94,6 +94,6 @@ export default class SearchShop extends Component {
         <SearchShopGallery userId={this.props.userId} items={this.state.items} />
         {this.state.clothing ? <Button title='More results...' onPress={this.onButtonPress.bind(this, 'next')} color='orange' />:null}
       </View>
-    ); 
+    );
   }
 }
