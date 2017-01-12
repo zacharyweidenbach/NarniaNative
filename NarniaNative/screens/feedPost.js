@@ -99,9 +99,8 @@ export default class FeedPost extends Component {
   }
 
   componentDidMount() {
-    var that = this;
+    this.checkInitialLike();
     //change ip address to either wifi address or deployed server
-
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
       headers: {
@@ -111,7 +110,7 @@ export default class FeedPost extends Component {
       body: JSON.stringify({id: this.props.post.id})
     })
       .then((res) => res.json())
-      .then((resJSON) => that.setState({comments: resJSON}))
+      .then((resJSON) => this.setState({comments: resJSON}))
       .catch((err) => console.log(err));
   }
 
@@ -155,7 +154,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log('resJSON in checkInitialLike', resJSON);
+      // console.log('resJSON in checkInitialLike', resJSON);
       if (resJSON.length > 0) {
         //set state of the button color to orange
         that.setState({postLiked: true});

@@ -88,8 +88,9 @@ export default class searchScreen extends Component {
       ], 
       searchText: '',
       triggerSearch: '',
-      color: '#ff9554'
+      color: '#ff9554',
     };
+    this.resetSearchText = this.resetSearchText.bind(this);
   }
   _handleChangeTab = (index) => {
     this.setState({
@@ -134,13 +135,18 @@ export default class searchScreen extends Component {
     }
   };
 
+  resetSearchText() {
+    this.setState({ triggerSearch: ''});
+    console.log('reset triggerSearch');
+  }
+
   onButtonPress(button) {
     switch (button) {
     case 'back':
       this.props.navigator.pop();
       break;
     case 'search':
-      this.setState({ triggerSearch: this.state.searchText})
+      this.setState({triggerSearch: this.state.searchText});
       break;
     }
   }

@@ -6,6 +6,7 @@ var appLikesPosts = require('./controllers/appLikesPosts.js');
 var appUsersFollowers = require('./controllers/appUsersFollowers.js');
 var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 var appClothing = require('./controllers/appClothing.js');
+var appSearchUser = require('./controllers/appSearchUser.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -55,4 +56,7 @@ module.exports = function(app, express) {
   app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
   app.get('/api/clothing', appClothing.getClothing);
+
+  //search user
+  app.post('/api/searchUser', appSearchUser.searchUser);
 };

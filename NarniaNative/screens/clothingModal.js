@@ -51,7 +51,6 @@ onButtonPress(button) {
       break;
 
   }
-
 }
   render() {
     return (
