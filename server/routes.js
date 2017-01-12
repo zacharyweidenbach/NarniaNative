@@ -6,11 +6,8 @@ var appLikesPosts = require('./controllers/appLikesPosts.js');
 var appUsersFollowers = require('./controllers/appUsersFollowers.js');
 var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 var appClothing = require('./controllers/appClothing.js');
-<<<<<<< HEAD
 var appSearchUser = require('./controllers/appSearchUser.js');
-=======
 var appWardrobe = require('./controllers/appWardrobe.js');
->>>>>>> implemented wardrobe server routes/logic
 
 // ROUTES
 module.exports = function(app, express) {
