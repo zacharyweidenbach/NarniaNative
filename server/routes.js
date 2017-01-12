@@ -6,7 +6,11 @@ var appLikesPosts = require('./controllers/appLikesPosts.js');
 var appUsersFollowers = require('./controllers/appUsersFollowers.js');
 var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 var appClothing = require('./controllers/appClothing.js');
+<<<<<<< HEAD
 var appSearchUser = require('./controllers/appSearchUser.js');
+=======
+var appWardrobe = require('./controllers/appWardrobe.js');
+>>>>>>> implemented wardrobe server routes/logic
 
 // ROUTES
 module.exports = function(app, express) {
@@ -55,8 +59,16 @@ module.exports = function(app, express) {
   //get Logged in user's profile information
   app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
+  //clothing
   app.get('/api/clothing', appClothing.getClothing);
-
+  app.post('/api/checkClothingExists', appClothing.checkClothingExists);
+  
   //search user
   app.post('/api/searchUser', appSearchUser.searchUser);
+
+  //wardrobe
+  app.post('/api/getWardrobe', appWardrobe.getWardrobe);
+  app.post('/api/addToWardrobe', appWardrobe.addToWardrobe);
+  app.post('/api/removeFromWardrobe', appWardrobe.removeFromWardrobe);  
+
 };
