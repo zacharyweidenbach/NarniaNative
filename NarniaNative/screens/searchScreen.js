@@ -115,7 +115,7 @@ export default class searchScreen extends Component {
     case '1':
       return (
         <ScrollView>
-          <SearchPeople userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
+          <SearchPeople userId={this.props.userId} navigator={this.props.navigator} viewedUser={this.props.viewedUser} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case '2':
@@ -164,7 +164,7 @@ export default class searchScreen extends Component {
           <View style={styles.emptySpace}>
           </View>
         </View>
-        <TextInput placeholder= 'Search' style={styles.searchBar} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
+        <TextInput placeholder= 'Search' style={styles.searchBar} onFocus= {() => this.setState({searchText: ''})} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View style={{alignItems: 'center'}}>
               <Icon name="ios-search" size={38} color={this.state.color} />

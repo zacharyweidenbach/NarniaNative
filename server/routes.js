@@ -62,10 +62,10 @@ module.exports = function(app, express) {
   
   //search user
   app.post('/api/searchUser', appSearchUser.searchUser);
+  app.post('/api/searchUserId', appSearchUser.searchUserId);
 
   //wardrobe
   app.post('/api/getWardrobe', appWardrobe.getWardrobe);
   app.post('/api/addToWardrobe', appWardrobe.addToWardrobe);
   app.post('/api/removeFromWardrobe', appWardrobe.removeFromWardrobe);  
-
 };
