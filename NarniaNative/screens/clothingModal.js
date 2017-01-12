@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image} from 'react-native';
-import Comment from './comment.js';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image, Linking} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 import Auth from '../auth.js';
 
@@ -23,10 +23,34 @@ export default class clothingModal extends Component {
   }
 
 onButtonPress(button) {
-  // switch (button) {
-  //   case 
-  // }
+  switch (button) {
+    case 'addtoMixer':
+      //once mixer is universal have this add the clothing to the mixer array at the proper position
+      break;
+   case 'addtoDream':
+      //send data to server
+      /*fetch('http://' + ip.address + ':3000/api/addToWardrobe', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({userId: this.props.userId, clothing: this.props.clothing})
+    }).then((res) => {console.log('returned'); return res.json()})
+      .then((resJson) => {
+        alert(this.props.clothing.title +'has been added to your Dreamrobe');
+        // this.props.setModalVisible(false);
+      })
+      .catch((error) => {
+        console.error(error);*/
+      //});
+      break;
+   case 'buy':
+      //send them to amazon item page
+      Linking.openURL(this.props.clothing.DetailPageURL).catch(err => console.error('An error occurred', err));
+      break;
 
+  }
 }
   render() {
     return (
@@ -42,7 +66,7 @@ onButtonPress(button) {
 
             this.props.setModalVisible(false)
           }}>
-            <Text> x </Text>
+             <Icon name="ios-close-circle" size={20} color='orange' style={{paddingTop: 10}}/>
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.textcontainer} >
@@ -52,9 +76,9 @@ onButtonPress(button) {
           <Image  style={styles.imgLarge} source={{uri: this.props.clothing.image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
-          <Button title="Add Outfit Mixer" /> 
-          <Button title="Add to Wishlist Wardrobe" /> 
-          <Button title="Buy" /> 
+          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} /> 
+          <Button title="Add to Dreamrobe" onPress={this.onButtonPress.bind(this, 'addtoDream')} color='orange' style={styles.button} /> 
+          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='orange' style={styles.button}/> 
         </View>
       </View>
     </Modal>
@@ -74,6 +98,9 @@ const styles = StyleSheet.create({
   textcontainer: {
     flex:1,
     alignItems: 'center',
+  },
+  button: {
+    color: 'orange',
   },
   imgSmall: {
     width: Dimensions.get('window').width / 2,

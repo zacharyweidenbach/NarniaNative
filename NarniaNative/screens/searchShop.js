@@ -77,7 +77,7 @@ export default class SearchShop extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <SearchShopGallery items={this.state.items} />
+        <SearchShopGallery userId={this.props.userId} items={this.state.items} />
       </View>
     ); 
   }

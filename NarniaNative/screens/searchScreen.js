@@ -115,19 +115,19 @@ export default class searchScreen extends Component {
     case '1':
       return (
         <ScrollView>
-          <SearchPeople navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch}/>
+          <SearchPeople userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case '2':
       return (
         <ScrollView>
-          <SearchTags navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
+          <SearchTags userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case '3':
       return (
         <ScrollView>
-          <SearchShop navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
+          <SearchShop userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     default:
