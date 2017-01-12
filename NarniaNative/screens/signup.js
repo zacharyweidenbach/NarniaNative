@@ -89,7 +89,7 @@ export default class Signup extends Component {
           this.props.setUserId({userId: userId});
           this.props.setId(userId)
           .then(function() {
-            this.props.navigator.push({ //send to home page
+            this.props.navigator.resetTo({ //send to home page
               id: 'SocialFeed'
             });
           }.bind(this));
