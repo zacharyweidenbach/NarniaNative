@@ -40,24 +40,6 @@ var SearchTagsGallery = (props) => {
       <View>
         <Image style={styles.imgSmall} source={require('../assets/images/post1.jpg')} />
       </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post2.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post4.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post5.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post6.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post8.jpg')} />
-      </View>
-      <View>
-        <Image style={styles.imgSmall} source={require('../assets/images/post9.jpg')} />
-      </View>
     </View>
   );
 };

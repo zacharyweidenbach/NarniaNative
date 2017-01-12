@@ -102,16 +102,35 @@ export default class profileScreen extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log(resJSON, 'RESJSON');
       var tempArr = [];
       for (var i = 0; i < resJSON.length; i++) {
         tempArr.push(resJSON[i].body);
       }
-      that.setState({
-        bodyArr: tempArr,
-        username: resJSON[0].username,
-        thumbnail: resJSON[0].thumbnail,
-      });
+      if (tempArr.length > 0) {
+        that.setState({
+          bodyArr: tempArr,
+          username: resJSON[0].username,
+          thumbnail: resJSON[0].thumbnail,
+        }); 
+      } else {
+        fetch('http://' + ip.address + ':3000/api/searchUserId', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: that.props.selectedId,
+          })
+        })
+        .then((res) => res.json())
+        .then((resJSON) => {
+          that.setState({
+            username: resJSON[0].username,
+            thumbnail: resJSON[0].thumbnail,
+          });
+        });
+      }
     })
     .catch((err) => console.log('error: ' + err));
   }

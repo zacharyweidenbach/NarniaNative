@@ -59,4 +59,5 @@ module.exports = function(app, express) {
 
   //search user
   app.post('/api/searchUser', appSearchUser.searchUser);
+  app.post('/api/searchUserId', appSearchUser.searchUserId);
 };

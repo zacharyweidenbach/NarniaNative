@@ -68,13 +68,13 @@ export default class SearchPeople extends Component {
     return (
       <ScrollView style={styles.container}>
          {this.state.results.map((result, key) => {
-           return (<SearchPeopleResult key={key} result={result}/>);
+           return (<SearchPeopleResult key={key} result={result} navigator={this.props.navigator} viewedUser={this.props.viewedUser}/>);
          })}
       </ScrollView>
     ); 
   }
   componentDidUpdate(nextProps, nextState) {
-    if (nextProps.triggerSearch !== this.props.triggerSearch && nextProps.index === 0) {
+    if (this.props.triggerSearch !== '' && nextProps.triggerSearch !== this.props.triggerSearch && nextProps.index === 0) {
       this.fetchUserData(this.props.triggerSearch);
     }
   }
