@@ -43,6 +43,7 @@ export default class SearchShop extends Component {
       page: 1,
       items: [],
       loading: false,
+      clothing: false
     };
   }
 
@@ -55,7 +56,7 @@ export default class SearchShop extends Component {
 
   FetchAmazon (nextProps) {
     //change the path of this request to match the server IP address
-    this.setState({items: []});
+    this.setState({items: [], clothing:false});
     return fetch('http://' + ip.address + ':3000/api/search', {
       method: 'POST',
       headers: {
@@ -65,7 +66,7 @@ export default class SearchShop extends Component {
       body: JSON.stringify({keyword: this.state.keyword, page: this.state.page})
     }).then((res) => { console.log('returned'); return res.json(); })
       .then((resJson) => {
-        this.setState({items: this.state.items.concat(resJson), loading:false});
+        this.setState({items: this.state.items.concat(resJson), loading:false, clothing:true});
         console.log(this.state.items);
       })
       .catch((error) => {
@@ -91,9 +92,7 @@ export default class SearchShop extends Component {
       <View style={styles.container}>
         {this.state.loading ? <ActivityIndicator style={[styles.centering, styles.gray]} size="large" color="orange"/> :null}
         <SearchShopGallery userId={this.props.userId} items={this.state.items} />
-        <View >
-          <Button title='More results...' onPress={this.onButtonPress.bind(this, 'next')} color='orange' />
-        </View>
+        {this.state.clothing ? <Button title='More results...' onPress={this.onButtonPress.bind(this, 'next')} color='orange' />:null}
       </View>
     ); 
   }
