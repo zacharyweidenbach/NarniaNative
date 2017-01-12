@@ -4,13 +4,11 @@ import {
   ScrollView,
   Text,
   View,
-  Dimensions,
   TouchableHighlight,
   Button,
   Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProfileGallery from './profileGallery';
 import ip from '../network.js';
 
 const styles = StyleSheet.create({
@@ -28,21 +26,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 20,
   },
-  thumbnailContainer: {
-    flex: 1,
-    paddingTop: 20,
-    paddingBottom: 20,
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  thumbnail: {
-    height: 150,
-    width: 150,
-  },
-  scrollContainer: {
-    flex: 12,
-  },
   backBtn: {
     flex: 1,
     justifyContent: 'center',
@@ -57,42 +40,23 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 4,
     alignItems: 'center',
-  }
+  },
+  thumbnail: {
+    height: 150,
+    width: 150,
+  },
 });
 
 export default class profileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ' ',
-      thumbnail: ' ',
       wardrobe: []
     };
   }
 
   componentDidMount() {
     this.getWardrobe();
-  }
-
-  getLoggedInProfile() {
-    var that = this;
-    fetch('http://' + ip.address + ':3000/api/getLoggedInProfile', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.userId,
-      })
-    })
-    .then((res) => res.json())
-    .then((resJSON) => {
-      that.setState({
-        username: resJSON[0].username,
-        thumbnail: resJSON[0].thumbnail,
-      }); 
-    })
   }
 
   getWardrobe() {
@@ -109,7 +73,6 @@ export default class profileScreen extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => that.setState({wardrobe: resJSON}))
-    .then(() => console.log('wardrobe state', that.state.wardrobe, that.state.wardrobe.length, that.state.wardrobe[0]))
     .catch((err) => console.error(err));
   }
 
@@ -133,7 +96,7 @@ export default class profileScreen extends Component {
           </View>
           <View style={{flex: 1}}></View>
         </View>
-        <View style={styles.scrollContainer}>
+        <View>
           <ScrollView>
             {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing) => {
               return <Image style={styles.thumbnail} source={{uri: clothing.largeImg}}/>
