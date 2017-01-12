@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
+import { Alert, AlertIOS, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 
@@ -15,11 +15,34 @@ export default class Mixer extends Component {
       midIndex: 0,
       bottomIndex: 0,
       description: '',
-      color: '#ff9554'
+      color: '#ff9554',
+      wardrobe: []
     };
   }
 
   componentWillMount() {
+    this.fetchMixerImages();
+    this.fetchWardrobe();
+  }
+
+  fetchWardrobe() {
+    var that = this;
+    return fetch('http://' + ip.address + ':3000/api/getWardrobe', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: that.props.userId,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => that.setState({wardrobe: resJSON}))
+    .catch((err) => console.error(err));
+  }
+
+  fetchMixerImages() {
     return fetch('http://' + ip.address + ':3000/api/clothing', {
       method: 'GET',
       headers: {
@@ -27,20 +50,76 @@ export default class Mixer extends Component {
         'Content-Type': 'application/json'
       },
     }).then((res) => { return res.json(); })
-      .then((resJson) => {
+      .then((resJSON) => {
         var topImgs = [];
         var midImgs = [];
         var bottomImgs = [];
-        for (var i = 0; i < resJson.length; i ++) {
-          if (resJson[i].position === 'top') {
-            topImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
-          } else if (resJson[i].position === 'mid') {
-            midImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
-          } else if (resJson[i].position === 'bottom') {
-            bottomImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
+        for (var i = 0; i < resJSON.length; i ++) {
+          if (resJSON[i].position === 'top') {
+            topImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
+          } else if (resJSON[i].position === 'mid') {
+            midImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
+          } else if (resJSON[i].position === 'bottom') {
+            bottomImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
           } 
         }
         this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs});
+      })
+      .catch((error) => console.error(error));
+  }
+
+  changeMixerDisplay(clothing) {
+    var position = this.findClothingPosition(clothing);
+    switch (position) {
+      case 'top':
+        this.state.topImages.push({URL: clothing.largeImg});
+        this.setState({topIndex: this.state.topImages.length - 1});
+        break;
+      case 'middle':
+        this.state.midImages.push({URL: clothing.largeImg});
+        this.setState({midIndex: this.state.midImages.length - 1});
+        break;
+      case 'bottom':
+        this.state.bottomImages.push({URL: clothing.largeImg});
+        this.setState({bottomIndex: this.state.bottomImages.length - 1});
+        break;
+    }
+  }
+
+  findClothingPosition(clothing) {
+    var positionKey = {
+      'SHIRT': 'top',
+      'SHIRTS': 'top',
+      'PANT': 'middle',
+      'PANTS': 'middle',
+      'SHOES': 'bottom',
+    };
+
+    return positionKey[clothing.productTypeName];
+  }
+
+  postMixerOutfit(description) {
+    return fetch("http://" + ip.address + ":3000/api/postToDB", {
+      method: 'POST', 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify({
+        userId: this.props.userId,
+        likesCount: 0,
+        body: this.state.topImages[this.state.topIndex].URL,
+        shirtId: this.state.topImages[this.state.topIndex].id,
+        pantId: this.state.midImages[this.state.midIndex].id,
+        shoesId: this.state.bottomImages[this.state.bottomIndex].id,
+        description: description,
+        type: 'image', 
+        createdAt: new Date()
+        })
+    }).then((res) => res.json())
+      .then((resJson) => {
+        Alert.alert('You have successfully posted your outfit!');
+        this.props.navigator.pop();
       })
       .catch((error) => {
         console.error(error);
@@ -53,69 +132,43 @@ export default class Mixer extends Component {
         this.props.navigator.pop();
         break;
       case 'topLess':
-        console.log("decrease press", this.state.topIndex)
         if (this.state.topIndex > 0) {
-          this.setState({topIndex: this.state.topIndex-=1})
+          this.setState({topIndex: this.state.topIndex -= 1});
         }
         break;
       case 'topMore':
-        console.log("increase press", this.state.topImages)
         if (this.state.topIndex < this.state.topImages.length -1) {
-          this.setState({topIndex: this.state.topIndex+=1})
+          this.setState({topIndex: this.state.topIndex += 1});
         }
         break;
       case 'midLess':
          if (this.state.midIndex > 0) {
-          this.setState({midIndex: this.state.midIndex-=1})
+          this.setState({midIndex: this.state.midIndex -= 1});
         }
         break;
       case 'midMore':
         if (this.state.midIndex < this.state.midImages.length -1) {
-          this.setState({midIndex: this.state.midIndex+=1})
+          this.setState({midIndex: this.state.midIndex += 1});
         }
         break;
       case 'bottomLess':
          if (this.state.bottomIndex > 0) {
-          this.setState({bottomIndex: this.state.bottomIndex-=1})
+          this.setState({bottomIndex: this.state.bottomIndex-=1});
         }
         break;
       case 'bottomMore':
         if (this.state.bottomIndex < this.state.bottomImages.length -1) {
-          this.setState({bottomIndex: this.state.bottomIndex+=1})
+          this.setState({bottomIndex: this.state.bottomIndex+=1});
         }
         break;
       case 'post':
-        console.log('posty posty posty')
-        var time = new Date();
-        fetch("http://" + ip.address + ":3000/api/postToDB", {
-          method: 'POST', 
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }, 
-          body: JSON.stringify({
-            userId: 3,
-            likesCount: 0,
-            body: this.state.topImages[this.state.topIndex].URL,
-            shirtId: this.state.topImages[this.state.topIndex].id,
-            pantId: this.state.midImages[this.state.midIndex].id,
-            shoesId: this.state.bottomImages[this.state.bottomIndex].id,
-            description: this.state.description,
-            type: 'image', 
-            createdAt: time
-            })
-        }).then((res) => res.json())
-          .then((resJson) => {
-            console.log(resJson);
-            Alert.alert('You have successfully posted your outfit');
-            this.props.navigator.pop();
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        AlertIOS.prompt('Enter a post message...', null, (msg) => {
+          this.postMixerOutfit(msg); 
+        });
         break;
     }
   }
+
   render() { 
     return (
       <View style={styles.container} >
@@ -127,6 +180,9 @@ export default class Mixer extends Component {
             <Text style={styles.text}>Mixer</Text>
           </View>
           <View style={styles.emptySpace}>
+            <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
+              <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
+            </TouchableHighlight>
           </View>
         </View>
           <View style={styles.tuserContainer}>
@@ -157,10 +213,14 @@ export default class Mixer extends Component {
             </TouchableHighlight> 
           </View>
         <View class="footer" style={styles.footer}>
-            <TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
-          </TouchableHighlight>
+          {/*<TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />*/}
+          <ScrollView horizontal={true}>
+            <View style={styles.scrollContainer}>
+              {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
+                return <TouchableHighlight onPress={() => this.changeMixerDisplay(clothing)} key={key}><Image style={styles.thumbnail} source={{uri: clothing.largeImg}}/></TouchableHighlight>
+              }) : <View style={{alignItems: 'center', marginLeft: 5}}><Text style={{color: '#888'}}>No items in wardrobe!</Text></View>}
+            </View>
+          </ScrollView>
         </View>
       </View>
     );
@@ -256,5 +316,18 @@ const styles = StyleSheet.create({
   post: {
     flex: 1,
     flexDirection: 'row',
-  }
+  },
+  thumbnail: {
+    width: Dimensions.get('window').width / 5,
+    height: Dimensions.get('window').width / 5,
+    // marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
 });
