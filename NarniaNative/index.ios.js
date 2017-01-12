@@ -19,36 +19,42 @@ import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
 import Mixer from './screens/mixer.js';
 import ProfileMenu from './screens/profileMenu.js';
+import Loading from './screens/loading.js';
 
 export default class NarniaNative extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: 'Loading',
       userId: '',
       selectedId: ''
     };
     this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
-    this.viewedUser = this.viewedUser.bind(this);
   }
 
-  componentWillMount() {
+  isLoggedIn(that) {
     Auth.getToken()
     .then(function(resp) {
       if (!resp) {
-        this.setState({
-          screen: 'Login'
+        that.props.navigator.push({
+          id: 'Login'
         });
       } else {
         Auth.getId()
         .then(function(id) {
           this.setState({
-            screen: 'SocialFeed',
             userId: id
           });
+          that.props.navigator.push({
+            id: 'SocialFeed'
+          });
+          console.log(this.state);
         }.bind(this));
       }
     }.bind(this));
+  }
+
+  setUserId(obj) {
+    this.setState(obj);
   }
 
   viewedUser(id) { //for looking at user profiles
@@ -61,9 +67,11 @@ export default class NarniaNative extends Component {
     _navigator = navigator;
     switch (route.id) {
     case 'Login':
-      return (<Login navigator={navigator} title='Login' setId={Auth.setId} setToken={Auth.setToken}/>);
+      return (<Login navigator={navigator} title='Login' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId.bind(this)}/>);
+    case 'Signup':
+      return (<Signup navigator={navigator} title='Signup' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId.bind(this)}/>);
     case 'SocialFeed':
-      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} userId={this.state.userId} selectedId={this.state.selectedId}/>);
+      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'LikesScreen':
       return (<LikesScreen navigator={navigator} title='LikesScreen' userId={this.state.userId}/>);
     case 'ProfileScreen':
@@ -74,17 +82,16 @@ export default class NarniaNative extends Component {
       return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'ProfileMenu':
       return (<ProfileMenu navigator={navigator} title='ProfileMenu' destroySession={Auth.destroySession}/>);
+    case 'Loading':
+      return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn.bind(this)} />);
     }
   }
 
   render() {
-    if (this.state.screen === 'Loading') {
-      return <View><Text>Loading...</Text></View>;
-    }
     return (
       <Navigator
         initialRoute = {{
-          id: this.state.screen
+          id: 'Loading'
         }}
         renderScene={
           this.navigatorRenderScene

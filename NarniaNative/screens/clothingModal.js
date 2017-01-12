@@ -53,7 +53,7 @@ onButtonPress(button) {
 }
   render() {
     return (
-      <Modal 
+      <Modal
         animationType={"slide"}
         transparent={false}
         visible={this.props.modalVisible}
@@ -72,12 +72,12 @@ onButtonPress(button) {
           <Text> {this.props.clothing.Title} </Text>
         </View>
         <View >
-          <Image  style={styles.imgLarge} source={{uri: this.props.clothing.image}} resizeMode={Image.resizeMode.contain} />
+          <Image  style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
-          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} /> 
-          <Button title="Add to Dreamrobe" onPress={this.onButtonPress.bind(this, 'addtoDream')} color='orange' style={styles.button} /> 
-          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='orange' style={styles.button}/> 
+          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} />
+          <Button title="Add to Dreamrobe" onPress={this.onButtonPress.bind(this, 'addtoDream')} color='orange' style={styles.button} />
+          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='orange' style={styles.button}/>
         </View>
       </View>
     </Modal>
