@@ -70,6 +70,11 @@ export default class profileScreen extends Component {
     case 'back':
       this.props.navigator.pop();
       break;
+    case 'wardrobe':
+      this.props.navigator.push({
+        id: 'WardrobeScreen'
+      });
+      break;
     }
   }
 
@@ -100,6 +105,12 @@ export default class profileScreen extends Component {
             <Button
               onPress={this.logoutHandler.bind(this)}
               title="Logout"
+              color="#ff9554"
+              accessibilityLabel="Logout"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'wardrobe')}
+              title="Wardrobe"
               color="#ff9554"
               accessibilityLabel="Logout"
             />

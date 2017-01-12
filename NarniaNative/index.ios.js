@@ -20,6 +20,7 @@ import SearchScreen from './screens/searchScreen';
 import Mixer from './screens/mixer.js';
 import ProfileMenu from './screens/profileMenu.js';
 import Loading from './screens/loading.js';
+import Wardrobe from './screens/wardrobeScreen.js';
 
 export default class NarniaNative extends Component {
   constructor(props) {
@@ -84,6 +85,8 @@ export default class NarniaNative extends Component {
       return (<ProfileMenu navigator={navigator} title='ProfileMenu' destroySession={Auth.destroySession}/>);
     case 'Loading':
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn.bind(this)} />);
+    case 'WardrobeScreen':
+      return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
     }
   }
 
