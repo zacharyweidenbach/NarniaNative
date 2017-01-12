@@ -59,23 +59,18 @@ export default class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: '',
-      screen: ''
+      password: ''
     };
   }
 
-  buttonHandler() {
-    var user = {
-      username: this.state.username,
-      password: this.state.password
-    };
+  submitHandler() {
     fetch('http://' + ip.address + ':3000/api/users/mbLogin', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(this.state)
     })
     .then(function(response) {
       if (response._bodyText === 'Invalid username or password.') { // check if valid login
@@ -86,13 +81,15 @@ export default class Login extends Component {
           email: ''
         });
       } else { // let them login
-        console.log('you can login!');
-        this.props.setToken(JSON.parse(response._bodyText).token)
+        var userId = JSON.parse(response._bodyText).id;
+        var token = JSON.parse(response._bodyText).token;
+        this.props.setToken(token)
         .then(function() {
-          this.props.setId(JSON.parse(response._bodyText).id)
+          this.props.setUserId({userId: userId});
+          this.props.setId(userId)
           .then(function() {
-            this.setState({ //send to home page
-              screen: 'Main'
+            this.props.navigator.push({
+              id: 'SocialFeed'
             });
           }.bind(this));
         }.bind(this));
@@ -101,69 +98,49 @@ export default class Login extends Component {
   }
 
   signupHandler() {
-    this.setState({screen: 'Signup'});
+    this.props.navigator.push({
+      id: 'Signup'
+    });
   }
 
   render() {
-    if (this.state.screen === '') {
-      return (
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={{fontWeight: 'bold', fontSize: 26}}>NARNIA Login</Text>
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={{fontWeight: 'bold', fontSize: 26}}>NARNIA Login</Text>
+        </View>
+        <View style={styles.form}>
+          <TextInput style={styles.textInput}
+            onChangeText={(text) => this.setState({username: text})}
+            placeholder="Username"
+            placeholderTextColor="#eee"
+            value={this.state.username}
+          />
+          <TextInput style={styles.textInput}
+            onChangeText={(text) => this.setState({password: text})}
+            placeholder="Password"
+            secureTextEntry={true}
+            placeholderTextColor="#eee"
+            value={this.state.password}
+          />
+          <View style={styles.button}>
+            <Button
+              onPress={this.submitHandler.bind(this)}
+              title="Submit"
+              color="#000"
+              accessibilityLabel="Submit to login"
+            />
           </View>
-          <View style={styles.form}>
-            <TextInput style={styles.textInput}
-              onChangeText={(text) => this.setState({username: text})}
-              placeholder="Username"
-              placeholderTextColor="#eee"
-              value={this.state.username}
+          <View style ={styles.link}>
+            <Button
+              onPress={this.signupHandler.bind(this)}
+              title="Signup"
+              color="#ff9554"
+              accessibilityLabel="Need an account? Go to signup."
             />
-            <TextInput style={styles.textInput}
-              onChangeText={(text) => this.setState({password: text})}
-              placeholder="Password"
-              secureTextEntry="true"
-              placeholderTextColor="#eee"
-              value={this.state.password}
-            />
-            <View style={styles.button}>
-              <Button
-                onPress={this.buttonHandler.bind(this)}
-                title="Submit"
-                color="#000"
-                accessibilityLabel="Submit to login"
-              />
-            </View>
-            <View style ={styles.link}>
-              <Button
-                onPress={this.signupHandler.bind(this)}
-                title="Signup"
-                color="#ff9554"
-                accessibilityLabel="Need an account? Go to signup."
-              />
-            </View>
           </View>
         </View>
-      );
-    } else {
-      return (
-        <Navigator
-          initialRoute = {{
-            id: this.state.screen
-          }}
-          renderScene={
-            this.navigatorRenderScene
-          }
-        />
-      );
-    }
-  }
-  navigatorRenderScene(route, navigator) {
-    _navigator = navigator;
-    switch (route.id) {
-    case 'Main':
-      return (<Main navigator={navigator} title='Main'/>);
-    case 'Signup':
-      return (<Signup navigator={navigator} title='Signup'/>);
-    }
+      </View>
+    );
   }
 }

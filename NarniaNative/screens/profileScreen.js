@@ -4,7 +4,6 @@ import {
   ScrollView,
   Text,
   View,
-  Image,
   Dimensions,
   TouchableHighlight,
   Button
@@ -233,9 +232,6 @@ export default class profileScreen extends Component {
           <View style={styles.textContainer}>
             <Text style={styles.text}>{this.state.username}</Text>
           </View>
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent' style={styles.menu}>
-            <Icon name="ios-menu" size={38} color={this.state.color} />
-          </TouchableHighlight>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
