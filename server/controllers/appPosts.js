@@ -61,8 +61,8 @@ module.exports = {
   },
 
   postToDb: function(req, res, next) {
-    console.log('hit')
-    console.log(req.body)
+    console.log('hit');
+    console.log(req.body);
     // var time = new Date();
     // var post = {
     //   postId: 0,
@@ -84,7 +84,7 @@ module.exports = {
     // };
     connection.query('INSERT INTO posts SET ?', req.body, function(err, result) {
       var response = err || result;
-      console.log('made it here', response)
+      console.log('made it here', response);
       res.json(response);
     });
   },

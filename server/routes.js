@@ -8,6 +8,7 @@ var appLoggedInProfile = require('./controllers/appLoggedInProfile.js');
 var appClothing = require('./controllers/appClothing.js');
 var appSearchUser = require('./controllers/appSearchUser.js');
 var appWardrobe = require('./controllers/appWardrobe.js');
+var appTags = require('./controllers/appTags.js');
 
 // ROUTES
 module.exports = function(app, express) {
@@ -67,5 +68,9 @@ module.exports = function(app, express) {
   //wardrobe
   app.post('/api/getWardrobe', appWardrobe.getWardrobe);
   app.post('/api/addToWardrobe', appWardrobe.addToWardrobe);
-  app.post('/api/removeFromWardrobe', appWardrobe.removeFromWardrobe);  
+  app.post('/api/removeFromWardrobe', appWardrobe.removeFromWardrobe);
+
+  //tags
+  app.post('/api/insertTags', appTags.insertTags);
+  app.post('/api/joinPostTags', appTags.joinPostTags);
 };

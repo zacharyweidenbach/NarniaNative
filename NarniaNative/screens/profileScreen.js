@@ -251,11 +251,12 @@ export default class profileScreen extends Component {
           <View style={styles.textContainer}>
             <Text style={styles.text}>{this.state.username}</Text>
           </View>
+          <View style={{flex: 1}}>{/*DONT REMOVE THIS PLEASE. USED FOR CENTERING USERNAME IN HEADER*/}</View>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>
             <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
-            <View style={{backgroundColor:"#fff"}}>
+            <View style={{backgroundColor: '#fff'}}>
               {this.props.userId !== this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
             </View>
             <ProfileGallery userPosts={this.state.bodyArr} />

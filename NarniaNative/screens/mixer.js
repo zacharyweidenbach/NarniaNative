@@ -16,6 +16,8 @@ export default class Mixer extends Component {
       bottomIndex: 0,
       description: '',
       color: '#ff9554',
+      hashtags: [],
+      postId: 0,
       wardrobe: []
     };
   }
@@ -128,45 +130,139 @@ export default class Mixer extends Component {
 
   onButtonPress(button) {
     switch (button) {
-      case 'back':
-        this.props.navigator.pop();
-        break;
-      case 'topLess':
-        if (this.state.topIndex > 0) {
-          this.setState({topIndex: this.state.topIndex -= 1});
-        }
-        break;
-      case 'topMore':
-        if (this.state.topIndex < this.state.topImages.length -1) {
-          this.setState({topIndex: this.state.topIndex += 1});
-        }
-        break;
-      case 'midLess':
-         if (this.state.midIndex > 0) {
-          this.setState({midIndex: this.state.midIndex -= 1});
-        }
-        break;
-      case 'midMore':
-        if (this.state.midIndex < this.state.midImages.length -1) {
-          this.setState({midIndex: this.state.midIndex += 1});
-        }
-        break;
-      case 'bottomLess':
-         if (this.state.bottomIndex > 0) {
-          this.setState({bottomIndex: this.state.bottomIndex-=1});
-        }
-        break;
-      case 'bottomMore':
-        if (this.state.bottomIndex < this.state.bottomImages.length -1) {
-          this.setState({bottomIndex: this.state.bottomIndex+=1});
-        }
-        break;
-      case 'post':
-        AlertIOS.prompt('Enter a post message...', null, (msg) => {
-          this.postMixerOutfit(msg); 
-        });
-        break;
+    case 'back':
+      this.props.navigator.pop();
+      break;
+    case 'topLess':
+      console.log('decrease press', this.state.topIndex);
+      if (this.state.topIndex > 0) {
+        this.setState({topIndex: this.state.topIndex -= 1});
+      }
+      break;
+    case 'topMore':
+      console.log('increase press', this.state.topImages);
+      if (this.state.topIndex < this.state.topImages.length - 1) {
+        this.setState({topIndex: this.state.topIndex += 1});
+      }
+      break;
+    case 'midLess':
+      if (this.state.midIndex > 0) {
+        this.setState({midIndex: this.state.midIndex -= 1});
+      }
+      break;
+    case 'midMore':
+      if (this.state.midIndex < this.state.midImages.length - 1) {
+        this.setState({midIndex: this.state.midIndex += 1 });
+      }
+      break;
+    case 'bottomLess':
+      if (this.state.bottomIndex > 0) {
+        this.setState({bottomIndex: this.state.bottomIndex -= 1});
+      }
+      break;
+    case 'bottomMore':
+      if (this.state.bottomIndex < this.state.bottomImages.length - 1) {
+        this.setState({bottomIndex: this.state.bottomIndex += 1});
+      }
+      break;
+    case 'post':
+      AlertIOS.prompt('Enter a post message...', null, (msg) => {
+        this.insertPost(msg);
+      });
+      break;
     }
+  }
+
+  insertPost(message) {
+    // var that = this;
+    var msg = message;
+    fetch('http://' + ip.address + ':3000/api/postToDB', {
+      method: 'POST', 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify({
+        userId: this.props.userId,
+        likesCount: 0,
+        body: this.state.topImages[this.state.topIndex].URL,
+        shirtId: this.state.topImages[this.state.topIndex].id,
+        pantId: this.state.midImages[this.state.midIndex].id,
+        shoesId: this.state.bottomImages[this.state.bottomIndex].id,
+        description: msg,
+        type: 'image', 
+        createdAt: new Date()
+      })
+    }).then((res) => res.json())
+        .then((resJson) => {
+          // console.log(resJson);
+          this.setState({postId: resJson.insertId}, function() {
+            this.parseDescriptionForTags(msg);
+          });
+          Alert.alert('You have successfully posted your outfit');
+          this.props.navigator.pop();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+  }
+
+  parseDescriptionForTags(message) {
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var matches = [];
+    var hashtag;
+    while ((hashtag = regex.exec(message))) {
+      matches.push(hashtag[1].toLowerCase());
+    }
+    if (matches.length > 0) {
+      this.insertTags(matches);
+      this.setState({hashtags: matches});
+    }
+  }
+
+  insertTags(arr) {
+    console.log(arr);
+    fetch('http://' + ip.address + ':3000/api/insertTags', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        matches: arr
+      })
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      // console.log('success resJson', resJson);
+      // console.log(this.state.hashtags);
+      this.joinPostTags();
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  joinPostTags() {
+    fetch('http://' + ip.address + ':3000/api/joinPostTags', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hashtags: this.state.hashtags,
+        postId: this.state.postId
+      })
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      // console.log(resJson);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   render() { 
@@ -186,29 +282,29 @@ export default class Mixer extends Component {
           </View>
         </View>
           <View style={styles.tuserContainer}>
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
             <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} /> 
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight>  
           </View>
           <View style={styles.muserContainer}>
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
             <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} /> 
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight>   
           </View>
           <View style={styles.buserContainer}>
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight> 
             <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />   
-            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')}  underlayColor='transparent' >
+            <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight> 
           </View>
