@@ -83,7 +83,7 @@ export default class searchScreen extends Component {
       index: 0,
       routes: [
         { key: '1', title: 'People' },
-        { key: '2', title: 'Tags' },
+        { key: '2', title: 'Hashtags' },
         { key: '3', title: 'Shop' },
       ], 
       searchText: '',
