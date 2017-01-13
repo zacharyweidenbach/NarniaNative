@@ -27,7 +27,7 @@ export default class Login extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.isLoggedIn(this);
   }
 

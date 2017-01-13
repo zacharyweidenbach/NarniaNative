@@ -88,7 +88,7 @@ export default class Login extends Component {
           this.props.setUserId({userId: userId});
           this.props.setId(userId)
           .then(function() {
-            this.props.navigator.push({
+            this.props.navigator.resetTo({
               id: 'SocialFeed'
             });
           }.bind(this));

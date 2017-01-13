@@ -75,13 +75,27 @@ export default class profileScreen extends Component {
         id: 'WardrobeScreen'
       });
       break;
+    case 'camera':
+      this.props.navigator.push({
+        id:'cameraScreen'
+      });
+      break;
     }
   }
 
   logoutHandler() {
     this.props.destroySession()
     .then(function() {
-      this.props.navigator.push({
+      // this.props.navigator.push({
+      //   id: 'Login'
+      // });
+      // while (this.props.navigator.length > 0) {
+      //   this.props.navigator.pop();
+      // }
+      // this.props.navigator.push({
+      //   id: 'Login'
+      // // });
+      this.props.navigator.resetTo({
         id: 'Login'
       });
     }.bind(this));
@@ -112,7 +126,13 @@ export default class profileScreen extends Component {
               onPress={this.onButtonPress.bind(this, 'wardrobe')}
               title="Wardrobe"
               color="#ff9554"
-              accessibilityLabel="Logout"
+              accessibilityLabel="Wardrobe"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'camera')}
+              title="Add Personal Clothing to Wardrobe"
+              color="#ff9554"
+              accessibilityLabel="Add Personal Clothing to Wardrobe"
             />
           </ScrollView>
         </View>

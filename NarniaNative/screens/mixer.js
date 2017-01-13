@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
+import { Alert, AlertIOS, Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 
@@ -18,10 +18,33 @@ export default class Mixer extends Component {
       color: '#ff9554',
       hashtags: [],
       postId: 0,
+      wardrobe: []
     };
   }
 
   componentWillMount() {
+    this.fetchMixerImages();
+    this.fetchWardrobe();
+  }
+
+  fetchWardrobe() {
+    var that = this;
+    return fetch('http://' + ip.address + ':3000/api/getWardrobe', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: that.props.userId,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => that.setState({wardrobe: resJSON}))
+    .catch((err) => console.error(err));
+  }
+
+  fetchMixerImages() {
     return fetch('http://' + ip.address + ':3000/api/clothing', {
       method: 'GET',
       headers: {
@@ -29,20 +52,76 @@ export default class Mixer extends Component {
         'Content-Type': 'application/json'
       },
     }).then((res) => { return res.json(); })
-      .then((resJson) => {
+      .then((resJSON) => {
         var topImgs = [];
         var midImgs = [];
         var bottomImgs = [];
-        for (var i = 0; i < resJson.length; i ++) {
-          if (resJson[i].position === 'top') {
-            topImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
-          } else if (resJson[i].position === 'mid') {
-            midImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
-          } else if (resJson[i].position === 'bottom') {
-            bottomImgs.push({URL: resJson[i].largeImg, id: resJson[i].id});
+        for (var i = 0; i < resJSON.length; i ++) {
+          if (resJSON[i].position === 'top') {
+            topImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
+          } else if (resJSON[i].position === 'mid') {
+            midImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
+          } else if (resJSON[i].position === 'bottom') {
+            bottomImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
           } 
         }
         this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs});
+      })
+      .catch((error) => console.error(error));
+  }
+
+  changeMixerDisplay(clothing) {
+    var position = this.findClothingPosition(clothing);
+    switch (position) {
+      case 'top':
+        this.state.topImages.push({URL: clothing.largeImg});
+        this.setState({topIndex: this.state.topImages.length - 1});
+        break;
+      case 'middle':
+        this.state.midImages.push({URL: clothing.largeImg});
+        this.setState({midIndex: this.state.midImages.length - 1});
+        break;
+      case 'bottom':
+        this.state.bottomImages.push({URL: clothing.largeImg});
+        this.setState({bottomIndex: this.state.bottomImages.length - 1});
+        break;
+    }
+  }
+
+  findClothingPosition(clothing) {
+    var positionKey = {
+      'SHIRT': 'top',
+      'SHIRTS': 'top',
+      'PANT': 'middle',
+      'PANTS': 'middle',
+      'SHOES': 'bottom',
+    };
+
+    return positionKey[clothing.productTypeName];
+  }
+
+  postMixerOutfit(description) {
+    return fetch("http://" + ip.address + ":3000/api/postToDB", {
+      method: 'POST', 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify({
+        userId: this.props.userId,
+        likesCount: 0,
+        body: this.state.topImages[this.state.topIndex].URL,
+        shirtId: this.state.topImages[this.state.topIndex].id,
+        pantId: this.state.midImages[this.state.midIndex].id,
+        shoesId: this.state.bottomImages[this.state.bottomIndex].id,
+        description: description,
+        type: 'image', 
+        createdAt: new Date()
+        })
+    }).then((res) => res.json())
+      .then((resJson) => {
+        Alert.alert('You have successfully posted your outfit!');
+        this.props.navigator.pop();
       })
       .catch((error) => {
         console.error(error);
@@ -87,14 +166,16 @@ export default class Mixer extends Component {
       }
       break;
     case 'post':
-      this.insertPost();
+      AlertIOS.prompt('Enter a post message...', null, (msg) => {
+        this.insertPost(msg);
+      });
       break;
     }
   }
 
-  insertPost() {
+  insertPost(message) {
     // var that = this;
-    var time = new Date();
+    var msg = message;
     fetch('http://' + ip.address + ':3000/api/postToDB', {
       method: 'POST', 
       headers: {
@@ -108,15 +189,15 @@ export default class Mixer extends Component {
         shirtId: this.state.topImages[this.state.topIndex].id,
         pantId: this.state.midImages[this.state.midIndex].id,
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
-        description: this.state.description,
+        description: msg,
         type: 'image', 
-        createdAt: time
+        createdAt: new Date()
       })
     }).then((res) => res.json())
         .then((resJson) => {
           // console.log(resJson);
           this.setState({postId: resJson.insertId}, function() {
-            this.parseDescriptionForTags();
+            this.parseDescriptionForTags(msg);
           });
           Alert.alert('You have successfully posted your outfit');
           this.props.navigator.pop();
@@ -126,11 +207,11 @@ export default class Mixer extends Component {
         });
   }
 
-  parseDescriptionForTags() {
+  parseDescriptionForTags(message) {
     var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
     var matches = [];
     var hashtag;
-    while ((hashtag = regex.exec(this.state.description))) {
+    while ((hashtag = regex.exec(message))) {
       matches.push(hashtag[1].toLowerCase());
     }
     if (matches.length > 0) {
@@ -195,6 +276,9 @@ export default class Mixer extends Component {
             <Text style={styles.text}>Mixer</Text>
           </View>
           <View style={styles.emptySpace}>
+            <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
+              <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
+            </TouchableHighlight>
           </View>
         </View>
           <View style={styles.tuserContainer}>
@@ -225,10 +309,14 @@ export default class Mixer extends Component {
             </TouchableHighlight> 
           </View>
         <View class="footer" style={styles.footer}>
-            <TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
-          </TouchableHighlight>
+          {/*<TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />*/}
+          <ScrollView horizontal={true}>
+            <View style={styles.scrollContainer}>
+              {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
+                return <TouchableHighlight onPress={() => this.changeMixerDisplay(clothing)} key={key}><Image style={styles.thumbnail} source={{uri: clothing.largeImg}}/></TouchableHighlight>
+              }) : <View style={{alignItems: 'center', marginLeft: 5}}><Text style={{color: '#888'}}>No items in wardrobe!</Text></View>}
+            </View>
+          </ScrollView>
         </View>
       </View>
     );
@@ -324,5 +412,18 @@ const styles = StyleSheet.create({
   post: {
     flex: 1,
     flexDirection: 'row',
-  }
+  },
+  thumbnail: {
+    width: Dimensions.get('window').width / 5,
+    height: Dimensions.get('window').width / 5,
+    // marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
 });
