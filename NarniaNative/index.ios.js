@@ -32,11 +32,18 @@ export default class NarniaNative extends Component {
     this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
   }
 
+  // componentWillMount() {
+  //   Auth.destroySession();
+  // }
+
   isLoggedIn(that) {
     Auth.getToken()
     .then(function(resp) {
       if (!resp) {
-        that.props.navigator.push({
+        // that.props.navigator.push({
+        //   id: 'Login'
+        // });
+        that.props.navigator.resetTo({
           id: 'Login'
         });
       } else {
@@ -45,7 +52,7 @@ export default class NarniaNative extends Component {
           this.setState({
             userId: id
           });
-          that.props.navigator.push({
+          that.props.navigator.resetTo({
             id: 'SocialFeed'
           });
           console.log(this.state);

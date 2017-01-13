@@ -81,7 +81,16 @@ export default class profileScreen extends Component {
   logoutHandler() {
     this.props.destroySession()
     .then(function() {
-      this.props.navigator.push({
+      // this.props.navigator.push({
+      //   id: 'Login'
+      // });
+      // while (this.props.navigator.length > 0) {
+      //   this.props.navigator.pop();
+      // }
+      // this.props.navigator.push({
+      //   id: 'Login'
+      // // });
+      this.props.navigator.resetTo({
         id: 'Login'
       });
     }.bind(this));
