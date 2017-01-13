@@ -67,7 +67,6 @@ export default class SearchShop extends Component {
     }).then((res) => { console.log('returned'); return res.json(); })
       .then((resJson) => {
         this.setState({items: this.state.items.concat(resJson), loading:false, clothing:true});
-        console.log(this.state.items);
       })
       .catch((error) => {
         console.error(error);

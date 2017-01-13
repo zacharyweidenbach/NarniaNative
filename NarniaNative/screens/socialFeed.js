@@ -95,7 +95,6 @@ export default class socialFeed extends Component {
   }
 
   getTrendingPosts() {
-    console.log('getting trending posts...');
     return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
       method: 'GET',
       headers: {
@@ -109,7 +108,6 @@ export default class socialFeed extends Component {
   }
 
   getFollowingPosts() {
-    console.log('getting following posts...', this.props.userId);
     return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
       method: 'POST',
       headers: {

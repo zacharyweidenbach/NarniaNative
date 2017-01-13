@@ -31,13 +31,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 12,
   },
-  // profileStats: {
-  //   // flex: 2,
-
-  // },
-  // gallery: {
-  //   // flex: 2,
-  // },
   backBtn: {
     flex: 1,
     justifyContent: 'center',
@@ -57,6 +50,9 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 4,
     alignItems: 'center',
+  },
+  emptySpace: {
+    flex: 1
   }
 });
 const initialLayout = {
@@ -251,7 +247,7 @@ export default class profileScreen extends Component {
           <View style={styles.textContainer}>
             <Text style={styles.text}>{this.state.username}</Text>
           </View>
-          <View style={{flex: 1}}>{/*DONT REMOVE THIS PLEASE. USED FOR CENTERING USERNAME IN HEADER*/}</View>
+          <View style={styles.emptySpace}></View>
         </View>
         <View style={styles.scrollContainer}>
           <ScrollView>

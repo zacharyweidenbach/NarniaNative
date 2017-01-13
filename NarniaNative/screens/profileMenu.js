@@ -70,6 +70,11 @@ export default class profileScreen extends Component {
     case 'back':
       this.props.navigator.pop();
       break;
+    case 'search':
+      this.props.navigator.push({
+        id: 'SearchScreen'
+      });
+      break;
     case 'wardrobe':
       this.props.navigator.push({
         id: 'WardrobeScreen'
@@ -78,6 +83,20 @@ export default class profileScreen extends Component {
     case 'camera':
       this.props.navigator.push({
         id:'cameraScreen'
+    case 'likes':
+      this.props.navigator.push({
+        id: 'LikesScreen'
+      });
+      break;
+    case 'mixer':
+      this.props.navigator.push({
+        id: 'Mixer'
+      });
+      break;
+    case 'profile':
+      this.props.viewedUser(this.props.userId);
+      this.props.navigator.push({
+        id: 'ProfileScreen'
       });
       break;
     }
@@ -133,6 +152,30 @@ export default class profileScreen extends Component {
               title="Add Personal Clothing to Wardrobe"
               color="#ff9554"
               accessibilityLabel="Add Personal Clothing to Wardrobe"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'search')}
+              title="Search"
+              color="#ff9554"
+              accessibilityLabel="Search"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'likes')}
+              title="Likes"
+              color="#ff9554"
+              accessibilityLabel="Likes"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'mixer')}
+              title="Mixer"
+              color="#ff9554"
+              accessibilityLabel="Mixer"
+            />
+            <Button
+              onPress={this.onButtonPress.bind(this, 'profile')}
+              title="Profile"
+              color="#ff9554"
+              accessibilityLabel="Profile"
             />
           </ScrollView>
         </View>
