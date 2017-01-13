@@ -21,6 +21,7 @@ import Mixer from './screens/mixer.js';
 import ProfileMenu from './screens/profileMenu.js';
 import Loading from './screens/loading.js';
 import Wardrobe from './screens/wardrobeScreen.js';
+import Camera from './screens/cameraScreen.js';
 
 export default class NarniaNative extends Component {
   constructor(props) {
@@ -94,6 +95,9 @@ export default class NarniaNative extends Component {
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn.bind(this)} />);
     case 'WardrobeScreen':
       return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
+    case 'cameraScreen':
+      console.log('ring of fire')
+      return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />)
     }
   }
 

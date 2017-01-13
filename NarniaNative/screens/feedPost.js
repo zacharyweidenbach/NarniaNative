@@ -258,6 +258,17 @@ export default class FeedPost extends Component {
   }
 
   render() {
+    var postImage = function() {
+
+      // if (this.props.post.shirtId) {
+          //three images 
+      // }
+        return (
+          <View>
+            <Image style={styles.imgContainer} source={{uri: this.props.post.body}} />
+          </View>
+        )
+    }.bind(this);
     return (
       <View style={styles.container}>
         <View style={styles.userContainer}>
@@ -266,9 +277,7 @@ export default class FeedPost extends Component {
           </TouchableHighlight>
           <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>
         </View>
-        <View>
-          <Image style={styles.imgContainer} source={{uri: this.props.post.body}} />
-        </View>
+         {postImage()}
         <View style={styles.actionBar}>
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>

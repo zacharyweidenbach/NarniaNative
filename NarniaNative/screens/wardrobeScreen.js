@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class profileScreen extends Component {
+export default class wardrobeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
