@@ -1,6 +1,12 @@
 var connection = require('../../db/index.js');
 
 module.exports = {
+  fetchTags: function(req, res, next) {
+    connection.query('SELECT * FROM tags WHERE tag like "%' + req.body.tag + '%"', function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
   insertTags: function(req, res, next) {
     var matches = req.body.matches;
     //query all tags in matches
@@ -19,7 +25,6 @@ module.exports = {
         }
       }); 
   },
-
   joinPostTags: function(req, res, next) {
     var hashtags = req.body.hashtags.map(function(tag) {
       return '"' + tag + '"';

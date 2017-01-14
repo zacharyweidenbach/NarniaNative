@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
   AppRegistry,
   Navigator,
-  AsyncStorage,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
 
 import Auth from './auth.js';
-
 import Signup from './screens/signup';
 import Login from './screens/login';
 import SocialFeed from './screens/socialFeed';
@@ -90,7 +84,7 @@ export default class NarniaNative extends Component {
     case 'Mixer':
       return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'ProfileMenu':
-      return (<ProfileMenu navigator={navigator} title='ProfileMenu' destroySession={Auth.destroySession}/>);
+      return (<ProfileMenu navigator={navigator} title='ProfileMenu' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} destroySession={Auth.destroySession}/>);
     case 'Loading':
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn.bind(this)} />);
     case 'WardrobeScreen':
@@ -113,7 +107,6 @@ export default class NarniaNative extends Component {
       />
     );
   }
-
 }
 
 AppRegistry.registerComponent('NarniaNative', () => NarniaNative);

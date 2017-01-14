@@ -248,7 +248,6 @@ export default class FeedPost extends Component {
       this.checkLikeExists();
       break;
     case 'comment':
-      console.log('Comment Pressed');
       this.setState({modalVisible: true});
       break;
     }
