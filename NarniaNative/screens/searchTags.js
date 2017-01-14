@@ -7,7 +7,8 @@ import {
   Image,
 } from 'react-native';
 
-import SearchTagsGallery from './searchTagsGallery';
+import SearchTagsResults from './searchTagsResults';
+import ip from '../network';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  userContainer: {
+  tagContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -36,28 +37,58 @@ export default class SearchTags extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      tags: [],
     };
   }
-
-  componentWillReceiveProps(nextProps) {
-     if (nextProps.triggerSearch != this.props.triggerSearch && nextProps.index === 1) {
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('wait')
-      // console.log('new index', this.props.index)
-      // console.log('there was a change in the props', this.props.triggerSearch)
-    }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
   } 
-  // onNamePress() {
-  //   this.props.navigator.push({
-  //     id: 'ProfileScreen'
-  //   });
-  // }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.triggerSearch !== '' && nextProps.triggerSearch !== this.props.triggerSearch && nextProps.index === 1) {
+      this.fetchTags(this.props.triggerSearch);
+    }
+  }
+
+  fetchTags(search) {
+    var tag = this.parseSearchForTags(search);
+
+    return fetch('http://' + ip.address + ':3000/api/fetchTags', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tag: tag,
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      this.setState({tags: resJSON});
+    })
+    .then(() => console.log('tags', this.state.tags))
+    .catch((err) => console.log('error: ' + err));
+  }
+
+  parseSearchForTags(message) {
+    var regex = /\w+/gm;
+    var matches = message.match(regex);
+
+    if (matches.length === 1) {
+      return matches[0];
+    } else {
+      return matches.join('');
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <SearchTagsGallery />
+        {this.state.tags.length > 0 ? this.state.tags.map((tag, key) => {
+          return <SearchTagsResults tag={tag} key={key}/>
+        }) : null }
       </View>
     ); 
   }
