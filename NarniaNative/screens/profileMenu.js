@@ -83,6 +83,8 @@ export default class profileScreen extends Component {
     case 'camera':
       this.props.navigator.push({
         id:'cameraScreen'
+      });
+      break;
     case 'likes':
       this.props.navigator.push({
         id: 'LikesScreen'
