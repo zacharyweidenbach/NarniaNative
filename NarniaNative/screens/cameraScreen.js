@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ImagePickerIOS, TouchableOpacity, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Exif from 'react-native-exif'
 
 
 export default class cameraScreen extends Component {
@@ -8,6 +9,7 @@ export default class cameraScreen extends Component {
     super(props);
     this.state = {
       image: null,
+      rotation: '90 deg',
     };
     // this.chooseImageFromGallery = this.chooseImageFromGallery.bind(this);
     // this.chooseImageFromCamera = this.chooseImageFromCamera.bind(this);
@@ -18,13 +20,29 @@ export default class cameraScreen extends Component {
   }
   chooseImageFromGallery () {
     ImagePickerIOS.openSelectDialog({}, (imageUri) => {
-      this.setState({image: imageUri});
+      console.warn('i made it here', imageUri)
+      this.setState({image: imageUri})
     }, error => console.error('Error in cameraScreen.js in chooseImageFromGallery', error));
   }
 
   chooseImageFromCamera () {
     ImagePickerIOS.openCameraDialog({}, (imageUri) => {
-      this.setState({image: imageUri});
+      console.warn('i made it here', imageUri)
+      this.setState({rotation: '90 deg', image: imageUri})
+      Exif.getExif("rct-image-store://0")
+      .then((msg) => {
+        console.warn('ok:', msg.Orientation)
+        if (JSON.stringify(msg.Orientation) === '0') {
+          this.setState({rotation: '90 deg', image: imageUri})
+        } else if (JSON.stringify(msg.Orientation) === '1') {
+          this.setState({rotation: '0 deg', image: imageUri})
+        } else if (JSON.stringify(msg.Orientation) === '2') {
+          this.setState({rotation: '270 deg', image: imageUri})
+        } else if (JSON.stringify(msg.Orientation) === '3') {
+          this.setState({rotation: '180 deg', image: imageUri})
+        }
+      })
+      .catch(function(msg){console.warn('ERROR: ' + msg)})
     }, error => console.error('Error in cameraScreen.js in chooseImageFromCamera', error));
   }
 
@@ -40,6 +58,14 @@ export default class cameraScreen extends Component {
   }
 
   render () {
+    var rotateImage = () => {
+      return (
+        <View style={[styles.container, {backgroundColor:"red"}]}>
+          <Image style={{flex:2, transform:[{rotate:this.state.rotation}]}} source={{uri:this.state.image}} resizeMode={Image.resizeMode.contain}/> 
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -49,18 +75,18 @@ export default class cameraScreen extends Component {
           <View style={styles.textContainer}>
             <Text style={styles.text}>Upload Clothes</Text>
           </View>
-            <View style={{flex:1}}>
+          <View style={{flex:1}}>
+              {this.state.image?
+                <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'upload')}>
+                  <Text> Upload Image </Text>
+                </TouchableOpacity>
+                </View>
+                :null
+              }
           </View>
         </View>
-          {this.state.image?
-            <View style={{flex:1}}>
-              <Image style={{flex:1}} source={{uri:this.state.image}}/> 
-              <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'upload')}>
-                <Text> Upload Image </Text>
-              </TouchableOpacity>
-            </View>
-            :null
-          }
+          {this.state.image? rotateImage() :null}
           
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={this.chooseImageFromGallery.bind(this)}>
