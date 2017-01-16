@@ -13,6 +13,7 @@
     "react-native-lazyload": "^1.1.0",
     "react-native-fbsdk": "^0.4.0",
     "react-native-tab-view": "0.0.42",
+    "react-native-timeago": "^0.3.0",
     "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {

@@ -10,6 +10,7 @@ import {
   TextArea
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import TimeAgo from 'react-native-timeago';
 import CommentsModal from './commentsModal.js';
 import TagsModal from './tagsModal.js';
 import ip from '../network';
@@ -113,6 +114,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 10,
   },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start' 
+  },
+  time: {
+    backgroundColor: '#fff',
+    color: '#4f4f4f',
+    paddingLeft: 15,
+    paddingBottom: 10,
+  }
 });
 
 export default class FeedPost extends Component {
@@ -129,7 +142,7 @@ export default class FeedPost extends Component {
       likesCount: this.props.post.likesCount,
       postLiked: false,
       color: '#ff9554',
-      createdAt: this.props.post.createdAt,
+      createdAt: Number(this.props.post.createdAt),
     };
   }
 
@@ -367,7 +380,12 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
-
+        <View style={styles.timeContainer}>
+          <TimeAgo style={styles.time} time={this.state.createdAt} />
+        </View>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>{this.props.post.description}</Text>
+        </View>
         {this.state.tags.length > 0 ?
           <View>
             <View style={styles.descriptionContainer}>
