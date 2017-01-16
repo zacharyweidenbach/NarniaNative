@@ -116,8 +116,8 @@ export default class Mixer extends Component {
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: description,
         type: 'image', 
-        createdAt: new Date()
-        })
+        createdAt: new Date(),
+      })
     }).then((res) => res.json())
       .then((resJson) => {
         Alert.alert('You have successfully posted your outfit!');

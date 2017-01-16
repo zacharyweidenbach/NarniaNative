@@ -37,10 +37,17 @@ module.exports = {
         tempArr.push(result[i].followerId);
       }
       str = tempArr.join(',');
-      connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id=posts.userId and users.id in (' + str + ') and posts.type="image" ORDER BY posts.createdAt DESC', function(err, result) {
-        var response = err || result;
-        res.json(response); 
-      });
+      if (req.body.postId === undefined) {
+        connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id=posts.userId and users.id in (' + str + ') and posts.type="image" ORDER BY posts.createdAt DESC LIMIT 10', function(err, result) {
+          var response = err || result;
+          res.json(response); 
+        });
+      } else {
+        connection.query('select posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt from users inner join posts on users.id=posts.userId and users.id in (' + str + ') and posts.type="image" and posts.id < ' + req.body.postId + ' ORDER BY posts.createdAt DESC LIMIT 3', function(err, result) {
+          var response = err || result;
+          res.json(response); 
+        });
+      }
     });
   }
 };

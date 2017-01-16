@@ -52,7 +52,7 @@ export default class SearchTagsResults extends Component {
 
   render() {
     return (
-      <TouchableHighlight style={styles.container} onPress={() => console.log(this.props.tag.id)} underlayColor='transparent'>
+      <TouchableHighlight style={styles.container} onPress={() => console.warn(this.props.tag.id)} underlayColor='transparent'>
           <View style={styles.tagContainer}>
             <View style={styles.thumbnail}>
               <Text style={{color: this.state.color, fontSize: 36}}>#</Text>
