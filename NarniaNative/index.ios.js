@@ -90,8 +90,8 @@ export default class NarniaNative extends Component {
     case 'WardrobeScreen':
       return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
     case 'cameraScreen':
-      console.log('ring of fire')
-      return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />)
+      console.log('ring of fire');
+      return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />);
     }
   }
 

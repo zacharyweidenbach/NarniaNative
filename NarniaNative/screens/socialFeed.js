@@ -4,14 +4,22 @@ import {
   Alert,
   StyleSheet,
   ScrollView,
+  ListView,
   Text,
   View,
   Image,
   Dimensions,
   TouchableHighlight,
   Button,
+  RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {
+    LazyloadScrollView,
+    LazyloadListView,
+    LazyloadView,
+    LazyloadImage
+} from 'react-native-lazyload';
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
@@ -30,7 +38,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -56,7 +63,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     justifyContent: 'space-around',
-    elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
   },
@@ -67,7 +73,7 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-
+var dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -78,9 +84,11 @@ export default class socialFeed extends Component {
         { key: '2', title: 'Trending' },
       ],
       feedPosts: [],
+      lastFeedId: 0,
+      dataSource: dataSource.cloneWithRows([]),
       trendingPosts: [],
-      color: '#ff9554'
-      // likesFeed: [],
+      color: '#ff9554',
+      isRefreshing: false,
     }
   };
 
@@ -103,7 +111,9 @@ export default class socialFeed extends Component {
       }
     })
       .then((res) => res.json())
-      .then((resJSON) => this.setState({trendingPosts: resJSON}))
+      .then((resJSON) => {
+        this.setState({trendingPosts: resJSON})
+      })
       .catch((err) => console.log(err))
   }
 
@@ -119,7 +129,40 @@ export default class socialFeed extends Component {
       })
     })
       .then((res) => res.json())
-      .then((resJSON) => this.setState({feedPosts: resJSON}))
+      .then((resJSON) => {
+        this.setState({feedPosts: resJSON}, function() {
+          this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+          this.setState({dataSource: dataSource.cloneWithRows(this.state.feedPosts)})
+        });
+      })
+      .catch((err) => console.log(err))
+  }
+
+  getOlderFollowingPosts() {
+    return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: this.props.userId,
+        postId: this.state.lastFeedId,
+      })
+    })
+      .then((res) => res.json())
+      .then((resJSON) => {
+        var tempArr = this.state.feedPosts;
+        for (var i = 0; i < resJSON.length; i++) {
+          tempArr.push(resJSON[i]);
+        }
+        if (resJSON.length > 0) {
+          this.setState({feedPosts: tempArr}, function() {
+            this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+            this.setState({dataSource: dataSource.cloneWithRows(this.state.feedPosts)})
+          });
+        }
+      })
       .catch((err) => console.log(err))
   }
 
@@ -140,24 +183,46 @@ export default class socialFeed extends Component {
       />
     );
   };
+  _onRefresh = () => {
+    this.setState({isRefreshing: true});  
+    if (this.state.index === 0) {
+      // this.setState({feedPosts: []});
+      // this.setState({dataSource: dataSource.cloneWithRows([])})
+      this.getFollowingPosts().then(() => {this.setState({isRefreshing: false})});
+    } else if(this.state.index === 1) {
+      this.setState({trendingPosts: []});
+      this.getTrendingPosts().then(() => {this.setState({isRefreshing: false})});
+    }
+  }
 
   _renderScene = ({ route }) => {
     switch (route.key) {
     case '1':
+      var followerslist = (this.state.feedPosts.length > 0) ? <ListView 
+            refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554" /> }
+            enableEmptySections={true}
+            onEndReached={() => this.getOlderFollowingPosts()}
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
+                
       return (
-        <ScrollView>
-          {this.state.feedPosts.length > 0 ? this.state.feedPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>
-          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
-        </ScrollView>
-      );
+        <View>
+          {followerslist}
+        </View>
+        )
     case '2':
       return (
-        <ScrollView>
+        <LazyloadScrollView  name="trending-feed" refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this._onRefresh}
+            tintColor="#ff9554"
+          />
+        }>
           { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
-            return <FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>
+            return <LazyloadView key={key} host="trending-feed"><FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/></LazyloadView>
           }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
-        </ScrollView>
+        </LazyloadScrollView>
       );
     case '3':
       return (

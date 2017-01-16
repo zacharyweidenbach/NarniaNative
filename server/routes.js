@@ -73,5 +73,5 @@ module.exports = function(app, express) {
   //tags
   app.post('/api/insertTags', appTags.insertTags);
   app.post('/api/joinPostTags', appTags.joinPostTags);
-  app.post('/api/fetchTags', appTags.fetchTags)
+  app.post('/api/fetchTags', appTags.fetchTags);
 };

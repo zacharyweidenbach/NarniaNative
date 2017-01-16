@@ -92,13 +92,14 @@ export default class FeedPost extends Component {
     this.state = {
       modalVisible: false,
       comments: [],
-      likesCount: this.props.post.likesCount,
+      likesCount: 0,
       postLiked: false,
       color: '#ff9554'
     };
   }
 
   componentDidMount() {
+    this.setState({likesCount: this.props.post.likesCount});
     this.checkInitialLike();
     //change ip address to either wifi address or deployed server
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
@@ -112,6 +113,10 @@ export default class FeedPost extends Component {
       .then((res) => res.json())
       .then((resJSON) => this.setState({comments: resJSON}))
       .catch((err) => console.log(err));
+  }
+  
+  componentWillReceiveProps() {
+    this.setState({likesCount: this.props.post.likesCount});
   }
 
   checkLikeExists() {

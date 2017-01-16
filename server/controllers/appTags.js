@@ -7,6 +7,7 @@ module.exports = {
       res.json(response);
     });
   },
+
   insertTags: function(req, res, next) {
     var matches = req.body.matches;
     //query all tags in matches
@@ -25,6 +26,7 @@ module.exports = {
         }
       }); 
   },
+
   joinPostTags: function(req, res, next) {
     var hashtags = req.body.hashtags.map(function(tag) {
       return '"' + tag + '"';

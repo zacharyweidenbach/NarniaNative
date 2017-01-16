@@ -16,9 +16,9 @@ export default class Mixer extends Component {
       bottomIndex: 0,
       description: '',
       color: '#ff9554',
+      wardrobe: [],
       hashtags: [],
       postId: 0,
-      wardrobe: []
     };
   }
 
@@ -116,8 +116,8 @@ export default class Mixer extends Component {
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: description,
         type: 'image', 
-        createdAt: new Date()
-        })
+        createdAt: new Date(),
+      })
     }).then((res) => res.json())
       .then((resJson) => {
         Alert.alert('You have successfully posted your outfit!');
@@ -218,6 +218,51 @@ export default class Mixer extends Component {
       this.insertTags(matches);
       this.setState({hashtags: matches});
     }
+  }
+
+  insertTags(arr) {
+    console.log(arr);
+    fetch('http://' + ip.address + ':3000/api/insertTags', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        matches: arr
+      })
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      // console.log('success resJson', resJson);
+      // console.log(this.state.hashtags);
+      this.joinPostTags();
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  joinPostTags() {
+    fetch('http://' + ip.address + ':3000/api/joinPostTags', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hashtags: this.state.hashtags,
+        postId: this.state.postId
+      })
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      // console.log(resJson);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   insertTags(arr) {
