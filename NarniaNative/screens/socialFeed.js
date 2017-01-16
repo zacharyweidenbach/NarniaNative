@@ -73,7 +73,8 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-var dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var dataSoureTrending = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -85,8 +86,10 @@ export default class socialFeed extends Component {
       ],
       feedPosts: [],
       lastFeedId: 0,
-      dataSource: dataSource.cloneWithRows([]),
+      dataSourceFollowers: dataSourceFollowers.cloneWithRows([]),
       trendingPosts: [],
+      dataSoureTrending: dataSoureTrending.cloneWithRows([]),
+      trendingRow: 0,
       color: '#ff9554',
       isRefreshing: false,
     }
@@ -104,7 +107,7 @@ export default class socialFeed extends Component {
 
   getTrendingPosts() {
     return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -112,7 +115,37 @@ export default class socialFeed extends Component {
     })
       .then((res) => res.json())
       .then((resJSON) => {
-        this.setState({trendingPosts: resJSON})
+        this.setState({trendingPosts: resJSON}, function() {
+          this.setState({trendingRow: this.state.trendingRow + resJSON.length})
+          this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
+        })
+      })
+      .catch((err) => console.log(err))
+  }
+  getOlderTrendingPosts() {
+    // console.warn(this.state.trendingRow);
+    return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        row: this.state.trendingRow,
+      })
+    })
+      .then((res) => res.json())
+      .then((resJSON) => {
+        var tempArr = this.state.trendingPosts;
+        for (var i = 0; i < resJSON.length; i++) {
+          tempArr.push(resJSON[i]);
+        }
+        if (resJSON.length > 0) {
+          this.setState({trendingPosts: tempArr}, function() {
+            this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
+            this.setState({trendingRow: this.state.trendingRow + resJSON.length})
+          });
+        }
       })
       .catch((err) => console.log(err))
   }
@@ -132,7 +165,7 @@ export default class socialFeed extends Component {
       .then((resJSON) => {
         this.setState({feedPosts: resJSON}, function() {
           this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
-          this.setState({dataSource: dataSource.cloneWithRows(this.state.feedPosts)})
+          this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
         });
       })
       .catch((err) => console.log(err))
@@ -158,8 +191,8 @@ export default class socialFeed extends Component {
         }
         if (resJSON.length > 0) {
           this.setState({feedPosts: tempArr}, function() {
+            this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
             this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
-            this.setState({dataSource: dataSource.cloneWithRows(this.state.feedPosts)})
           });
         }
       })
@@ -187,10 +220,10 @@ export default class socialFeed extends Component {
     this.setState({isRefreshing: true});  
     if (this.state.index === 0) {
       // this.setState({feedPosts: []});
-      // this.setState({dataSource: dataSource.cloneWithRows([])})
+      // this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows([])})
       this.getFollowingPosts().then(() => {this.setState({isRefreshing: false})});
     } else if(this.state.index === 1) {
-      this.setState({trendingPosts: []});
+      this.setState({trendingRow: 0});
       this.getTrendingPosts().then(() => {this.setState({isRefreshing: false})});
     }
   }
@@ -202,27 +235,26 @@ export default class socialFeed extends Component {
             refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554" /> }
             enableEmptySections={true}
             onEndReached={() => this.getOlderFollowingPosts()}
-            dataSource={this.state.dataSource}
+            dataSource={this.state.dataSourceFollowers}
             renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
                 
       return (
         <View>
           {followerslist}
         </View>
-        )
+        );
     case '2':
+      var trendingList = (this.state.trendingPosts.length > 0) ? <ListView 
+              refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554" /> }
+              enableEmptySections={true}
+              onEndReached={() => this.getOlderTrendingPosts()}
+              dataSource={this.state.dataSoureTrending}
+              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ff9554"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
+
       return (
-        <LazyloadScrollView  name="trending-feed" refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this._onRefresh}
-            tintColor="#ff9554"
-          />
-        }>
-          { this.state.trendingPosts.length > 0 ? this.state.trendingPosts.map((post, key) => {
-            return <LazyloadView key={key} host="trending-feed"><FeedPost navigator={this.props.navigator} style={styles.page} post={post} key={key} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/></LazyloadView>
-          }) : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View> }
-        </LazyloadScrollView>
+        <View>
+          {trendingList}
+        </View>
       );
     case '3':
       return (

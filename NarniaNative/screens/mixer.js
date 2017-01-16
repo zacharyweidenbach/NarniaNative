@@ -101,6 +101,7 @@ export default class Mixer extends Component {
   }
 
   postMixerOutfit(description) {
+    var today = new Date;
     return fetch("http://" + ip.address + ":3000/api/postToDB", {
       method: 'POST', 
       headers: {
@@ -116,7 +117,7 @@ export default class Mixer extends Component {
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: description,
         type: 'image', 
-        createdAt: new Date(),
+        createdAt: today.getTime(),
       })
     }).then((res) => res.json())
       .then((resJson) => {
@@ -175,6 +176,7 @@ export default class Mixer extends Component {
 
   insertPost(message) {
     // var that = this;
+    var today = new Date;
     var msg = message;
     fetch('http://' + ip.address + ':3000/api/postToDB', {
       method: 'POST', 
@@ -191,7 +193,7 @@ export default class Mixer extends Component {
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: msg,
         type: 'image', 
-        createdAt: new Date()
+        createdAt: today.getTime()
       })
     }).then((res) => res.json())
         .then((resJson) => {

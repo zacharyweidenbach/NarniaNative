@@ -126,9 +126,10 @@ export default class FeedPost extends Component {
       comments: [],
       tags: [],
       currentTag: null,
-      likesCount: 0,
+      likesCount: this.props.post.likesCount,
       postLiked: false,
-      color: '#ff9554'
+      color: '#ff9554',
+      createdAt: this.props.post.createdAt,
     };
   }
 
@@ -150,8 +151,17 @@ export default class FeedPost extends Component {
       .catch((err) => console.log(err));
   }
 
-  componentWillReceiveProps() {
-    this.setState({likesCount: this.props.post.likesCount});
+  // componentWillReceiveProps() {
+  //   this.setState({likesCount: this.props.post.likesCount});
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  } 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.post !== this.props.post) {
+      this.setState({likesCount: this.props.post.likesCount});
+      this.checkInitialLike();
+    }
   }
 
   getTags() {
@@ -189,7 +199,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log('resJSON in checkLikeExists', resJSON);
+      // console.log('resJSON in checkLikeExists', resJSON);
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
       } else {
@@ -219,7 +229,6 @@ export default class FeedPost extends Component {
         //set state of the button color to orange
         that.setState({postLiked: true});
       } else {
-        //set state of button color to grey
         that.setState({postLiked: false});
       }
     })
