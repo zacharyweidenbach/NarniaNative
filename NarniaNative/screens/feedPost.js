@@ -52,10 +52,15 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     justifyContent: 'flex-end',
   },
+  descriptionWithoutTagsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+    marginBottom: 10,
+  },
   descriptionContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 10,
     paddingBottom: 10,
   },
   descriptionText: {
@@ -84,6 +89,16 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginBottom: 0,
   },
+  tagText: {
+    paddingLeft: 15, paddingRight: 10, color: '#ff9554',
+  },
+  tagsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    marginBottom: 10,
+    paddingBottom: 10,
+  },
 });
 
 export default class FeedPost extends Component {
@@ -92,6 +107,8 @@ export default class FeedPost extends Component {
     this.state = {
       modalVisible: false,
       comments: [],
+      tags: [],
+      currentTag: null,
       likesCount: 0,
       postLiked: false,
       color: '#ff9554'
@@ -101,6 +118,7 @@ export default class FeedPost extends Component {
   componentDidMount() {
     this.setState({likesCount: this.props.post.likesCount});
     this.checkInitialLike();
+    this.getTags();
     //change ip address to either wifi address or deployed server
     return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
       method: 'POST',
@@ -117,6 +135,26 @@ export default class FeedPost extends Component {
   
   componentWillReceiveProps() {
     this.setState({likesCount: this.props.post.likesCount});
+  }
+
+  getTags() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/getTagsFromDb', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({postId: that.props.post.id})
+    })
+    .then((res) => res.json())
+    .then((resJSON) => that.setState({tags: resJSON}))
+    .then(() => console.log('tags', that.props.post.id, that.state.tags))
+    .catch((err) => console.log(err));
+  }
+
+  handleTagClick(tag) {
+    this.setState({currentTag: tag});
   }
 
   checkLikeExists() {
@@ -297,9 +335,21 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{this.props.post.description}</Text>
-        </View>
+        {this.state.tags.length > 0 ? 
+          <View>
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.descriptionText}>{this.props.post.description}</Text>
+            </View>
+            <View style={styles.tagsContainer}>
+              <Text style={styles.tagText}>Tags:</Text>
+              {this.state.tags.map((tag, key) => {
+                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag.tag)}>#{tag.tag}</Text>
+              })}
+            </View>
+          </View> :      
+          <View style={styles.descriptionWithoutTagsContainer}>
+            <Text style={styles.descriptionText}>{this.props.post.description}</Text>
+          </View>}
 
         {this.state.modalVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
