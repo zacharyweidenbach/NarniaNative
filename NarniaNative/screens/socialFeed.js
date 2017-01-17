@@ -136,12 +136,8 @@ export default class socialFeed extends Component {
     })
       .then((res) => res.json())
       .then((resJSON) => {
-        var tempArr = this.state.trendingPosts;
-        for (var i = 0; i < resJSON.length; i++) {
-          tempArr.push(resJSON[i]);
-        }
         if (resJSON.length > 0) {
-          this.setState({trendingPosts: tempArr}, function() {
+          this.setState({trendingPosts: this.state.trendingPosts.concat(resJSON)}, function() {
             this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
             this.setState({trendingRow: this.state.trendingRow + resJSON.length})
           });
@@ -185,12 +181,8 @@ export default class socialFeed extends Component {
     })
       .then((res) => res.json())
       .then((resJSON) => {
-        var tempArr = this.state.feedPosts;
-        for (var i = 0; i < resJSON.length; i++) {
-          tempArr.push(resJSON[i]);
-        }
         if (resJSON.length > 0) {
-          this.setState({feedPosts: tempArr}, function() {
+          this.setState({feedPosts: this.state.feedPosts.concat(resJSON)}, function() {
             this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
             this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
           });
