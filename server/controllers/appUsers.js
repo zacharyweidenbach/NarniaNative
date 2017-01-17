@@ -18,42 +18,18 @@ var query = function(qString, arrVal) { // generic promisified query function
 };
 
 var getUser = function(username) {
-  return new Promise(function(resolve, reject) {
-    connection.query({
-      sql: 'SELECT * FROM `users` WHERE `username` = ?',
-      timeout: 40000,
-      values: [username]
-    },
-    function(err, result) {
-      err ? reject(err) : resolve(result);
-    });
-  });
+  var queryString = 'SELECT * FROM `users` WHERE `username` = ?';
+  return query(queryString, [username]);
 };
 
 var setUser = function(newUser) {
-  return new Promise(function(resolve, reject) {
-    connection.query({
-      sql: 'INSERT INTO users SET ?',
-      timeout: 40000,
-      values: [newUser]
-    },
-    function(err, result) {
-      err ? reject(err) : resolve(result);
-    });
-  });
+  var queryString = 'INSERT INTO users SET ?';
+  return query(queryString, [newUser]);
 };
 
 var deleteUser = function(username) {
-  return new Promise(function(resolve, reject) {
-    connection.query({
-      sql: 'DELETE FROM `users` where `username` = ?',
-      timeout: 40000,
-      values: [username]
-    },
-    function(err, result) {
-      err ? reject(err) : resolve(result);
-    });
-  });
+  var queryString = 'DELETE FROM `users` where `username` = ?';
+  return query(queryString, [username]);
 };
 
 
