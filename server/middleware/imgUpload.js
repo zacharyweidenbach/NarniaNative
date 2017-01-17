@@ -1,6 +1,7 @@
 'use strict';
 const storage = require('@google-cloud/storage');
-const fs = require('fs')
+const fs = require('fs');
+var path = require('path');
 
 var cred = JSON.parse(fs.readFileSync( __dirname + '/../../config.json', 'utf8')).google
 
@@ -27,6 +28,8 @@ ImgUpload.uploadToGcs = (req, res, next) => {
   // Can optionally add a path to the gcsname below by concatenating it before the filename
   const gcsname = req.file.originalname;
   const file = bucket.file(gcsname);
+
+  console.log('mimetype: ', req.file.mimetype)
 
   const stream = file.createWriteStream({
     metadata: {

@@ -21,7 +21,7 @@ module.exports = {
   //   // Everything went fine
   //   console.log('multer passed', req.file, req.body)
   // })
-    console.log('test in appGoogleCloudStorage.js', req.body)
+    console.log('test in appGoogleCloudStorage.js', req.fields)
     const data = req.body;
     if (req.file && req.file.cloudStoragePublicUrl) {
       data.imageUrl = req.file.cloudStoragePublicUrl;

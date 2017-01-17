@@ -34,7 +34,7 @@ export default class userUploadModal extends Component {
         var userImage = {
           uri: this.props.image,
           type: 'image/jpeg',
-          name: title + dateNow+'.jpg'
+          name: title + dateNow+'.jpeg'
         }
         // var userUpload = {
         //   title: this.state.title,
