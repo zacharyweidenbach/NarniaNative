@@ -126,9 +126,7 @@ export default class searchScreen extends Component {
       );
     case '3':
       return (
-        <ScrollView>
           <SearchShop userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
-        </ScrollView>
       );
     default:
       return null;
