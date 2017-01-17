@@ -103,6 +103,12 @@ export default class Login extends Component {
     });
   }
 
+  // facebookHandler() {
+  //   this.props.navigator.push({
+  //     id: 'Facebook'
+  //   });
+  // }
+
   render() {
     return (
       <View style={styles.container}>
@@ -138,9 +144,20 @@ export default class Login extends Component {
               color="#ff9554"
               accessibilityLabel="Need an account? Go to signup."
             />
+            {/* <Button
+              onPress={this.facebookHandler.bind(this)}
+              title="Facebook Login"
+              color="#ff9554"
+              accessibilityLabel="Login with Facebook."
+            />*/}
           </View>
         </View>
       </View>
     );
   }
 }
+
+
+
+
+
