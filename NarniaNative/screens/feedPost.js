@@ -383,9 +383,6 @@ export default class FeedPost extends Component {
         <View style={styles.timeContainer}>
           <TimeAgo style={styles.time} time={this.state.createdAt} />
         </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{this.props.post.description}</Text>
-        </View>
         {this.state.tags.length > 0 ?
           <View>
             <View style={styles.descriptionContainer}>
@@ -394,7 +391,7 @@ export default class FeedPost extends Component {
             <View style={styles.tagsContainer}>
               <Text style={styles.tagText}>Tags:</Text>
               {this.state.tags.map((tag, key) => {
-                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>
+                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>;
               })}
             </View>
           </View> :
