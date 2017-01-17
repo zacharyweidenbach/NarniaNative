@@ -9,6 +9,31 @@ var appClothing = require('./controllers/appClothing.js');
 var appSearchUser = require('./controllers/appSearchUser.js');
 var appWardrobe = require('./controllers/appWardrobe.js');
 var appTags = require('./controllers/appTags.js');
+var appGoogleCloudStorage = require('./controllers/appGoogleCloudStorage.js')
+var imgUpload = require('./middleware/imgUpload.js')
+var Multer = require('multer');
+var path = require('path');
+
+// Handles the multipart/form-data and sets up the image for upload to Google Cloud Storage services
+// Adds a .file key to the request object
+// the 'storage' key saves the image temporarily for in memory
+// You can also pass a file path on your server and it will save the image there
+// var dest = path.join(__dirname + '/tmpImages/')
+// var storage = Multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, dest)
+//   },
+//   filename: function (req, file, cb) {
+//     console.log('filename: ', file.originalname)
+//     cb(null, file.originalname)
+//   }
+// })
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  // fileSize: 5 * 1024 * 1024
+});
+
 
 // ROUTES
 module.exports = function(app, express) {
@@ -77,4 +102,8 @@ module.exports = function(app, express) {
   app.post('/api/insertTags', appTags.insertTags);
   app.post('/api/joinPostTags', appTags.joinPostTags);
   app.post('/api/fetchTags', appTags.fetchTags);
+
+  //user uploads
+  // app.post('/api/userUpload', appGoogleCloudStorage.userUpload);
+  app.post('/api/userUpload', multer.single('userImage'), imgUpload.uploadToGcs, appGoogleCloudStorage.userUpload)
 };
