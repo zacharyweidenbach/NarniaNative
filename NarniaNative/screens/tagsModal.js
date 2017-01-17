@@ -30,6 +30,7 @@ export default class tagsModal extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => that.setState({posts: resJSON}))
+    .then(() => console.warn(JSON.stringify(that.state.posts)))
     .catch((err) => console.warn(err));
   }
 
@@ -73,6 +74,9 @@ export default class tagsModal extends Component {
     );
   }
 }
+
+ // <View key={key}><Image style={styles.imgSmall} source={{uri: post.body}} /></View>;
+ //              }) : null}
 
 const styles = StyleSheet.create({
   container: {

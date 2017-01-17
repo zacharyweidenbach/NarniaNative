@@ -134,7 +134,15 @@ module.exports = {
     });
   },
   getPostsFromTag: function(req, res, next) {
-    connection.query('SELECT p.id, p.body FROM postTags INNER JOIN posts p ON p.id = postTags.postId WHERE tagId=' + req.body.tagId, function(err, result) {
+    console.log(req.body.tagId);
+    connection.query(
+      'SELECT p.id, p.body, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
+      FROM postTags \
+        INNER JOIN posts p ON p.id = postTags.postId \
+        LEFT JOIN clothing shirt ON shirt.id=p.shirtId \
+        LEFT JOIN clothing pant ON pant.id=p.pantId \
+        LEFT JOIN clothing shoes ON shoes.id=p.shoesId \
+      WHERE tagId=' + req.body.tagId, function(err, result) {
       var response = err || result;
       res.json(response);
     });
