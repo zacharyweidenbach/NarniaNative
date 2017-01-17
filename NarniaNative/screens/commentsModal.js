@@ -64,6 +64,7 @@ export default class CommentsModal extends Component {
 
   sendPost(post) {
     var that = this;
+    var today = new Date();
     if (this.state.post !== '') {
       return fetch('http://' + ip.address + ':3000/api/postToDb', {
         method: 'POST',
@@ -76,7 +77,7 @@ export default class CommentsModal extends Component {
           userid: this.props.userId,
           body: this.state.post,
           type: 'comment',
-          createdAt: new Date()
+          createdAt: today.getTime()
         })
       })
       .then((res) => {

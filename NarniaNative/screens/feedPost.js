@@ -10,6 +10,7 @@ import {
   TextArea
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import TimeAgo from 'react-native-timeago';
 import CommentsModal from './commentsModal.js';
 import TagsModal from './tagsModal.js';
 import ip from '../network';
@@ -113,6 +114,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 10,
   },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start' 
+  },
+  time: {
+    backgroundColor: '#fff',
+    color: '#4f4f4f',
+    paddingLeft: 15,
+    paddingBottom: 10,
+  }
 });
 
 export default class FeedPost extends Component {
@@ -126,9 +139,10 @@ export default class FeedPost extends Component {
       comments: [],
       tags: [],
       currentTag: null,
-      likesCount: 0,
+      likesCount: this.props.post.likesCount,
       postLiked: false,
-      color: '#ff9554'
+      color: '#ff9554',
+      createdAt: Number(this.props.post.createdAt),
     };
   }
 
@@ -150,8 +164,17 @@ export default class FeedPost extends Component {
       .catch((err) => console.log(err));
   }
 
-  componentWillReceiveProps() {
-    this.setState({likesCount: this.props.post.likesCount});
+  // componentWillReceiveProps() {
+  //   this.setState({likesCount: this.props.post.likesCount});
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  } 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.post !== this.props.post) {
+      this.setState({likesCount: this.props.post.likesCount});
+      this.checkInitialLike();
+    }
   }
 
   getTags() {
@@ -189,7 +212,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      console.log('resJSON in checkLikeExists', resJSON);
+      // console.log('resJSON in checkLikeExists', resJSON);
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
       } else {
@@ -219,7 +242,6 @@ export default class FeedPost extends Component {
         //set state of the button color to orange
         that.setState({postLiked: true});
       } else {
-        //set state of button color to grey
         that.setState({postLiked: false});
       }
     })
@@ -358,7 +380,9 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
-
+        <View style={styles.timeContainer}>
+          <TimeAgo style={styles.time} time={this.state.createdAt} />
+        </View>
         {this.state.tags.length > 0 ?
           <View>
             <View style={styles.descriptionContainer}>
@@ -367,7 +391,7 @@ export default class FeedPost extends Component {
             <View style={styles.tagsContainer}>
               <Text style={styles.tagText}>Tags:</Text>
               {this.state.tags.map((tag, key) => {
-                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>
+                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>;
               })}
             </View>
           </View> :
