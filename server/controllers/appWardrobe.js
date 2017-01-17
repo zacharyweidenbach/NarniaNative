@@ -8,7 +8,8 @@ module.exports = {
     });
   },
   addToWardrobe: function(req, res, next) {
-    connection.query('select id from clothing where upc=' + req.body.clothing.UPC, function(err, result) {
+    console.log(req.body.clothing.UPC);
+    connection.query('select id from clothing where upc="' + req.body.clothing.UPC + '" OR asin="' + req.body.clothing.ASIN + '"', function(err, result) {
       if (err) {
         res.send(err)
       } else if (result.length !== 0) {
