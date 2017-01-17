@@ -20,7 +20,7 @@ import PostImage from '../components/postImage.js';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#f9f7f5'
   },
   userContainer: {
     flex: 1,
