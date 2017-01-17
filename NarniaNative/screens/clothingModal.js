@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image, Linking} from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 import Auth from '../auth.js';

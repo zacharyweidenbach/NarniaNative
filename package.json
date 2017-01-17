@@ -21,6 +21,7 @@
   },
   "homepage": "git+https://github.com/OutrageousOcelot/Narnia#readme",
   "dependencies": {
+    "@google-cloud/storage": "^0.6.1",
     "apac": "^3.0.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
@@ -30,6 +31,7 @@
     "express-session": "^1.14.2",
     "jquery": "^3.1.1",
     "mocha": "^3.2.0",
+    "multer": "^1.2.1",
     "mysql": "^2.12.0",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
