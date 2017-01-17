@@ -100,6 +100,18 @@ module.exports = {
       res.json(response);
     });
   },
+  getTagsFromDb: function(req, res, next) {
+    connection.query('SELECT t.id, t.tag FROM postTags INNER JOIN tags t ON t.id = postTags.tagId WHERE postId=' + req.body.postId, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
+  getPostsFromTag: function(req, res, next) {
+    connection.query('SELECT p.id, p.body FROM postTags INNER JOIN posts p ON p.id = postTags.postId WHERE tagId=' + req.body.tagId, function(err, result) {
+      var response = err || result;
+      res.json(response);
+    });
+  },
   increaseLikeCount: function(req, res, next) {
     connection.query('UPDATE posts SET likesCount = likesCount + 1 WHERE id = ' + req.body.id, function(err, result) {
       var response = err || result;

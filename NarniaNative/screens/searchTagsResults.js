@@ -6,6 +6,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+import TagsModal from './tagsModal.js';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,8 +37,9 @@ export default class SearchTagsResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTag: '',
       color: '#ff9554',
+      currentTag: null,
+      tagsModalVisible: false
     };
   }
 
@@ -50,17 +53,28 @@ export default class SearchTagsResults extends Component {
     }
   }
 
+  handleTagClick(tag) {
+    this.setState({currentTag: tag, tagsModalVisible: true});
+  }
+
+  setModalVisible(visible) {
+    this.setState({tagsModalVisible: visible});
+  }
+
   render() {
     return (
-      <TouchableHighlight style={styles.container} onPress={() => console.warn(this.props.tag.id)} underlayColor='transparent'>
-          <View style={styles.tagContainer}>
-            <View style={styles.thumbnail}>
-              <Text style={{color: this.state.color, fontSize: 36}}>#</Text>
+      <View>
+        <TouchableHighlight style={styles.container} onPress={() => this.handleTagClick(this.props.tag)} underlayColor='transparent'>
+            <View style={styles.tagContainer}>
+              <View style={styles.thumbnail}>
+                <Text style={{color: this.state.color, fontSize: 36}}>#</Text>
+              </View>
+              <Text style={styles.textStyle}>{this.props.tag.tag}</Text>
+              <Text style={styles.countStyle}>{this.props.tag.count} posts</Text>   
             </View>
-            <Text style={styles.textStyle}>{this.props.tag.tag}</Text>
-            <Text style={styles.countStyle}>{this.props.tag.count} posts</Text>   
-          </View>
-      </TouchableHighlight>
+        </TouchableHighlight>
+        {this.state.tagsModalVisible ? <TagsModal tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+      </View>
     );
   }
 };
