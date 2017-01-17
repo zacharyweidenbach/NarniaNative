@@ -4,20 +4,22 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  ScrollView,
   Image,
   TouchableHighlight,
-  Modal,
   TextArea
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CommentsModal from './commentsModal.js';
 import TagsModal from './tagsModal.js';
 import ip from '../network';
+import PostModal from './postModal.js';
+import PostImage from '../components/postImage.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f7f5'
+    backgroundColor: '#fff'
   },
   userContainer: {
     flex: 1,
@@ -32,6 +34,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width,
     backgroundColor: '#fff',
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    backgroundColor: '#fff'
   },
   actionBar: {
     //contains likesContainer, likesBtn, and commentBtn
@@ -108,6 +121,8 @@ export default class FeedPost extends Component {
     this.state = {
       modalVisible: false,
       tagsModalVisible: false,
+      commentsVisible: false,
+      postsVisible: false,
       comments: [],
       tags: [],
       currentTag: null,
@@ -134,7 +149,7 @@ export default class FeedPost extends Component {
       .then((resJSON) => this.setState({comments: resJSON}))
       .catch((err) => console.log(err));
   }
-  
+
   componentWillReceiveProps() {
     this.setState({likesCount: this.props.post.likesCount});
   }
@@ -277,7 +292,6 @@ export default class FeedPost extends Component {
   }
 
   onNamePress() {
-    // console.log(this.props.post);
     this.props.viewedUser(this.props.post.userId);
     this.props.navigator.push({
       id: 'ProfileScreen',
@@ -293,8 +307,10 @@ export default class FeedPost extends Component {
       this.checkLikeExists();
       break;
     case 'comment':
-      this.setState({modalVisible: true});
+      this.setState({commentsVisible: true});
       break;
+    case 'posts':
+      this.setState({postsVisible: true});
     }
   }
 
@@ -302,31 +318,31 @@ export default class FeedPost extends Component {
     if (screen === 'tagsModal') {
       this.setState({tagsModalVisible: visible});
     } else {
-      this.setState({modalVisible: visible});
+      this.setState({commentsVisible: visible});
     }
   }
 
-  render() {
-    var postImage = function() {
+  setPostsVisible(visible) {
+    this.setState({postsVisible: visible});
+  }
 
-      // if (this.props.post.shirtId) {
-          //three images 
-      // }
-        return (
-          <View>
-            <Image style={styles.imgContainer} source={{uri: this.props.post.body}} />
-          </View>
-        )
-    }.bind(this);
+  render() {
     return (
       <View style={styles.container}>
         <View style={styles.userContainer}>
           <TouchableHighlight onPress={this.onNamePress.bind(this)} underlayColor='transparent'>
             <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
           </TouchableHighlight>
+
           <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>
         </View>
-         {postImage()}
+
+        <TouchableHighlight onPress={this.onButtonPress.bind(this, 'posts')}>
+          <View >
+            <PostImage _style={styles} post={this.props.post}/>
+          </View>
+        </TouchableHighlight>
+
         <View style={styles.actionBar}>
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>
@@ -342,7 +358,8 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
-        {this.state.tags.length > 0 ? 
+
+        {this.state.tags.length > 0 ?
           <View>
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionText}>{this.props.post.description}</Text>
@@ -353,14 +370,15 @@ export default class FeedPost extends Component {
                 return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>
               })}
             </View>
-          </View> :      
+          </View> :
           <View style={styles.descriptionWithoutTagsContainer}>
             <Text style={styles.descriptionText}>{this.props.post.description}</Text>
           </View>}
 
-        {this.state.modalVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setCommentsVisible.bind(this)}/> : null}
         {this.state.tagsModalVisible ? <TagsModal tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
-      
+
+        {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
       </View>
     );
   }
