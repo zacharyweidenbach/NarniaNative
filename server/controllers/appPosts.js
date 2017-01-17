@@ -107,7 +107,7 @@ module.exports = {
     });
   },
   getPostsFromTag: function(req, res, next) {
-    connection.query('select p.id, p.body from postTags inner join posts p on p.id = postTags.postId where tagId=' + req.body.tagId, function(err, result) {
+    connection.query('SELECT p.id, p.body FROM postTags INNER JOIN posts p ON p.id = postTags.postId WHERE tagId=' + req.body.tagId, function(err, result) {
       var response = err || result;
       res.json(response);
     });

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CommentsModal from './commentsModal.js';
+import TagsModal from './tagsModal.js';
 import ip from '../network';
 
 const styles = StyleSheet.create({
@@ -106,6 +107,7 @@ export default class FeedPost extends Component {
     super(props);
     this.state = {
       modalVisible: false,
+      tagsModalVisible: false,
       comments: [],
       tags: [],
       currentTag: null,
@@ -154,7 +156,7 @@ export default class FeedPost extends Component {
   }
 
   handleTagClick(tag) {
-    this.setState({currentTag: tag});
+    this.setState({currentTag: tag, tagsModalVisible: true});
   }
 
   checkLikeExists() {
@@ -295,8 +297,13 @@ export default class FeedPost extends Component {
       break;
     }
   }
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+
+  setModalVisible(visible, screen) {
+    if (screen === 'tagsModal') {
+      this.setState({tagsModalVisible: visible});
+    } else {
+      this.setState({modalVisible: visible});
+    }
   }
 
   render() {
@@ -343,7 +350,7 @@ export default class FeedPost extends Component {
             <View style={styles.tagsContainer}>
               <Text style={styles.tagText}>Tags:</Text>
               {this.state.tags.map((tag, key) => {
-                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag.tag)}>#{tag.tag}</Text>
+                return <Text style={styles.tagText} key={key} onPress={() => this.handleTagClick(tag)}>#{tag.tag}</Text>
               })}
             </View>
           </View> :      
@@ -352,7 +359,8 @@ export default class FeedPost extends Component {
           </View>}
 
         {this.state.modalVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
-
+        {this.state.tagsModalVisible ? <TagsModal tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+      
       </View>
     );
   }
