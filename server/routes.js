@@ -54,6 +54,7 @@ module.exports = function(app, express) {
   app.post('/api/getTagsFromDb', appPosts.getTagsFromDb);
   app.post('/api/getPostsFromTag', appPosts.getPostsFromTag);
   app.post('/api/getPostsFromDb', appPosts.getPostsFromDb);
+  app.post('/api/getPostFromPostId', appPosts.getPostFromPostId);
 
   app.post('/api/increaseLikeCount', appPosts.increaseLikeCount);
   app.post('/api/decreaseLikeCount', appPosts.decreaseLikeCount);
