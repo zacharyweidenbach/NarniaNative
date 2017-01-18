@@ -74,6 +74,9 @@ export default class tagsModal extends Component {
   }
 }
 
+ // <View key={key}><Image style={styles.imgSmall} source={{uri: post.body}} /></View>;
+ //              }) : null}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,5 +115,22 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width,
     borderWidth: 1,
     borderColor: '#f9f7f5',
+  },
+  imgContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff',
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff'
   },
 });

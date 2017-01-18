@@ -63,8 +63,9 @@ export default class Mixer extends Component {
             midImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
           } else if (resJSON[i].position === 'bottom') {
             bottomImgs.push({URL: resJSON[i].largeImg, id: resJSON[i].id});
-          } 
+          }
         }
+        console.warn(JSON.stringify(this.state.bottomImages));
         this.setState({topImages: topImgs, midImages: midImgs, bottomImages: bottomImgs});
       })
       .catch((error) => console.error(error));
@@ -74,15 +75,15 @@ export default class Mixer extends Component {
     var position = this.findClothingPosition(clothing);
     switch (position) {
     case 'top':
-      this.state.topImages.push({URL: clothing.largeImg});
+      this.state.topImages.push({URL: clothing.largeImg, id: clothing.id});
       this.setState({topIndex: this.state.topImages.length - 1});
       break;
     case 'middle':
-      this.state.midImages.push({URL: clothing.largeImg});
+      this.state.midImages.push({URL: clothing.largeImg, id: clothing.id});
       this.setState({midIndex: this.state.midImages.length - 1});
       break;
     case 'bottom':
-      this.state.bottomImages.push({URL: clothing.largeImg});
+      this.state.bottomImages.push({URL: clothing.largeImg, id: clothing.id});
       this.setState({bottomIndex: this.state.bottomImages.length - 1});
       break;
     }
@@ -103,11 +104,11 @@ export default class Mixer extends Component {
   postMixerOutfit(description) {
     var today = new Date;
     return fetch('http://' + ip.address + ':3000/api/postToDB', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }, 
+      },
       body: JSON.stringify({
         userId: this.props.userId,
         likesCount: 0,
@@ -116,7 +117,7 @@ export default class Mixer extends Component {
         pantId: this.state.midImages[this.state.midIndex].id,
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: description,
-        type: 'image', 
+        type: 'image',
         createdAt: today.getTime(),
       })
     }).then((res) => res.json())
@@ -179,11 +180,11 @@ export default class Mixer extends Component {
     var today = new Date;
     var msg = message;
     fetch('http://' + ip.address + ':3000/api/postToDB', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }, 
+      },
       body: JSON.stringify({
         userId: this.props.userId,
         likesCount: 0,
@@ -192,7 +193,7 @@ export default class Mixer extends Component {
         pantId: this.state.midImages[this.state.midIndex].id,
         shoesId: this.state.bottomImages[this.state.bottomIndex].id,
         description: msg,
-        type: 'image', 
+        type: 'image',
         createdAt: today.getTime()
       })
     }).then((res) => res.json())
@@ -312,7 +313,7 @@ export default class Mixer extends Component {
     });
   }
 
-  render() { 
+  render() {
     return (
       <View style={styles.container} >
         <View style={styles.header}>
@@ -332,28 +333,28 @@ export default class Mixer extends Component {
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
-            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} /> 
+            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
-            </TouchableHighlight>  
+            </TouchableHighlight>
           </View>
           <View style={styles.muserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
-            <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} /> 
+            <Image style={styles.imgSmall} source={{uri: this.state.midImages[this.state.midIndex].URL}} resizeMode={Image.resizeMode.contain} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'midMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
-            </TouchableHighlight>   
+            </TouchableHighlight>
           </View>
           <View style={styles.buserContainer}>
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
-            </TouchableHighlight> 
-            <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />   
+            </TouchableHighlight>
+            <Image style={styles.imgSmall} source={{uri: this.state.bottomImages[this.state.bottomIndex].URL}} resizeMode={Image.resizeMode.contain} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'bottomMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
-            </TouchableHighlight> 
+            </TouchableHighlight>
           </View>
         <View class="footer" style={styles.footer}>
           {/*<TextInput placeholder='Post Description' style={styles.descriptionBar} onChangeText = {(description) => this.setState({description})} value={this.state.description} />*/}
