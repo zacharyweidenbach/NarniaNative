@@ -130,12 +130,9 @@ export default class PostScreen extends Component {
   componentDidMount() {
     if (!this.state.passedPostAsProp) {
       this.getPost();
-      this.getComments();
-      this.checkInitialLike();
-    } else {
-      this.getComments();
-      this.checkInitialLike();
     }
+    this.getComments();
+    this.checkInitialLike();
   }
 
   checkLikeExists() {

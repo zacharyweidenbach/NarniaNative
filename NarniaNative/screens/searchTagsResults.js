@@ -73,7 +73,7 @@ export default class SearchTagsResults extends Component {
               <Text style={styles.countStyle}>{this.props.tag.count} posts</Text>   
             </View>
         </TouchableHighlight>
-        {this.state.tagsModalVisible ? <TagsModal tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.tagsModalVisible ? <TagsModal userId={this.props.userId} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View>
     );
   }
