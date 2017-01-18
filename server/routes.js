@@ -9,7 +9,7 @@ var appClothing = require('./controllers/appClothing.js');
 var appSearchUser = require('./controllers/appSearchUser.js');
 var appWardrobe = require('./controllers/appWardrobe.js');
 var appTags = require('./controllers/appTags.js');
-var appGoogleCloudStorage = require('./controllers/appGoogleCloudStorage.js')
+var appUserUpload = require('./controllers/appUserUpload.js')
 var imgUpload = require('./middleware/imgUpload.js')
 var Multer = require('multer');
 var path = require('path');
@@ -105,5 +105,6 @@ module.exports = function(app, express) {
 
   //user uploads
   // app.post('/api/userUpload', appGoogleCloudStorage.userUpload);
-  app.post('/api/userUpload', multer.single('userImage'), imgUpload.uploadToGcs, appGoogleCloudStorage.userUpload)
+  app.post('/api/clothingImgUpload', multer.single('userImage'), imgUpload.uploadToGcs, appUserUpload.gcsUpload)
+  app.post('/api/userUpload', appUserUpload.userUpload)
 };

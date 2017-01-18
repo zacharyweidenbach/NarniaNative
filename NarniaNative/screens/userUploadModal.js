@@ -50,7 +50,7 @@ export default class userUploadModal extends Component {
         // }
 
         var uploadBody = new FormData()
-        // uploadBody.append('userUpload', this.state)
+        uploadBody.append('brand', this.state.brand)
         uploadBody.append('userImage', userImage)
         console.warn(JSON.stringify(uploadBody))
         //send information to the server for uploading the clothes into the database
@@ -58,19 +58,57 @@ export default class userUploadModal extends Component {
         // xhr.open('POST', 'http://' + ip.address + ':3000/api/userUpload');
         // xhr.setRequestHeader('content-type', 'multipart/form-data');
         // xhr.send(uploadBody)
-        fetch('http://' + ip.address + ':3000/api/userUpload', {
+        fetch('http://' + ip.address + ':3000/api/clothingImgUpload', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
         },
         body: uploadBody
-      }).then((res) => { console.warn('returned') })
-        // .then((resJson) => {
-        //   Alert('Your clothing has been successfully added to your wardrobe')
-        //   this.props.setModalVisible(false)
-        // })
+      }).then((res) => { return res.json(); })
+        .then((resJson) => {
+          if(resJson.imageUrl) {
+            fetch('http://' + ip.address + ':3000/api/userUpload', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                "Content-Type": 'application/json'
+              },
+              body: JSON.stringify({ 
+                clothing:{
+                  title:this.state.title, 
+                  brand: this.state.brand,
+                  description: this.state.description,
+                  color: this.state.color,
+                  material: this.state.material,
+                  productTypeName: 'Shirt',
+                  upc: this.state.upc,
+                  department: 'Mens',
+                  detailPageUrl: this.state.url,
+                  largeImg: resJson.imageUrl,
+                },
+                userId: this.props.userId,
+                tags: this.state.tags,
+                list: 'wardrobe'
+              })
+            })
+            .then((res) => {return res.json();})
+            .then((resJson) => {
+              console.warn('successful clothing upload', resJson)
+              // Alert('Your clothing has been successfully added to your wardrobe')
+              // this.props.setModalVisible(false)
+            })
+            .catch((error) => {
+              console.error(error)
+            })
+          }
+          else if(!resJson.imageUrl) {
+            console.warn('there is NO url')
+            this.onButtonPress('upload')
+          }
+        })
         .catch((error) => {
+          console.warn('multer failed')
           console.error(error);
         });
         break;

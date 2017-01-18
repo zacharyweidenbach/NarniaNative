@@ -32,6 +32,7 @@ module.exports = {
           productTypeName: req.body.clothing.ProductTypeName,
           asin: req.body.clothing.ASIN,
           upc: req.body.clothing.UPC,
+          title: req.body.clothing.title,
         };
         connection.query('insert into clothing set ?', clothing, function(err, result) {
           if (err) {
