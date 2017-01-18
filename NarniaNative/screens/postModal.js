@@ -346,6 +346,11 @@ export default class PostScreen extends Component {
               {this.state.post.username}
             </Text>
           </View>
+
+          {/* Images */}
+          <ScrollView horizontal={true} pagingEnabled={true}>
+            <PostImage _style={styles} post={this.state.post}/>
+          </ScrollView>
           
           {/* Likes Button */}
           <View style={styles.actionBar}>
@@ -359,11 +364,6 @@ export default class PostScreen extends Component {
             </View>
           </View>
 
-          {/* Images */}
-          <ScrollView horizontal={true} pagingEnabled={true}>
-            <PostImage _style={styles} post={this.props.post}/>
-          </ScrollView>
-
           {/* Description */}
           <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText}>{this.state.post.description}</Text>
@@ -371,7 +371,7 @@ export default class PostScreen extends Component {
 
           {/*TimeAgo*/}
           <View style={styles.timeContainer}>
-            <TimeAgo style={styles.time} time={Number(this.props.post.createdAt)} />
+            <TimeAgo style={styles.time} time={Number(this.state.post.createdAt)} />
           </View>
 
           {/* Comments Input*/}
