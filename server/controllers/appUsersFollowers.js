@@ -32,7 +32,7 @@ module.exports = {
   getAllFollowersPosts: function(req, res, next) {
     connection.query('SELECT * FROM userFollowers where userId=' + req.body.userId, function(err, result) {
       var str = '';
-      var tempArr = [];
+      var tempArr = [req.body.userId];
       for (var i = 0; i < result.length; i++) {
         tempArr.push(result[i].followerId);
       }
