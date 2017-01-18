@@ -189,7 +189,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => that.setState({tags: resJSON}))
-    .then(() => console.log('tags', that.props.post.id, that.state.tags))
+    // .then(() => console.log('tags', that.props.post.id, that.state.tags))
     .catch((err) => console.log(err));
   }
 

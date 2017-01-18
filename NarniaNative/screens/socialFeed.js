@@ -102,7 +102,6 @@ export default class socialFeed extends Component {
   }
 
   componentWillReceiveProps() {
-    this.getTrendingPosts();
     this.getFollowingPosts();
   }
 
@@ -124,7 +123,6 @@ export default class socialFeed extends Component {
       .catch((err) => console.log(err))
   }
   getOlderTrendingPosts() {
-    // console.warn(this.state.trendingRow);
     return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
       method: 'POST',
       headers: {
@@ -161,7 +159,7 @@ export default class socialFeed extends Component {
       .then((res) => res.json())
       .then((resJSON) => {
         this.setState({feedPosts: resJSON}, function() {
-          this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+          this.setState({lastFeedId: resJSON[resJSON.length - 1].id}, function() {console.log(this.state.lastFeedId)})
           this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
         });
       })
@@ -185,7 +183,7 @@ export default class socialFeed extends Component {
         if (resJSON.length > 0) {
           this.setState({feedPosts: this.state.feedPosts.concat(resJSON)}, function() {
             this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
-            this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+            this.setState({lastFeedId: resJSON[resJSON.length - 1].id}, function() {console.log(this.state.lastFeedId)})
           });
         }
       })
@@ -216,7 +214,7 @@ export default class socialFeed extends Component {
       // this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows([])})
       this.getFollowingPosts().then(() => {this.setState({isRefreshing: false})});
     } else if(this.state.index === 1) {
-      this.setState({trendingRow: 0});
+      // this.setState({trendingRow: 0});
       this.getTrendingPosts().then(() => {this.setState({isRefreshing: false})});
     }
   }
