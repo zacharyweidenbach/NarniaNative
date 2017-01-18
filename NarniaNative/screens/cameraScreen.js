@@ -22,7 +22,7 @@ export default class cameraScreen extends Component {
   chooseImageFromGallery () {
     ImagePickerIOS.openSelectDialog({}, (imageUri) => {
       this.setState({image: imageUri});
-    }, error => console.error('Error in cameraScreen.js in chooseImageFromGallery', error));
+    }, error => console.log('Image Gallery closed, or Error in cameraScreen.js in chooseImageFromGallery: ', error));
   }
 
   chooseImageFromCamera () {
@@ -44,7 +44,7 @@ export default class cameraScreen extends Component {
       //   }
       // })
       // .catch(function(msg){console.warn('ERROR: ' + msg)})
-    }, error => console.error('Error in cameraScreen.js in chooseImageFromCamera', error));
+    }, error => console.log('Device Camera closed, or Error in cameraScreen.js in chooseImageFromCamera: ', error));
   }
 
   onButtonPress(button) {

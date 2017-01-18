@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, Modal, Picker, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image, Linking} from 'react-native';
+import { Alert, ActivityIndicator, Modal, Picker, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 import Auth from '../auth.js';
 import DropDown, { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class userUploadModal extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class userUploadModal extends Component {
       upc: '',
       department: 'Mens',
       url: '',
+      loading: false,
     };
   }
 
@@ -29,6 +31,7 @@ export default class userUploadModal extends Component {
   onButtonPress(button) {
     switch (button) {
     case 'upload':
+      this.setState({loading: true});
       var title = this.state.title;
       var dateNow = Date.now();
       var userImage = {
@@ -36,28 +39,11 @@ export default class userUploadModal extends Component {
         type: 'image/jpeg',
         name: title + dateNow + '.jpeg'
       };
-      // var userUpload = {
-      //   title: this.state.title,
-      //   brand: this.state.brand,
-      //   description: this.state.description,
-      //   color: this.state.color,
-      //   material: this.state.material,
-      //   productTypeName: 'Shirt',
-      //   tags: this.state.tags,
-      //   upc: this.state.upc,
-      //   department: 'Mens',
-      //   url: this.state.url,
-      // }
 
       var uploadBody = new FormData();
       uploadBody.append('brand', this.state.brand);
       uploadBody.append('userImage', userImage);
-      console.warn(JSON.stringify(uploadBody));
       //send information to the server for uploading the clothes into the database
-      // var xhr = new XMLHttpRequest()
-      // xhr.open('POST', 'http://' + ip.address + ':3000/api/userUpload');
-      // xhr.setRequestHeader('content-type', 'multipart/form-data');
-      // xhr.send(uploadBody)
       fetch('http://' + ip.address + ':3000/api/clothingImgUpload', {
         method: 'POST',
         headers: {
@@ -94,20 +80,17 @@ export default class userUploadModal extends Component {
             })
             .then((res) => { return res.json(); })
             .then((resJson) => {
-              console.warn('successful clothing upload', resJson);
-              // Alert('Your clothing has been successfully added to your wardrobe')
-              // this.props.setModalVisible(false)
+              this.setState({loading: false});
+              Alert.alert('Upload Success', 'Your clothing has been successfully added to your wardrobe', [{text: 'OK', onPress: () => { this.props.setModalVisible(false); } }]);
             })
             .catch((error) => {
               console.error(error);
             });
           } else if (!resJson.imageUrl) {
-            console.warn('there is NO url');
             this.onButtonPress('upload');
           }
         })
         .catch((error) => {
-          console.warn('multer failed');
           console.error(error);
         });
       break;
@@ -136,7 +119,7 @@ export default class userUploadModal extends Component {
               <Text> Clothing Upload Form </Text>
             </View>
           </View>
-        <ScrollView>
+        <KeyboardAwareScrollView>
           <View>
             <Image style={[styles.img, {transform: [{rotate: this.props.rotation + ' deg'}]}]} source={{uri: this.props.image}} resizeMode={Image.resizeMode.contain} />
           </View>
@@ -239,8 +222,9 @@ export default class userUploadModal extends Component {
             </Picker>
             </View>
           </View>
+          {this.state.loading ? <View style={{flex: 0.5, alignItems: 'center', marginTop: (Dimensions.get('window').height / -2)}}><ActivityIndicator style={{width: 0, height: 0}} size="large" color='#ff9554'/></View> : null}
           <Button title="Add clothing to your Wardrobe" onPress={this.onButtonPress.bind(this, 'upload')} color='orange' style={{color: 'orange'}}/>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </View>
       </Modal>
     );
