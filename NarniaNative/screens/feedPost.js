@@ -174,6 +174,7 @@ export default class FeedPost extends Component {
     if (prevProps.post !== this.props.post) {
       this.setState({likesCount: this.props.post.likesCount});
       this.checkInitialLike();
+      this.getTags();
     }
   }
 
@@ -189,7 +190,7 @@ export default class FeedPost extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => that.setState({tags: resJSON}))
-    .then(() => console.log('tags', that.props.post.id, that.state.tags))
+    //.then(() => console.warn('tags', that.props.post.id, that.state.tags))
     .catch((err) => console.log(err));
   }
 

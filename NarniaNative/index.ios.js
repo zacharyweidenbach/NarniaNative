@@ -106,6 +106,16 @@ export default class NarniaNative extends Component {
         renderScene={
           this.navigatorRenderScene
         }
+        configureScene={(route) => {
+          if (route.id === 'ProfileMenu') {
+            return Navigator.SceneConfigs.FloatFromLeft;
+          } else if (route.id === 'SearchScreen') {
+            return Navigator.SceneConfigs.FloatFromRight;
+          } else {
+            return Navigator.SceneConfigs.FloatFromBottom;
+          }
+        }
+        }
       />
     );
   }
