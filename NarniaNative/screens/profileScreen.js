@@ -96,13 +96,9 @@ export default class profileScreen extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => {
-      var tempArr = [];
-      for (var i = 0; i < resJSON.length; i++) {
-        tempArr.push(resJSON[i].body);
-      }
-      if (tempArr.length > 0) {
+      if (resJSON.length > 0) {
         that.setState({
-          bodyArr: tempArr,
+          bodyArr: resJSON,
           username: resJSON[0].username,
           thumbnail: resJSON[0].thumbnail,
         }); 
@@ -254,7 +250,7 @@ export default class profileScreen extends Component {
             <View style={{backgroundColor: '#fff'}}>
               {this.props.userId != this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
             </View>
-            <ProfileGallery userPosts={this.state.bodyArr} />
+            <ProfileGallery userId={this.props.userId} userPosts={this.state.bodyArr} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/>
           </ScrollView>
         </View>
       </View>

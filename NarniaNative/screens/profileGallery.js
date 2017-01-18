@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
   StyleSheet,
-  Component,
   Dimensions,
   Image,
+  TouchableHighlight
 } from 'react-native';
+
+import PostModal from './postModal';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -35,18 +37,36 @@ const styles = StyleSheet.create({
   },
 });
 
-var LikesGallery = (props) => {
-  return (
-    <View style={styles.container}>
-      {props.userPosts.map((body, key) => {
-        if (key === 0) {
-          return <View key={key}><Image style={styles.imgLarge} source={{uri: body}} /></View>;
-        } else {
-          return <View key={key}><Image style={styles.imgSmall} source={{uri: body}} /></View>;
-        }
-      })}
-    </View>
-  );
-};
+export default class ProfileGallery extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: '#ff9554',
+      currentPostId: null,
+      postsVisible: false
+    };
+  }
 
-module.exports = LikesGallery;
+  handleLikePostClick(postId) {
+    this.setState({currentPostId: postId, postsVisible: true});
+  }
+
+  setPostsVisible(visible) {
+    this.setState({postsVisible: visible});
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.props.userPosts.map((post, key) => {
+          if (key === 0) {
+            return <TouchableHighlight key={key} onPress={() => this.handleLikePostClick(post.id)}><Image style={styles.imgLarge} source={{uri: post.body}} /></TouchableHighlight>;
+          } else {
+            return <TouchableHighlight key={key} onPress={() => this.handleLikePostClick(post.id)}><Image style={styles.imgSmall} source={{uri: post.body}} /></TouchableHighlight>;
+          }
+        })}
+        {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.state.currentPostId} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} viewedUser={this.props.viewedUser} navigator={this.props.navigator} /> : null}
+      </View>
+    );
+  }
+};

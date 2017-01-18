@@ -106,15 +106,164 @@ const styles = StyleSheet.create({
 export default class PostScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      comments: [],
-      post: '',
-      color: '#ff9554'
-    };
+    if (props.post) {
+      this.state = {
+        comments: [],
+        post: props.post,
+        passedPostAsProp: true,
+        color: '#ff9554',
+        likesCount: props.post.likesCount,
+        postLiked: false,
+      };
+    } else {
+      this.state = {
+        comments: [],
+        post: '',
+        passedPostAsProp: false,
+        color: '#ff9554',
+        likesCount: 0,
+        postLiked: false,
+      };
+    }
   }
 
   componentDidMount() {
+    if (!this.state.passedPostAsProp) {
+      this.getPost();
+    }
     this.getComments();
+    this.checkInitialLike();
+  }
+
+  checkLikeExists() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.userId,
+        postId: this.props.postId
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      if (resJSON.length > 0) {
+        that.decreaseLikeCount();
+      } else {
+        that.increaseLikeCount();
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  checkInitialLike() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.userId,
+        postId: this.props.postId
+      })
+    })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      console.log('resJSON in checkInitialLike', resJSON);
+      if (resJSON.length > 0) {
+        //set state of the button color to orange
+        that.setState({postLiked: true});
+      } else {
+        that.setState({postLiked: false});
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  increaseLikeCount() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/increaseLikeCount', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: this.props.postId,
+      })
+    })
+    .then((resJSON) => that.setState({
+      likesCount: that.state.likesCount + 1,
+      postLiked: true,
+    }))
+    .catch((err) => console.log(err));
+
+    fetch('http://' + ip.address + ':3000/api/insertLikesPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.userId,
+        postId: this.props.postId,
+      })
+    })
+    .then((resJSON) => console.log('successful insertLike'))
+    .catch((err) => console.log(err));
+  }
+
+  decreaseLikeCount() {
+    var that = this;
+    fetch('http://' + ip.address + ':3000/api/decreaseLikeCount', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: this.props.postId,
+      })
+    })
+    .then((resJSON) => that.setState({
+      likesCount: that.state.likesCount - 1, postLiked: false,
+    }))
+    .catch((err) => console.log(err));
+
+    fetch('http://' + ip.address + ':3000/api/deleteLikesPosts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: this.props.userId,
+        postId: this.props.postId
+      })
+    })
+    .then((resJSON) => console.log('successful deleteLike'))
+    .catch((err) => console.log(err));
+  }
+
+  getPost() {
+    var that = this;
+    return fetch('http://' + ip.address + ':3000/api/getPostFromPostId', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({postId: this.props.postId})
+    })
+    .then((res) => res.json())
+    .then((resJSON) => that.setState({post: resJSON[0], likesCount: resJSON[0].likesCount}))
+    .then(() => console.log('getPost', this.state.post))
+    .catch((err) => console.log(err));
   }
 
   getComments() {
@@ -159,8 +308,15 @@ export default class PostScreen extends Component {
   }
 
   profileHandler() {
-    this.props.onNamePress();
+    this.onNamePress();
     this.props.setModalVisible(false);
+  }
+
+  onNamePress() {
+    this.props.viewedUser(this.state.post.userId);
+    this.props.navigator.push({
+      id: 'ProfileScreen',
+    });
   }
 
   render() {
@@ -184,38 +340,38 @@ export default class PostScreen extends Component {
           {/* Thumbnail and Username */}
           <View style={styles.userContainer}>
             <TouchableHighlight onPress={this.profileHandler.bind(this)} underlayColor='transparent'>
-              <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
+              <Image style={styles.thumbnail} source={{uri: this.state.post.thumbnail}} />
             </TouchableHighlight>
             <Text style={styles.textStyle} onPress={this.profileHandler.bind(this)}>
-              {this.props.post.username}
+              {this.state.post.username}
             </Text>
           </View>
 
           {/* Images */}
           <ScrollView horizontal={true} pagingEnabled={true}>
-            <PostImage _style={styles} post={this.props.post}/>
+            <PostImage _style={styles} post={this.state.post}/>
           </ScrollView>
-
+          
           {/* Likes Button */}
           <View style={styles.actionBar}>
             <View style={styles.likesContainer}>
-              <TouchableHighlight onPress={() => { this.props.onButtonPress('like'); }} style={styles.likesBtn} underlayColor='transparent'>
+              <TouchableHighlight onPress={() => this.checkLikeExists()} style={styles.likesBtn} underlayColor='transparent'>
                 <View>
-                  {this.props.postLiked ? <Icon name="ios-heart" size={35} color={this.props.color} /> : <Icon name="ios-heart-outline" size={35} color={this.props.color} />}
+                  {this.state.postLiked ? <Icon name="ios-heart" size={35} color={this.state.color} /> : <Icon name="ios-heart-outline" size={35} color={this.state.color} />}
                 </View>
               </TouchableHighlight>
-              <Text style={styles.textStyle}>{this.props.likesCount} Likes</Text>
+              <Text style={styles.textStyle}>{this.state.likesCount} Likes</Text>
             </View>
-          </View>
-
-          {/*TimeAgo*/}
-          <View style={styles.timeContainer}>
-            <TimeAgo style={styles.time} time={Number(this.props.post.createdAt)} />
           </View>
 
           {/* Description */}
           <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}>{this.props.post.description}</Text>
+            <Text style={styles.descriptionText}>{this.state.post.description}</Text>
+          </View>
+
+          {/*TimeAgo*/}
+          <View style={styles.timeContainer}>
+            <TimeAgo style={styles.time} time={Number(this.state.post.createdAt)} />
           </View>
 
           {/* Comments Input*/}

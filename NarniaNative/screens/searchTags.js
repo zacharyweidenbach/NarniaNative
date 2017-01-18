@@ -87,7 +87,7 @@ export default class SearchTags extends Component {
     return (
       <View style={styles.container}>
         {this.state.tags.length > 0 ? this.state.tags.map((tag, key) => {
-          return <SearchTagsResults tag={tag} key={key}/>;
+          return <SearchTagsResults tag={tag} key={key} userId={this.props.userId}/>
         }) : null }
       </View>
     ); 

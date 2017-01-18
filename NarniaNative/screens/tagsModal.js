@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image} from 'react-native';
+import { Modal, TouchableWithoutFeedback, TouchableHighlight, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
+import PostModal from './postModal';
 
 export default class tagsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      currentPostId: null,
+      postsVisible: false
     };
   }
 
@@ -28,6 +31,14 @@ export default class tagsModal extends Component {
     .then((res) => res.json())
     .then((resJSON) => that.setState({posts: resJSON}))
     .catch((err) => console.warn(err));
+  }
+
+  handleLikePostClick(postId) {
+    this.setState({currentPostId: postId, postsVisible: true});
+  }
+
+  setPostsVisible(visible) {
+    this.setState({postsVisible: visible});
   }
 
   render() {
@@ -51,12 +62,13 @@ export default class tagsModal extends Component {
           <ScrollView>
             <View style={styles.scrollContainer}>
               {this.state.posts.length > 0 ? this.state.posts.map((post, key) => {
-                return <View key={key}><Image style={styles.imgSmall} source={{uri: post.body}} /></View>;
+                return <TouchableHighlight key={key} onPress={() => this.handleLikePostClick(post.id)}><Image style={styles.imgSmall} source={{uri: post.body}} /></TouchableHighlight>;
               }) : null}
             </View>
           </ScrollView>
         </View>
       </View>
+      {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.state.currentPostId} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} viewedUser={this.props.viewedUser} navigator={this.props.navigator} /> : null}
     </Modal>
     );
   }
