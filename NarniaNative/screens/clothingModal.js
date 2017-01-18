@@ -24,8 +24,6 @@ export default class clothingModal extends Component {
     }.bind(this));
   }
 
-<<<<<<< HEAD
-=======
   findClothingPosition(clothing) {
     var positionKey = {
       'SHIRT': 'top',
@@ -37,8 +35,6 @@ export default class clothingModal extends Component {
 
     return positionKey[clothing.ProductTypeName] || positionKey[clothing.productTypeName];
   }
-
->>>>>>> Added PostImages fix to show all three articles of clothing
   onButtonPress(button) {
     switch (button) {
     case 'addtoMixer':
