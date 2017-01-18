@@ -101,6 +101,7 @@ export default class searchScreen extends Component {
     };
     this.resetSearchText = this.resetSearchText.bind(this);
   }
+
   _handleChangeTab = (index) => {
     this.setState({
       index, searchText:''

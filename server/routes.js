@@ -105,6 +105,6 @@ module.exports = function(app, express) {
 
   //user uploads
   // app.post('/api/userUpload', appGoogleCloudStorage.userUpload);
-  app.post('/api/clothingImgUpload', multer.single('userImage'), imgUpload.uploadToGcs, appUserUpload.gcsUpload)
-  app.post('/api/userUpload', appUserUpload.userUpload)
+  app.post('/api/clothingImgUpload', multer.single('userImage'), imgUpload.uploadToGcs, appUserUpload.gcsUpload);
+  app.post('/api/userUpload', appUserUpload.userUpload);
 };
