@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   imgSmall: {
     width: Dimensions.get('window').width / 2,
     height: Dimensions.get('window').width / 2,
-    // marginTop: 2,
     borderWidth: 1,
     borderColor: '#f9f7f5',
   },

@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -124,11 +123,11 @@ export default class wardrobeScreen extends Component {
           <ScrollView>
             <View style={styles.scrollContainer}>
               {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
-              if (key === 0) {
-                return <View key={key}><Image style={styles.imgLarge} source={{uri: clothing.largeImg}} /></View>;
-              } else {
-                return <View key={key}><Image style={styles.imgSmall} source={{uri: clothing.largeImg}} /></View>;
-              }
+                if (key === 0) {
+                  return <View key={key}><Image style={styles.imgLarge} source={{uri: clothing.largeImg}} /></View>;
+                } else {
+                  return <View key={key}><Image style={styles.imgSmall} source={{uri: clothing.largeImg}} /></View>;
+                }
               }) : null}
             </View>
           </ScrollView>

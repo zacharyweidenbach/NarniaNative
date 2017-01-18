@@ -27,14 +27,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
-    // paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ff9554'
   },
   scrollContainer: {
     paddingTop: 20,
     flex: 12,
-    // fontSize: 80
   },
   backBtn: {
     flex: 1,
@@ -82,7 +80,7 @@ export default class profileScreen extends Component {
       break;
     case 'camera':
       this.props.navigator.push({
-        id:'cameraScreen'
+        id: 'cameraScreen'
       });
       break;
     case 'likes':

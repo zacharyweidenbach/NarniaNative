@@ -73,24 +73,9 @@ export default class SearchShop extends Component {
         console.error(error);
       });
   }
-  // onNamePress() {
-  //   this.props.navigator.push({
-  //     id: 'ProfileScreen'
-  //   });
-  // }
-
-  // onButtonPress(button) {
-  //   switch (button) {
-  //   case 'next':
-  //     this.setState({page: +this.state.page + 1, loading: true});
-  //     setTimeout(function() { this.FetchAmazon(); }.bind(this), 1);
-  //     break;
-  //   }
-  // }
 
   onLoadMore() {
-    // console.warn('load');
-    if (this.state.page < 10) {
+    if (this.state.page < 10 && this.state.items.length > 0) {
       this.setState({page: +this.state.page + 1, loading: true});
       setTimeout(function() { this.FetchAmazon(); }.bind(this), 1);
     }

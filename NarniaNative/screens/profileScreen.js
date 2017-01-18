@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -253,7 +252,7 @@ export default class profileScreen extends Component {
           <ScrollView>
             <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
             <View style={{backgroundColor: '#fff'}}>
-              {this.props.userId !== this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
+              {this.props.userId != this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
             </View>
             <ProfileGallery userPosts={this.state.bodyArr} />
           </ScrollView>

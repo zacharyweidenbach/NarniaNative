@@ -351,20 +351,22 @@ export default class FeedPost extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {/* Username and Thumbnail */}
         <View style={styles.userContainer}>
           <TouchableHighlight onPress={this.onNamePress.bind(this)} underlayColor='transparent'>
             <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
           </TouchableHighlight>
-
           <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>
         </View>
-
+        
+        {/* Post Image*/}
         <TouchableHighlight onPress={this.onButtonPress.bind(this, 'posts')}>
           <View >
             <PostImage _style={styles} post={this.props.post}/>
           </View>
         </TouchableHighlight>
 
+        {/* Likes and Comment Button */}
         <View style={styles.actionBar}>
           <View style={styles.likesContainer}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'like')} style={styles.likesBtn} underlayColor='transparent'>
@@ -380,9 +382,13 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
+        
+        {/* TimeAgo */}
         <View style={styles.timeContainer}>
           <TimeAgo style={styles.time} time={this.state.createdAt} />
         </View>
+
+        {/* Description and Tags*/}
         {this.state.tags.length > 0 ?
           <View>
             <View style={styles.descriptionContainer}>
@@ -399,7 +405,7 @@ export default class FeedPost extends Component {
             <Text style={styles.descriptionText}>{this.props.post.description}</Text>
           </View>}
 
-        {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setCommentsVisible.bind(this)}/> : null}
+        {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
         {this.state.tagsModalVisible ? <TagsModal tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
         {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}

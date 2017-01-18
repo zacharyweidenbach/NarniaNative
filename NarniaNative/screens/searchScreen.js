@@ -33,8 +33,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 20,
   },
-  searchBar: {
+  searchBarContainer: {
     flex: 1,
+    flexDirection: 'row',
+  },
+  searchBar: {
+    flex: 4,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  searchBtn: {
+    flex: 1
   },
   tabbar: {
     backgroundColor: '#fff',
@@ -162,12 +171,14 @@ export default class searchScreen extends Component {
           <View style={styles.emptySpace}>
           </View>
         </View>
-        <TextInput placeholder= 'Search' style={styles.searchBar} onFocus= {() => this.setState({searchText: ''})} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
-         <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
+        <View style={styles.searchBarContainer}>
+          <TextInput placeholder= 'Search' style={styles.searchBar} returnKeyType="search" onSubmitEditing={this.onButtonPress.bind(this, 'search')} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
+          <TouchableHighlight style={styles.searchBtn} onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
             <View style={{alignItems: 'center'}}>
               <Icon name="ios-search" size={38} color={this.state.color} />
             </View>
           </TouchableHighlight>
+        </View>
         <TabViewAnimated
           style={[ styles.tabViewContainer, this.props.style ]}
           navigationState={this.state}

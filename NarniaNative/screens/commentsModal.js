@@ -19,14 +19,19 @@ import ip from '../network.js';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,
     // marginBottom: 0,
   },
-  postcomment: {
+  textInputContainer: {
     flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 15,
   },
   comments: {
     flex: 8,
@@ -105,8 +110,10 @@ export default class CommentsModal extends Component {
               <Icon name="ios-close" size={38} color={this.state.color} />
             </TouchableHighlight>
           </View>
-          <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
-          <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
+          <View style={styles.textInputContainer}>
+            <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.textInput} value={this.state.post} onChangeText = {(text) => this.setState({post: text})}/>
+          </View>
+          <Button title="Post Comment" color="#ff9554" onPress={this.sendPost.bind(this)}/>
           <View style={styles.comments}>
             <ScrollView>
               {this.state.comments.length > 0 ? this.state.comments.map((comment, key) => {
