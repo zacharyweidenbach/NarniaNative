@@ -62,8 +62,10 @@ export default class likesScreen extends Component {
     this.state = {
       likes: [],
       color: '#ff9554',
-      likes: []
+      currentPostId: null,
+      postsVisible: false
     };
+
     this.getLikedPostId = this.getLikedPostId.bind(this);
   }
 
@@ -111,7 +113,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            {this.state.likes.length > 0 ? <LikesGallery likes={this.state.likes}/> : <View style={{alignItems: 'center', marginTop: 5}}><Text style={{color: '#888', fontSize: 16}}>No posts liked!</Text></View>}
+            {this.state.likes.length > 0 ? <LikesGallery userId={this.props.userId} likes={this.state.likes} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/> : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts liked!</Text></View>}
           </ScrollView>
         </View>
       </View>

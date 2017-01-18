@@ -78,7 +78,7 @@ export default class NarniaNative extends Component {
     case 'SocialFeed':
       return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'LikesScreen':
-      return (<LikesScreen navigator={navigator} title='LikesScreen' userId={this.state.userId}/>);
+      return (<LikesScreen navigator={navigator} title='LikesScreen' userId={this.state.userId} viewedUser={this.viewedUser}/>);
     case 'ProfileScreen':
       return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectedId={this.state.selectedId}/>);
     case 'SearchScreen':

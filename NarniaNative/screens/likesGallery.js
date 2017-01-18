@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
   StyleSheet,
-  Component,
   Dimensions,
   Image,
+  TouchableHighlight
 } from 'react-native';
+
+import PostModal from './postModal';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -35,20 +37,38 @@ const styles = StyleSheet.create({
     borderColor: '#f9f7f5',
   },
 });
+export default class LikesGallery extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: '#ff9554',
+      currentPostId: null,
+      postsVisible: false
+    };
+  }
 
-var LikesGallery = (props) => {
-  return (
-    <View style={styles.container}>
-      {props.likes.map((like, key) => {
-        console.log(key, 'KEY');
-        if (key === 0) {
-          return <View key={key}><Image style={styles.imgLarge} source={{uri: like.body}} /></View>;
-        } else {
-          return <View key={key}><Image style={styles.imgSmall} source={{uri: like.body}} /></View>;
-        }
-      })}
-    </View>
-  );
+  handleLikePostClick(postId) {
+    this.setState({currentPostId: postId, postsVisible: true});
+  }
+
+  setPostsVisible(visible) {
+    this.setState({postsVisible: visible});
+  }
+  
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.props.likes.map((like, key) => {
+          if (key === 0) {
+            return <TouchableHighlight key={key} onPress={() => this.handleLikePostClick(like.id)}><Image style={styles.imgLarge} source={{uri: like.body}} /></TouchableHighlight>;
+          } else {
+            return <TouchableHighlight key={key} onPress={() => this.handleLikePostClick(like.id)}><Image style={styles.imgSmall} source={{uri: like.body}} /></TouchableHighlight>;
+          }
+        })}
+        {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.state.currentPostId} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} viewedUser={this.props.viewedUser} navigator={this.props.navigator} /> : null}
+      </View>
+    );
+  }
 };
 
 module.exports = LikesGallery;
