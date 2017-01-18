@@ -23,62 +23,73 @@ import {
 import FeedPost from './feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
-import ip from '../network.js';
+// import ip from '../network.js';
+import {
+  getFollowingPosts,
+  getTrendingPosts,
+  getOlderFollowingPosts,
+  getOlderTrendingPosts
+} from '../utils.js';
 
+import {socialFeedStyles as styles} from '../stylesheet.js';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  tabViewContainer: {
-    flex: 12,
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-  },
-  tabbar: {
-    backgroundColor: '#fff',
-  },
-  page: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  indicator: {
-    backgroundColor: '#ff9554',
-  },
-  label: {
-    color: 'black',
-    fontWeight: '400',
-  },
-  footer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     justifyContent: 'center',
+//   },
+//   tabViewContainer: {
+//     flex: 12,
+//   },
+//   header: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     paddingTop: 20,
+//   },
+//   tabbar: {
+//     backgroundColor: '#fff',
+//   },
+//   page: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   indicator: {
+//     backgroundColor: '#ff9554',
+//   },
+//   label: {
+//     color: 'black',
+//     fontWeight: '400',
+//   },
+//   footer: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     justifyContent: 'space-around',
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//   },
+// });
 
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
 };
 
-var dataSoureTrending = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-var dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+// var dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+// var dataSoureTrending = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
+
+    this.dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.dataSoureTrending = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
       index: 0,
       routes: [
@@ -87,9 +98,9 @@ export default class socialFeed extends Component {
       ],
       feedPosts: [],
       lastFeedId: 0,
-      dataSourceFollowers: dataSourceFollowers.cloneWithRows([]),
+      dataSourceFollowers: this.dataSourceFollowers.cloneWithRows([]),
       trendingPosts: [],
-      dataSoureTrending: dataSoureTrending.cloneWithRows([]),
+      dataSoureTrending: this.dataSoureTrending.cloneWithRows([]),
       trendingRow: 0,
       color: '#ff9554',
       isRefreshing: false,
@@ -97,98 +108,101 @@ export default class socialFeed extends Component {
   };
 
   componentDidMount() {
-    this.getFollowingPosts();
-    this.getTrendingPosts();
+    getFollowingPosts.call(this);
+    getTrendingPosts.call(this);
   }
 
-  componentWillReceiveProps() {
-    this.getFollowingPosts();
-  }
+  // componentWillReceiveProps() {
+  //   getTrendingPosts(this);
+  //   // getFollowingPosts().bind(this);
+  // }
 
-  getTrendingPosts() {
-    return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((res) => res.json())
-      .then((resJSON) => {
-        this.setState({trendingPosts: resJSON}, function() {
-          this.setState({trendingRow: this.state.trendingRow + resJSON.length})
-          this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
-        })
-      })
-      .catch((err) => console.log(err))
-  }
-  getOlderTrendingPosts() {
-    return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        row: this.state.trendingRow,
-      })
-    })
-      .then((res) => res.json())
-      .then((resJSON) => {
-        if (resJSON.length > 0) {
-          this.setState({trendingPosts: this.state.trendingPosts.concat(resJSON)}, function() {
-            this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
-            this.setState({trendingRow: this.state.trendingRow + resJSON.length})
-          });
-        }
-      })
-      .catch((err) => console.log(err))
-  }
+  // getTrendingPosts() {
+  //   return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //     .then((res) => res.json())
+  //     .then((resJSON) => {
+  //       this.setState({trendingPosts: resJSON}, function() {
+  //         this.setState({trendingRow: this.state.trendingRow + resJSON.length})
+  //         this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
+  //       })
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
-  getFollowingPosts() {
-    return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-      })
-    })
-      .then((res) => res.json())
-      .then((resJSON) => {
-        this.setState({feedPosts: resJSON}, function() {
-          this.setState({lastFeedId: resJSON[resJSON.length - 1].id}, function() {console.log(this.state.lastFeedId)})
-          this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
-        });
-      })
-      .catch((err) => console.log(err))
-  }
+  // getOlderTrendingPosts() {
+  //   // console.warn(this.state.trendingRow);
+  //   return fetch('http://' + ip.address + ':3000/api/getPostsFromDb', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       row: this.state.trendingRow,
+  //     })
+  //   })
+  //     .then((res) => res.json())
+  //     .then((resJSON) => {
+  //       if (resJSON.length > 0) {
+  //         this.setState({trendingPosts: this.state.trendingPosts.concat(resJSON)}, function() {
+  //           this.setState({dataSoureTrending: dataSoureTrending.cloneWithRows(this.state.trendingPosts)})
+  //           this.setState({trendingRow: this.state.trendingRow + resJSON.length})
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
-  getOlderFollowingPosts() {
-    return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.state.lastFeedId,
-      })
-    })
-      .then((res) => res.json())
-      .then((resJSON) => {
-        if (resJSON.length > 0) {
-          this.setState({feedPosts: this.state.feedPosts.concat(resJSON)}, function() {
-            this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
-            this.setState({lastFeedId: resJSON[resJSON.length - 1].id}, function() {console.log(this.state.lastFeedId)})
-          });
-        }
-      })
-      .catch((err) => console.log(err))
-  }
+  // getFollowingPosts() {
+  //   return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       userId: this.props.userId,
+  //     })
+  //   })
+  //     .then((res) => res.json())
+  //     .then((resJSON) => {
+  //       this.setState({feedPosts: resJSON}, function() {
+  //         this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+  //         this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
+  //       });
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
+
+  // getOlderFollowingPosts() {
+  //   return fetch('http://' + ip.address + ':3000/api/getAllFollowersPosts', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       userId: this.props.userId,
+  //       postId: this.state.lastFeedId,
+  //     })
+  //   })
+  //     .then((res) => res.json())
+  //     .then((resJSON) => {
+  //       if (resJSON.length > 0) {
+  //         this.setState({feedPosts: this.state.feedPosts.concat(resJSON)}, function() {
+  //           this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows(this.state.feedPosts)})
+  //           this.setState({lastFeedId: resJSON[resJSON.length - 1].id})
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   _handleChangeTab = (index) => {
     this.setState({
@@ -208,40 +222,39 @@ export default class socialFeed extends Component {
     );
   };
   _onRefresh = () => {
-    this.setState({isRefreshing: true});  
+    this.setState({isRefreshing: true});
     if (this.state.index === 0) {
       // this.setState({feedPosts: []});
       // this.setState({dataSourceFollowers: dataSourceFollowers.cloneWithRows([])})
-      this.getFollowingPosts().then(() => {this.setState({isRefreshing: false})});
+      getFollowingPosts.call(this).then(() => {this.setState({isRefreshing: false})});
     } else if(this.state.index === 1) {
-      // this.setState({trendingRow: 0});
-      this.getTrendingPosts().then(() => {this.setState({isRefreshing: false})});
+      this.setState({trendingRow: 0});
+      getTrendingPosts.call(this).then(() => {this.setState({isRefreshing: false})});
     }
   }
 
   _renderScene = ({ route }) => {
     switch (route.key) {
     case '1':
-      var followerslist = (this.state.feedPosts.length > 0) ? <ListView 
+      var followerslist = (this.state.feedPosts.length > 0) ? <ListView
             refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e" /> }
             enableEmptySections={true}
-            onEndReached={() => this.getOlderFollowingPosts()}
+            onEndReached={() => getOlderFollowingPosts.call(this)}
             dataSource={this.state.dataSourceFollowers}
             renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
-                
+
       return (
         <View>
           {followerslist}
         </View>
         );
     case '2':
-      var trendingList = (this.state.trendingPosts.length > 0) ? <ListView 
-            refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e" /> }
-            enableEmptySections={true}
-            onEndReached={() => this.getOlderTrendingPosts()}
-            dataSource={this.state.dataSoureTrending}
-            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
-
+      var trendingList = (this.state.trendingPosts.length > 0) ? <ListView
+              refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e" /> }
+              enableEmptySections={true}
+              onEndReached={() => getOlderTrendingPosts.call(this)}
+              dataSource={this.state.dataSoureTrending}
+              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
       return (
         <View>
           {trendingList}
