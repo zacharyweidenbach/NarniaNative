@@ -7,6 +7,8 @@ import {
   Image,
 } from 'react-native';
 
+import TimeAgo from 'react-native-timeago';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -15,9 +17,21 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
   },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  textContainer: {
+    flex: 8,
+    paddingRight: 10,
+  },
   textStyle: {
     flex: 1,
-    paddingLeft: 10,
+  },
+  timeStamp: {
+    flex: 1,
+    paddingTop: 3,
+    color: '#888'
   },
   thumbnail: {
     paddingLeft: 2,
@@ -26,7 +40,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   username: {
-    paddingLeft: 10,
     fontWeight: 'bold',
   }
 });
@@ -41,13 +54,18 @@ export default class Comment extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.thumbnail} source={{uri: this.props.comment.thumbnail}} />
-        <Text style={styles.username}>
-          {this.props.comment.username}
-        </Text>
-        <Text style={styles.textStyle}>
-          {this.props.comment.body}
-        </Text>   
+        <View style={styles.userContainer}>
+          <Image style={styles.thumbnail} source={{uri: this.props.comment.thumbnail}} />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.username}>
+              {this.props.comment.username}
+          </Text>
+          <Text style={styles.textStyle}>
+            {this.props.comment.body}
+          </Text> 
+          <TimeAgo style={styles.timeStamp} time={Number(this.props.comment.createdAt)}/>
+        </View>
       </View>
     );
   }

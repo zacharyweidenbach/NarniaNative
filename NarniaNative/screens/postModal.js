@@ -10,8 +10,10 @@ import {
   Button,
   TextInput,
   Text,
-  Image
+  Image,
+  AlertIOS
 } from 'react-native';
+
 import Comment from './comment.js';
 import ip from '../network.js';
 import PostImage from '../components/postImage.js';
@@ -27,6 +29,7 @@ const styles = StyleSheet.create({
   },
   comments: {
     flex: 8,
+    marginLeft: 10
   },
   imgContainer: {
     flex: 1,
@@ -110,6 +113,7 @@ export default class PostScreen extends Component {
       this.state = {
         comments: [],
         post: props.post,
+        message: '',
         passedPostAsProp: true,
         color: '#ff9554',
         likesCount: props.post.likesCount,
@@ -119,6 +123,7 @@ export default class PostScreen extends Component {
       this.state = {
         comments: [],
         post: '',
+        message: '',
         passedPostAsProp: false,
         color: '#ff9554',
         likesCount: 0,
@@ -281,8 +286,10 @@ export default class PostScreen extends Component {
     .catch((err) => console.log(err));
   }
 
-  sendPost(post) {
+  sendPost() {
     var that = this;
+    var today = new Date;
+
     if (this.state.post !== '') {
       return fetch('http://' + ip.address + ':3000/api/postToDb', {
         method: 'POST',
@@ -293,18 +300,24 @@ export default class PostScreen extends Component {
         body: JSON.stringify({
           postid: this.props.postId,
           userid: this.props.userId,
-          body: this.state.post,
+          body: this.state.message,
           type: 'comment',
-          createdAt: new Date()
+          createdAt: today.getTime(),
         })
       })
       .then((res) => {
-        console.log('success posting');
-        that.setState({post: ''});
+        that.setState({message: ''});
         that.getComments();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.warn(err));
     }
+  }
+
+  handlePostButton() {
+    var that = this;
+    AlertIOS.prompt('Enter a post message...', null, (msg) => {
+      that.setState({message: msg}, () => that.sendPost());
+    });
   }
 
   profileHandler() {
@@ -375,8 +388,7 @@ export default class PostScreen extends Component {
           </View>
 
           {/* Comments Input*/}
-          <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText={(text) => this.setState({post: text})}/>
-          <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
+          <Button title="Post a Comment" color="#ff9554" onPress={this.handlePostButton.bind(this)}/>
 
           {/* Comments List*/}
           <View style={styles.comments}>
