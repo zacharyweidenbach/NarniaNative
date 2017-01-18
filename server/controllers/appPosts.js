@@ -104,12 +104,26 @@ module.exports = {
     var weekAgo = new Date().getTime() - (86400000 * 7);
     //86400000 in a day, *7 = 1 week
     if (req.body.row === undefined) {
-      connection.query('SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image" and posts.createdAt>' + weekAgo + ' ORDER BY likesCount DESC LIMIT 10', function(err, result) {
+      connection.query(
+        'SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
+        FROM users \
+          INNER JOIN posts on users.id=posts.userId and posts.type="image" and posts.createdAt>' + weekAgo + ' \
+           LEFT JOIN clothing shirt ON shirt.id=posts.shirtId \
+           LEFT JOIN clothing pant ON pant.id=posts.pantId \
+           LEFT JOIN clothing shoes ON shoes.id=posts.shoesId \
+          ORDER BY likesCount DESC LIMIT 10', function(err, result) {
         var response = err || result;
         res.json(response);
       });
     } else {
-      connection.query('SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image" and posts.createdAt>' + weekAgo + ' ORDER BY likesCount DESC LIMIT ' + req.body.row + ',10', function(err, result) {
+      connection.query(
+        'SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
+        FROM users \
+          INNER JOIN posts on users.id=posts.userId and posts.type="image" and posts.createdAt>' + weekAgo + ' \
+           LEFT JOIN clothing shirt ON shirt.id=posts.shirtId \
+           LEFT JOIN clothing pant ON pant.id=posts.pantId \
+           LEFT JOIN clothing shoes ON shoes.id=posts.shoesId \
+          ORDER BY likesCount DESC LIMIT ' + req.body.row + ',10', function(err, result) {
         var response = err || result;
         res.json(response);
       });

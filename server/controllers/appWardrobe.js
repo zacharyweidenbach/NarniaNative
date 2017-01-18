@@ -9,6 +9,7 @@ module.exports = {
   },
   addToWardrobe: function(req, res, next) {
     console.log(req.body.clothing.UPC);
+    console.log(req.body, 'CLOTHING LOGGED');
     connection.query('select id from clothing where upc="' + req.body.clothing.UPC + '" OR asin="' + req.body.clothing.ASIN + '"', function(err, result) {
       if (err) {
         res.send(err);
@@ -33,6 +34,7 @@ module.exports = {
           asin: req.body.clothing.ASIN,
           upc: req.body.clothing.UPC,
           title: req.body.clothing.title,
+          position: req.body.position
         };
         connection.query('insert into clothing set ?', clothing, function(err, result) {
           if (err) {
@@ -51,7 +53,7 @@ module.exports = {
         });
       }
     });
-  },  
+  },
   removeFromWardrobe: function(req, res, next) {
     connection.query('delete from wardrobe where userId=' + req.body.userId + ' and clothingId=' + req.body.clothingId, function(err, result) {
       var response = err || result;
