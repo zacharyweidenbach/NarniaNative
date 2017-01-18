@@ -14,6 +14,8 @@ export default class clothingModal extends Component {
   }
 
   componentWillMount() {
+    console.warn(JSON.stringify(this.props.clothing));
+    console.warn(this.findClothingPosition(this.props.clothing));
     Auth.getId()
     .then(function(resp) {
       this.setState({
@@ -22,20 +24,40 @@ export default class clothingModal extends Component {
     }.bind(this));
   }
 
+<<<<<<< HEAD
+=======
+  findClothingPosition(clothing) {
+    var positionKey = {
+      'SHIRT': 'top',
+      'SHIRTS': 'top',
+      'PANT': 'middle',
+      'PANTS': 'middle',
+      'SHOES': 'bottom',
+    };
+
+    return positionKey[clothing.ProductTypeName] || positionKey[clothing.productTypeName];
+  }
+
+>>>>>>> Added PostImages fix to show all three articles of clothing
   onButtonPress(button) {
     switch (button) {
     case 'addtoMixer':
         //once mixer is universal have this add the clothing to the mixer array at the proper position
       break;
     case 'addtoDream':
-        //send data to server
+      //send data to server
       fetch('http://' + ip.address + ':3000/api/addToWardrobe', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({userId: this.props.userId, clothing: this.props.clothing, list: 'wardrobe'})
+        body: JSON.stringify({
+          userId: this.props.userId,
+          clothing: this.props.clothing,
+          list: 'wardrobe',
+          position: this.findClothingPosition(this.props.clothing)
+        })
       }).then((res) => { console.log('returned'); return res.json(); })
         .then((resJson) => {
           alert(this.props.clothing.Title + 'has been added to your Dreamrobe');
@@ -45,7 +67,7 @@ export default class clothingModal extends Component {
         });
       break;
     case 'buy':
-        //send them to amazon item page
+      //send them to amazon item page
       Linking.openURL(this.props.clothing.DetailPageURL).catch(err => console.error('An error occurred', err));
       break;
     }

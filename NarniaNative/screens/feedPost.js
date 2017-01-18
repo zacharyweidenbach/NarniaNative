@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#fff',
-    justifyContent: 'flex-start' 
+    justifyContent: 'flex-start'
   },
   time: {
     backgroundColor: '#fff',
@@ -168,7 +168,7 @@ export default class FeedPost extends Component {
   //   this.setState({likesCount: this.props.post.likesCount});
   shouldComponentUpdate(nextProps, nextState) {
     return true;
-  } 
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.post !== this.props.post) {
@@ -359,7 +359,7 @@ export default class FeedPost extends Component {
           </TouchableHighlight>
           <Text style={styles.textStyle} onPress={this.onNamePress.bind(this)}>{this.props.post.username}</Text>
         </View>
-        
+
         {/* Post Image*/}
         <TouchableHighlight onPress={this.onButtonPress.bind(this, 'posts')}>
           <View >
@@ -383,7 +383,7 @@ export default class FeedPost extends Component {
             </View>
           </TouchableHighlight>
         </View>
-        
+
         {/* TimeAgo */}
         <View style={styles.timeContainer}>
           <TimeAgo style={styles.time} time={this.state.createdAt} />
@@ -408,8 +408,8 @@ export default class FeedPost extends Component {
 
         {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setCommentsVisible.bind(this)}/> : null}
         {this.state.tagsModalVisible ? <TagsModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
-        {this.state.postsVisible ? <PostModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
 
+        {this.state.postsVisible ? <PostModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
       </View>
     );
   }

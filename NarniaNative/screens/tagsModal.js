@@ -30,7 +30,6 @@ export default class tagsModal extends Component {
     })
     .then((res) => res.json())
     .then((resJSON) => that.setState({posts: resJSON}))
-    .then(() => console.warn(JSON.stringify(that.state.posts)))
     .catch((err) => console.warn(err));
   }
 
@@ -116,5 +115,22 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width,
     borderWidth: 1,
     borderColor: '#f9f7f5',
+  },
+  imgContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff',
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff'
   },
 });
