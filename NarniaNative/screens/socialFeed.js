@@ -73,8 +73,9 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-var dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var dataSoureTrending = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var dataSourceFollowers = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 export default class socialFeed extends Component {
   constructor(props) {
     super(props);
@@ -237,11 +238,11 @@ export default class socialFeed extends Component {
         );
     case '2':
       var trendingList = (this.state.trendingPosts.length > 0) ? <ListView 
-              refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e" /> }
-              enableEmptySections={true}
-              onEndReached={() => this.getOlderTrendingPosts()}
-              dataSource={this.state.dataSoureTrending}
-              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
+            refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e" /> }
+            enableEmptySections={true}
+            onEndReached={() => this.getOlderTrendingPosts()}
+            dataSource={this.state.dataSoureTrending}
+            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
 
       return (
         <View>

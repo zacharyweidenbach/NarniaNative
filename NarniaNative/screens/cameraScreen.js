@@ -17,7 +17,7 @@ export default class cameraScreen extends Component {
   }
 
   componentDidMount() {
-    console.log('Ok, I am running but there is something in the code not allowing the code to render, cameraScreen')
+    console.log('Ok, I am running but there is something in the code not allowing the code to render, cameraScreen');
   }
   chooseImageFromGallery () {
     ImagePickerIOS.openSelectDialog({}, (imageUri) => {
@@ -114,7 +114,7 @@ export default class cameraScreen extends Component {
         </View>
         {this.state.modalVisible ? <UserUploadModal userId={this.props.userId} image={this.state.image} rotation={this.state.rotation} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View> 
-    )
+    );
   }
 }
 
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    flexDirection:'row',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },

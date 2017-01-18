@@ -73,18 +73,18 @@ export default class Mixer extends Component {
   changeMixerDisplay(clothing) {
     var position = this.findClothingPosition(clothing);
     switch (position) {
-      case 'top':
-        this.state.topImages.push({URL: clothing.largeImg});
-        this.setState({topIndex: this.state.topImages.length - 1});
-        break;
-      case 'middle':
-        this.state.midImages.push({URL: clothing.largeImg});
-        this.setState({midIndex: this.state.midImages.length - 1});
-        break;
-      case 'bottom':
-        this.state.bottomImages.push({URL: clothing.largeImg});
-        this.setState({bottomIndex: this.state.bottomImages.length - 1});
-        break;
+    case 'top':
+      this.state.topImages.push({URL: clothing.largeImg});
+      this.setState({topIndex: this.state.topImages.length - 1});
+      break;
+    case 'middle':
+      this.state.midImages.push({URL: clothing.largeImg});
+      this.setState({midIndex: this.state.midImages.length - 1});
+      break;
+    case 'bottom':
+      this.state.bottomImages.push({URL: clothing.largeImg});
+      this.setState({bottomIndex: this.state.bottomImages.length - 1});
+      break;
     }
   }
 
@@ -102,7 +102,7 @@ export default class Mixer extends Component {
 
   postMixerOutfit(description) {
     var today = new Date;
-    return fetch("http://" + ip.address + ":3000/api/postToDB", {
+    return fetch('http://' + ip.address + ':3000/api/postToDB', {
       method: 'POST', 
       headers: {
         'Accept': 'application/json',

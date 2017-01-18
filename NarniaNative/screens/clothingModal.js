@@ -9,7 +9,7 @@ export default class clothingModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url:''
+      url: ''
     };
   }
 
@@ -24,54 +24,53 @@ export default class clothingModal extends Component {
 
 onButtonPress(button) {
   switch (button) {
-    case 'addtoMixer':
+  case 'addtoMixer':
       //once mixer is universal have this add the clothing to the mixer array at the proper position
-      break;
-   case 'addtoDream':
+    break;
+  case 'addtoDream':
       //send data to server
-      fetch('http://' + ip.address + ':3000/api/addToWardrobe', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({userId: this.props.userId, clothing: this.props.clothing, list: 'wardrobe'})
-      }).then((res) => {console.log('returned'); return res.json()})
-        .then((resJson) => {
-          alert(this.props.clothing.Title + 'has been added to your Dreamrobe');
-         })
-        .catch((error) => {
-          console.error(error);
+    fetch('http://' + ip.address + ':3000/api/addToWardrobe', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({userId: this.props.userId, clothing: this.props.clothing, list: 'wardrobe'})
+    }).then((res) => { console.log('returned'); return res.json(); })
+      .then((resJson) => {
+        alert(this.props.clothing.Title + 'has been added to your Dreamrobe');
+      })
+      .catch((error) => {
+        console.error(error);
       });
-      break;
-   case 'buy':
+    break;
+  case 'buy':
       //send them to amazon item page
-      Linking.openURL(this.props.clothing.DetailPageURL).catch(err => console.error('An error occurred', err));
-      break;
+    Linking.openURL(this.props.clothing.DetailPageURL).catch(err => console.error('An error occurred', err));
+    break;
   }
 }
   render() {
     return (
       <Modal
-        animationType={"slide"}
+        animationType={'slide'}
         transparent={false}
         visible={this.props.modalVisible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        onRequestClose={() => { alert('Modal has been closed.'); }}
       >
       <View style={styles.container}>
         <View>
           <TouchableWithoutFeedback onPress={() => {
-
-            this.props.setModalVisible(false)
+            this.props.setModalVisible(false);
           }}>
-             <Icon name="ios-close-circle" size={20} color='orange' style={{paddingTop: 10}}/>
+            <Icon name="ios-close-circle" size={20} color='orange' style={{paddingTop: 10}}/>
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.textcontainer} >
           <Text> {this.props.clothing.Title} </Text>
         </View>
         <View >
-          <Image  style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
+          <Image style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
           <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} />
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     // marginBottom: 0,
   },
   textcontainer: {
-    flex:1,
+    flex: 1,
     alignItems: 'center',
   },
   button: {

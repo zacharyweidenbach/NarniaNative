@@ -15,11 +15,12 @@ import {
 import Comment from './comment.js';
 import ip from '../network.js';
 import PostImage from '../components/postImage.js';
+import TimeAgo from 'react-native-timeago';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f7f5',
+    backgroundColor: '#fff',
   },
   postcomment: {
     flex: 1,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
+    paddingBottom: 10,
   },
   actionBar: {
     //contains likesContainer, likesBtn, and commentBtn
@@ -87,6 +89,18 @@ const styles = StyleSheet.create({
   descriptionText: {
     paddingLeft: 15, paddingRight: 10, color: '#4f4f4f',
   },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start' 
+  },
+  time: {
+    backgroundColor: '#fff',
+    color: '#4f4f4f',
+    paddingLeft: 15,
+    paddingBottom: 10,
+  }
 });
 
 export default class PostScreen extends Component {
@@ -167,19 +181,23 @@ export default class PostScreen extends Component {
         </View>
 
         <ScrollView style={styles.container}>
+          {/* Thumbnail and Username */}
+          <View style={styles.userContainer}>
+            <TouchableHighlight onPress={this.profileHandler.bind(this)} underlayColor='transparent'>
+              <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
+            </TouchableHighlight>
+            <Text style={styles.textStyle} onPress={this.profileHandler.bind(this)}>
+              {this.props.post.username}
+            </Text>
+          </View>
+
+          {/* Images */}
+          <ScrollView horizontal={true} pagingEnabled={true}>
+            <PostImage _style={styles} post={this.props.post}/>
+          </ScrollView>
+
+          {/* Likes Button */}
           <View style={styles.actionBar}>
-
-            {/* Thumbnail and Username */}
-            <View style={styles.userContainer}>
-              <TouchableHighlight onPress={this.profileHandler.bind(this)} underlayColor='transparent'>
-                <Image style={styles.thumbnail} source={{uri: this.props.post.thumbnail}} />
-              </TouchableHighlight>
-              <Text style={styles.textStyle} onPress={this.profileHandler.bind(this)}>
-                {this.props.post.username}
-              </Text>
-            </View>
-
-            {/* Likes Button */}
             <View style={styles.likesContainer}>
               <TouchableHighlight onPress={() => { this.props.onButtonPress('like'); }} style={styles.likesBtn} underlayColor='transparent'>
                 <View>
@@ -188,22 +206,23 @@ export default class PostScreen extends Component {
               </TouchableHighlight>
               <Text style={styles.textStyle}>{this.props.likesCount} Likes</Text>
             </View>
-
           </View>
 
-          {/* Images */}
-          <ScrollView horizontal={true} pagingEnabled={true}>
-            <PostImage _style={styles} post={this.props.post}/>
-          </ScrollView>
+          {/*TimeAgo*/}
+          <View style={styles.timeContainer}>
+            <TimeAgo style={styles.time} time={Number(this.props.post.createdAt)} />
+          </View>
 
           {/* Description */}
           <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText}>{this.props.post.description}</Text>
           </View>
 
-          {/* Comments */}
+          {/* Comments Input*/}
           <TextInput multiline={true} maxLength={255} placeholder='Post a comment...' style={styles.postcomment} value={this.state.post} onChangeText={(text) => this.setState({post: text})}/>
           <Button title="Post" color="#ff9554" onPress={this.sendPost.bind(this)}/>
+
+          {/* Comments List*/}
           <View style={styles.comments}>
             <ScrollView>
               {this.state.comments.length > 0 ? this.state.comments.map((comment, key) => {
@@ -211,7 +230,6 @@ export default class PostScreen extends Component {
               }) : <View style={{alignItems: 'center'}}><Text style={{color: '#888'}}>No comments available</Text></View>}
             </ScrollView>
           </View>
-
         </ScrollView>
       </Modal>
     );

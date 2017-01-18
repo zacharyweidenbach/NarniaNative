@@ -33,10 +33,10 @@ export default class tagsModal extends Component {
   render() {
     return (
       <Modal
-        animationType={"slide"}
+        animationType={'slide'}
         transparent={false}
         visible={this.props.tagsModalVisible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        onRequestClose={() => { alert('Modal has been closed.'); }}
       >
       <View style={styles.container}>
         <View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   textContainer: {
-    flex:1,
+    flex: 1,
     alignItems: 'center',
   },
   text: {

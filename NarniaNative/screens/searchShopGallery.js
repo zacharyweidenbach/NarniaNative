@@ -30,14 +30,14 @@ const styles = StyleSheet.create({
   imgLarge: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width,
-    // borderWidth: 1,
-    // borderColor: '#f9f7f5',
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
   },
   imgSmall: {
     width: Dimensions.get('window').width / 2,
     height: Dimensions.get('window').width / 2,
-    // borderWidth: 1,
-    // borderColor: '#f9f7f5',
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
   },
 });
 var dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -63,10 +63,6 @@ export default class SearchShopGallery extends Component {
         this.setState({dataSource: dataSource.cloneWithRows(this.state.clothing)});
       });
     }   
-    // if (prevProps.post !== this.props.post) {
-    //   this.setState({likesCount: this.props.post.likesCount});
-    //   this.checkInitialLike();
-    // }
   }
 
   onButtonPress(button, index) {
@@ -104,7 +100,6 @@ export default class SearchShopGallery extends Component {
     return (
       <View style={styles.container}>
         {clothing}
-        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingInd]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View>
     );
   }
