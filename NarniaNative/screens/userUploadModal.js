@@ -19,8 +19,8 @@ export default class userUploadModal extends Component {
       upc: '',
       department: 'Mens',
       url: '',
-    }
-  };
+    };
+  }
 
   componentDidMount() {
     updatePosition(this.refs['SELECT1']);
@@ -28,52 +28,89 @@ export default class userUploadModal extends Component {
   }
   onButtonPress(button) {
     switch (button) {
-      case 'upload':
-        var title = this.state.title;
-        var dateNow = Date.now();
-        var userImage = {
-          uri: this.props.image,
-          type: 'image/jpeg',
-          name: title + dateNow+'.jpeg'
-        }
-        // var userUpload = {
-        //   title: this.state.title,
-        //   brand: this.state.brand,
-        //   description: this.state.description,
-        //   color: this.state.color,
-        //   material: this.state.material,
-        //   productTypeName: 'Shirt',
-        //   tags: this.state.tags,
-        //   upc: this.state.upc,
-        //   department: 'Mens',
-        //   url: this.state.url,
-        // }
+    case 'upload':
+      var title = this.state.title;
+      var dateNow = Date.now();
+      var userImage = {
+        uri: this.props.image,
+        type: 'image/jpeg',
+        name: title + dateNow + '.jpeg'
+      };
+      // var userUpload = {
+      //   title: this.state.title,
+      //   brand: this.state.brand,
+      //   description: this.state.description,
+      //   color: this.state.color,
+      //   material: this.state.material,
+      //   productTypeName: 'Shirt',
+      //   tags: this.state.tags,
+      //   upc: this.state.upc,
+      //   department: 'Mens',
+      //   url: this.state.url,
+      // }
 
-        var uploadBody = new FormData()
-        // uploadBody.append('userUpload', this.state)
-        uploadBody.append('userImage', userImage)
-        console.warn(JSON.stringify(uploadBody))
-        //send information to the server for uploading the clothes into the database
-        // var xhr = new XMLHttpRequest()
-        // xhr.open('POST', 'http://' + ip.address + ':3000/api/userUpload');
-        // xhr.setRequestHeader('content-type', 'multipart/form-data');
-        // xhr.send(uploadBody)
-        fetch('http://' + ip.address + ':3000/api/userUpload', {
+      var uploadBody = new FormData();
+      uploadBody.append('brand', this.state.brand);
+      uploadBody.append('userImage', userImage);
+      console.warn(JSON.stringify(uploadBody));
+      //send information to the server for uploading the clothes into the database
+      // var xhr = new XMLHttpRequest()
+      // xhr.open('POST', 'http://' + ip.address + ':3000/api/userUpload');
+      // xhr.setRequestHeader('content-type', 'multipart/form-data');
+      // xhr.send(uploadBody)
+      fetch('http://' + ip.address + ':3000/api/clothingImgUpload', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
         },
         body: uploadBody
-      }).then((res) => { console.warn('returned') })
-        // .then((resJson) => {
-        //   Alert('Your clothing has been successfully added to your wardrobe')
-        //   this.props.setModalVisible(false)
-        // })
+      }).then((res) => { return res.json(); })
+        .then((resJson) => {
+          if (resJson.imageUrl) {
+            fetch('http://' + ip.address + ':3000/api/userUpload', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ 
+                clothing: {
+                  title: this.state.title, 
+                  brand: this.state.brand,
+                  description: this.state.description,
+                  color: this.state.color,
+                  material: this.state.material,
+                  productTypeName: 'Shirt',
+                  upc: this.state.upc,
+                  department: 'Mens',
+                  detailPageUrl: this.state.url,
+                  largeImg: resJson.imageUrl,
+                },
+                userId: this.props.userId,
+                tags: this.state.tags,
+                list: 'wardrobe'
+              })
+            })
+            .then((res) => { return res.json(); })
+            .then((resJson) => {
+              console.warn('successful clothing upload', resJson);
+              // Alert('Your clothing has been successfully added to your wardrobe')
+              // this.props.setModalVisible(false)
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          } else if (!resJson.imageUrl) {
+            console.warn('there is NO url');
+            this.onButtonPress('upload');
+          }
+        })
         .catch((error) => {
+          console.warn('multer failed');
           console.error(error);
         });
-        break;
+      break;
     }
   }
   _getOptionList() {
@@ -83,16 +120,16 @@ export default class userUploadModal extends Component {
   render() {
     return (
       <Modal
-        animationType={"slide"}
+        animationType={'slide'}
         transparent={false}
         visible={this.props.modalVisible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        onRequestClose={() => { alert('Modal has been closed.'); }}
       >
         <View stye={styles.container}>
           <View style={styles.header}>
             <View>
               <TouchableWithoutFeedback onPress={() => {
-                this.props.setModalVisible(false)
+                this.props.setModalVisible(false);
               }}>
                  <Icon name="ios-close-circle" size={20} color='orange' />
               </TouchableWithoutFeedback>
@@ -101,14 +138,14 @@ export default class userUploadModal extends Component {
           </View>
         <ScrollView>
           <View>
-            <Image style={[styles.img, {transform:[{rotate:this.props.rotation + ' deg'}]}]} source={{uri:this.props.image}} resizeMode={Image.resizeMode.contain} />
+            <Image style={[styles.img, {transform: [{rotate: this.props.rotation + ' deg'}]}]} source={{uri: this.props.image}} resizeMode={Image.resizeMode.contain} />
           </View>
-          <View  style={styles.form} >
+          <View style={styles.form} >
              <View style={styles.picker}>
               <Text style={styles.text}>Clothing Type</Text>
               <Select
                 ref="SELECT1"
-                style={{flex:1, zIndex:25}}
+                style={{flex: 1, zIndex: 25}}
                 optionListRef={this._getOptionList.bind(this)}
                 defaultValue="Select clothing type..."
                 onSelect={(productTypeName) => this.setState({productTypeName})}>
@@ -131,7 +168,7 @@ export default class userUploadModal extends Component {
             <View style={styles.input}>
               <Text style={styles.text}>Description</Text>
               <TextInput 
-                style={[styles.text, {flex:4}]}
+                style={[styles.text, {flex: 4}]}
                 multiline={true}
                 onChangeText={(description) => this.setState({description})}
                 value={this.state.description}
@@ -193,7 +230,7 @@ export default class userUploadModal extends Component {
              <View style={styles.picker}>
               <Text style={styles.text}>Clothing Type</Text>
              <Picker
-            style={[styles.picker, {padding:10, margin:10}]}
+            style={[styles.picker, {padding: 10, margin: 10}]}
             selectedValue={this.state.productTypeName}
             onValueChange={(productTypeName) => this.setState({productTypeName})}>
             <Picker.Item label="Shirt" value="Shirt" />
@@ -202,11 +239,11 @@ export default class userUploadModal extends Component {
             </Picker>
             </View>
           </View>
-          <Button title="Add clothing to your Wardrobe" onPress={this.onButtonPress.bind(this, 'upload')} color='orange' style={{color:'orange'}}/>
+          <Button title="Add clothing to your Wardrobe" onPress={this.onButtonPress.bind(this, 'upload')} color='orange' style={{color: 'orange'}}/>
           </ScrollView>
         </View>
       </Modal>
-    )
+    );
   }
 }
 
@@ -225,7 +262,7 @@ const styles = StyleSheet.create({
     // marginBottom: 0,
   },
   header: {
-    flexDirection:'row',
+    flexDirection: 'row',
     paddingTop: 20, 
     paddingLeft: 5,
   },
@@ -235,26 +272,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
   },
-  text : {
+  text: {
     height: 15,
     color: 'orange',
   },
   form: {
-    flex:1,
+    flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     // flexDirection: 'column',
   },
   input: {
-    flex:1,
-    flexWrap:'wrap',
+    flex: 1,
+    flexWrap: 'wrap',
     overflow: 'hidden',
     margin: 5,
     height: 40,
     width: Dimensions.get('window').width,
   },
-   picker: {
-    flex:2,
+  picker: {
+    flex: 2,
     width: Dimensions.get('window').width,
     height: 40,
   },

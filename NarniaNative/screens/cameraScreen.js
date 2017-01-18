@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ImagePickerIOS, TouchableOpacity, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Exif from 'react-native-exif'
-import UserUploadModal from './userUploadModal.js'
+import Exif from 'react-native-exif';
+import UserUploadModal from './userUploadModal.js';
 
 export default class cameraScreen extends Component {
   constructor(props) {
@@ -21,14 +21,14 @@ export default class cameraScreen extends Component {
   }
   chooseImageFromGallery () {
     ImagePickerIOS.openSelectDialog({}, (imageUri) => {
-      this.setState({image: imageUri})
+      this.setState({image: imageUri});
     }, error => console.error('Error in cameraScreen.js in chooseImageFromGallery', error));
   }
 
   chooseImageFromCamera () {
     ImagePickerIOS.openCameraDialog({}, (imageUri) => {
       // console.warn('i made it here', imageUri)
-      this.setState({rotation: 90, image: imageUri})
+      this.setState({rotation: 90, image: imageUri});
       // //the following will not run, won't even throw the catch. My guess is that the Exif function is struggling with the location of the taken picture
       // Exif.getExif(imageUri)
       // .then((msg) => {
@@ -57,10 +57,10 @@ export default class cameraScreen extends Component {
       this.setState({modalVisible: true});
       break;
     case 'rotate':
-      if (this.state.rotation <= 270){
-        this.setState({rotation: this.state.rotation + 90})
+      if (this.state.rotation <= 270) {
+        this.setState({rotation: this.state.rotation + 90});
       } else {
-        this.setState({rotation: 0})
+        this.setState({rotation: 0});
       }
       break;
     }
@@ -73,8 +73,8 @@ export default class cameraScreen extends Component {
   render () {
     var rotateImage = () => {
       return (
-        <View style={[styles.container, {backgroundColor:"red"}]}>
-          <Image style={{flex:2, transform:[{rotate:this.state.rotation + ' deg'}]}} source={{uri:this.state.image}} resizeMode={Image.resizeMode.contain}/> 
+        <View style={[styles.container, {backgroundColor:"orange"}]}>
+          <Image style={{flex: 2, transform: [{rotate: this.state.rotation + ' deg'}]}} source={{uri: this.state.image}} resizeMode={Image.resizeMode.contain}/> 
         </View>
       )
     }
@@ -89,10 +89,10 @@ export default class cameraScreen extends Component {
             <Text style={styles.text}>Upload Clothes</Text>
           </View>
         </View>
-          {this.state.image? rotateImage() :null}
+          {this.state.image ? rotateImage() : null}
           
          <View style={styles.buttonContainer}>
-            {this.state.image?
+            {this.state.image ?
               <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'upload')}>
                 <Text> Upload Image </Text>
@@ -101,7 +101,7 @@ export default class cameraScreen extends Component {
                 <Text> Rotate Image </Text>
               </TouchableOpacity>
               </View>
-              :null
+              : null
             }
         </View>
         <View style={styles.buttonContainer}>
