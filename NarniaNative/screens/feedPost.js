@@ -408,7 +408,7 @@ export default class FeedPost extends Component {
 
         {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setCommentsVisible.bind(this)}/> : null}
         {this.state.tagsModalVisible ? <TagsModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
-        {this.state.postsVisible ? <PostModal userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
+        {this.state.postsVisible ? <PostModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
 
       </View>
     );
