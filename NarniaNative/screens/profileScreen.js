@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   ScrollView,
   Text,
   View,
-  Dimensions,
   TouchableHighlight,
   Button
 } from 'react-native';
@@ -12,52 +10,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
 import ip from '../network.js';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9f7f5',
-    justifyContent: 'center',
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-  },
-  scrollContainer: {
-    flex: 12,
-  },
-  backBtn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-  },
-  menu: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingRight: 15,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 26,
-  },
-  textContainer: {
-    flex: 4,
-    alignItems: 'center',
-  },
-  emptySpace: {
-    flex: 1
-  }
-});
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-};
+import {POSTfetch} from '../utils.js';
+import {profileScreenStyles as styles} from '../stylesheet.js';
 
 export default class profileScreen extends Component {
   constructor(props) {
@@ -84,17 +38,9 @@ export default class profileScreen extends Component {
 
   getLoggedInProfile() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/getLoggedInProfile', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.selectedId,
-      })
+    return POSTfetch('getLoggedInProfile', {
+      userId: that.props.selectedId
     })
-    .then((res) => res.json())
     .then((resJSON) => {
       if (resJSON.length > 0) {
         that.setState({
@@ -103,17 +49,9 @@ export default class profileScreen extends Component {
           thumbnail: resJSON[0].thumbnail,
         }); 
       } else {
-        fetch('http://' + ip.address + ':3000/api/searchUserId', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: that.props.selectedId,
-          })
+        return POSTfetch('searchUserId', {
+          id: that.props.selectedId
         })
-        .then((res) => res.json())
         .then((resJSON) => {
           that.setState({
             username: resJSON[0].username,
@@ -121,23 +59,14 @@ export default class profileScreen extends Component {
           });
         });
       }
-    })
-    .catch((err) => console.log('error: ' + err));
+    });
   }
 
   getNumberOfFollowers() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/getNumberOfFollowers', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.selectedId,
-      })
+    return POSTfetch('getNumberOfFollowers', {
+      userId: that.props.selectedId
     })
-    .then((res) => res.json())
     .then((resJSON) => {
       var tempArr = [];
       for (var i = 0; i < resJSON.length; i++) {
@@ -147,24 +76,15 @@ export default class profileScreen extends Component {
         followers: tempArr,
         followerCount: tempArr.length
       });
-    })
-    .catch((err) => console.log('error: ' + err));
+    });
   }
 
   checkFollower(init) {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/checkFollower', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.userId,
-        followerId: that.props.selectedId,
-      })
+    return POSTfetch('checkFollower', {
+      userId: that.props.userId,
+      followerId: that.props.selectedId,
     })
-    .then((res) => res.json())
     .then((resJSON) => {
       if (init) {
         console.log('init true');
@@ -187,16 +107,9 @@ export default class profileScreen extends Component {
 
   addFollower() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/addFollower', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.userId,
-        followerId: that.props.selectedId,
-      })
+    return POSTfetch('addFollower', {
+      userId: that.props.userId,
+      followerId: that.props.selectedId,
     })
     .then(() => that.setState({following: true, followerCount: this.state.followerCount + 1}))
     .then(() => console.log('added follower'));
@@ -204,16 +117,9 @@ export default class profileScreen extends Component {
 
   removeFollower() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/deleteFollower', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: that.props.userId,
-        followerId: that.props.selectedId,
-      })
+    return POSTfetch('deleteFollower', {
+      userId: that.props.userId,
+      followerId: that.props.selectedId,
     })
     .then(() => that.setState({following: false, followerCount: this.state.followerCount - 1}))
     .then(() => console.log('removed follower'));
@@ -247,8 +153,8 @@ export default class profileScreen extends Component {
         <View style={styles.scrollContainer}>
           <ScrollView>
             <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
-            <View style={{backgroundColor: '#fff'}}>
-              {this.props.userId != this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='red' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color='green' onPress={() => this.checkFollower()}></Button> : null}
+            <View style={styles.whitebg}>
+              {this.props.userId != this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='#888' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color={this.state.color} onPress={() => this.checkFollower()}></Button> : null}
             </View>
             <ProfileGallery userId={this.props.userId} userPosts={this.state.bodyArr} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/>
           </ScrollView>

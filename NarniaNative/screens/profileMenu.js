@@ -1,61 +1,17 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   ScrollView,
   Text,
   View,
-  Image,
-  Dimensions,
   TouchableHighlight,
   Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from './profileGallery';
 import ProfileStats from './profileStats';
+import {profileMenuStyles as styles} from '../stylesheet.js';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    elevation: 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ff9554'
-  },
-  scrollContainer: {
-    paddingTop: 20,
-    flex: 12,
-  },
-  backBtn: {
-    flex: 1,
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    color: '#ff9554'
-  },
-  textContainer: {
-    flex: 4,
-    alignItems: 'center',
-  }
-});
-
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-};
-
-export default class profileScreen extends Component {
+export default class profileMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,15 +61,6 @@ export default class profileScreen extends Component {
   logoutHandler() {
     this.props.destroySession()
     .then(function() {
-      // this.props.navigator.push({
-      //   id: 'Login'
-      // });
-      // while (this.props.navigator.length > 0) {
-      //   this.props.navigator.pop();
-      // }
-      // this.props.navigator.push({
-      //   id: 'Login'
-      // // });
       this.props.navigator.resetTo({
         id: 'Login'
       });
@@ -128,7 +75,7 @@ export default class profileScreen extends Component {
             <Icon name="ios-arrow-back" size={38} color={this.state.color} />
           </TouchableHighlight>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>Menu</Text>
+            <Text style={styles.text}>MENU</Text>
           </View>
           <View style={styles.backBtn}>
           </View>
@@ -138,43 +85,43 @@ export default class profileScreen extends Component {
             <Button
               onPress={this.logoutHandler.bind(this)}
               title="Logout"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Logout"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'wardrobe')}
               title="Wardrobe"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Wardrobe"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'camera')}
               title="Add Personal Clothing to Wardrobe"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Add Personal Clothing to Wardrobe"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'search')}
               title="Search"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Search"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'likes')}
               title="Likes"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Likes"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'mixer')}
               title="Mixer"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Mixer"
             />
             <Button
               onPress={this.onButtonPress.bind(this, 'profile')}
               title="Profile"
-              color="#ff9554"
+              color={this.state.color}
               accessibilityLabel="Profile"
             />
           </ScrollView>

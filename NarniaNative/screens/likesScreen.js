@@ -1,60 +1,15 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   ScrollView,
   Text,
   View,
-  Image,
-  Dimensions,
   TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LikesGallery from './likesGallery';
 import ip from '../network.js';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: '#fff',
-    justifyContent: 'center',
-    backgroundColor: '#f9f7f5'
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    // elevation: 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-  },
-  gallery: {
-    flex: 12,
-  },
-  backBtn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-  },
-  emptySpace: {
-    flex: 1,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    color: '#ff9554'
-  },
-  textContainer: {
-    flex: 4,
-    alignItems: 'center',
-  }
-});
-
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-};
+import {POSTfetch} from '../utils.js';
+import {likesScreenStyles as styles} from '../stylesheet.js';
 
 export default class likesScreen extends Component {
   constructor(props) {
@@ -65,7 +20,6 @@ export default class likesScreen extends Component {
       currentPostId: null,
       postsVisible: false
     };
-
     this.getLikedPostId = this.getLikedPostId.bind(this);
   }
 
@@ -75,19 +29,10 @@ export default class likesScreen extends Component {
 
   getLikedPostId() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/findLikedPostId', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-      })
+    return POSTfetch('findLikedPostId', {
+      userId: this.props.userId
     })
-    .then((res) => res.json())
-    .then((resJSON) => { that.setState({likes: resJSON}); })
-    .catch((err) => console.log('error: ' + err));
+    .then((resJSON) => { that.setState({likes: resJSON}); });
   }
 
   onButtonPress(button) {
@@ -113,7 +58,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            {this.state.likes.length > 0 ? <LikesGallery userId={this.props.userId} likes={this.state.likes} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/> : <View style={{alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts liked!</Text></View>}
+            {this.state.likes.length > 0 ? <LikesGallery userId={this.props.userId} likes={this.state.likes} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/> : <View style={styles.noPostsContainer}><Text style={styles.noPostsText}>No posts liked!</Text></View>}
           </ScrollView>
         </View>
       </View>

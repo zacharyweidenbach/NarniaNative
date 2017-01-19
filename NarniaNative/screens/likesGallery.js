@@ -1,42 +1,13 @@
 import React, {Component} from 'react';
 import {
-  Text,
   View,
-  StyleSheet,
-  Dimensions,
   Image,
   TouchableHighlight
 } from 'react-native';
 
 import PostModal from './postModal';
+import {likesGalleryStyles as styles} from '../stylesheet.js';
 
-const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingLeft: 10,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-  },
-  imgLarge: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    marginTop: 1,
-    borderWidth: 1,
-    borderColor: '#f9f7f5',
-  },
-  imgSmall: {
-    width: Dimensions.get('window').width / 3,
-    height: Dimensions.get('window').width / 3,
-    // marginTop: 1,
-    borderWidth: 1,
-    borderColor: '#f9f7f5',
-  },
-});
 export default class LikesGallery extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +40,4 @@ export default class LikesGallery extends Component {
       </View>
     );
   }
-};
-
-module.exports = LikesGallery;
+}
