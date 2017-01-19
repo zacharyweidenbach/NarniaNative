@@ -46,7 +46,7 @@ export default class MenuScreen extends Component {
       break;
     case 'mixer':
       this.props.navigator.push({
-        id: 'Mixer'
+        id: 'MixerScreen'
       });
       break;
     case 'profile':

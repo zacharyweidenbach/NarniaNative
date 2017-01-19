@@ -35,10 +35,10 @@ export default class clothingModal extends Component {
   }
   onButtonPress(button) {
     switch (button) {
-    case 'addtoMixer':
+    case 'addToMixer':
         //once mixer is universal have this add the clothing to the mixer array at the proper position
       break;
-    case 'addtoDream':
+    case 'addToWardrobe':
       //send data to server
       var body = {
         userId: this.props.userId,
@@ -48,7 +48,10 @@ export default class clothingModal extends Component {
       };
       return POSTfetch('addToWardrobe', body)
         .then((resJson) => {
-          Alert.alert(this.props.clothing.Title + 'has been added to your Dreamrobe');
+          Alert.alert('Added to Wardrobe', this.props.clothing.Title + 'has been added to your Wardrobe', () => {
+            this.props.setModalVisible(false);
+          });
+
         })
         .catch((error) => {
           console.error(error);
@@ -73,7 +76,7 @@ export default class clothingModal extends Component {
           <TouchableWithoutFeedback onPress={() => {
             this.props.setModalVisible(false);
           }}>
-            <Icon name="ios-close-circle" size={20} color='orange' style={styles.closeBtn}/>
+            <Icon name="ios-close" size={42} color='#ff9554' style={styles.closeBtn}/>
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.textcontainer} >
@@ -83,9 +86,9 @@ export default class clothingModal extends Component {
           <Image style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
-          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} />
-          <Button title="Add to Dreamrobe" onPress={this.onButtonPress.bind(this, 'addtoDream')} color='orange' style={styles.button} />
-          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='orange' style={styles.button}/>
+          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addToMixer')} color='#ff9554' style={styles.button} />
+          <Button title="Add to Wardrobe" onPress={this.onButtonPress.bind(this, 'addToWardrobe')} color='#ff9554' style={styles.button} />
+          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='#ff9554' style={styles.button}/>
         </View>
       </View>
     </Modal>
