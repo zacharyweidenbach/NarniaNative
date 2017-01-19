@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  StyleSheet,
-  Dimensions,
   Image,
-  Button,
   ActivityIndicator,
 } from 'react-native';
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, ActivityIndicator, Modal, Picker, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, TextInput, Text, Image, Linking} from 'react-native';
+import { Alert, ActivityIndicator, Modal, Picker, TouchableWithoutFeedback, View, Dimensions, Button, TextInput, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 import Auth from '../auth.js';
 import DropDown, { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { userUploadModalStyles as styles } from '../stylesheet.js';
 
 export default class userUploadModal extends Component {
   constructor(props) {
@@ -41,7 +42,6 @@ export default class userUploadModal extends Component {
       };
 
       var uploadBody = new FormData();
-      uploadBody.append('brand', this.state.brand);
       uploadBody.append('userImage', userImage);
       //send information to the server for uploading the clothes into the database
       fetch('http://' + ip.address + ':3000/api/clothingImgUpload', {
@@ -54,31 +54,24 @@ export default class userUploadModal extends Component {
       }).then((res) => { return res.json(); })
         .then((resJson) => {
           if (resJson.imageUrl) {
-            fetch('http://' + ip.address + ':3000/api/userUpload', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+            var body = { 
+              clothing: { 
+                title: this.state.title, 
+                brand: this.state.brand,
+                description: this.state.description,
+                color: this.state.color,
+                material: this.state.material,
+                productTypeName: 'Shirt',
+                upc: this.state.upc,
+                department: 'Mens',
+                detailPageUrl: this.state.url,
+                largeImg: resJson.imageUrl,
               },
-              body: JSON.stringify({ 
-                clothing: {
-                  title: this.state.title, 
-                  brand: this.state.brand,
-                  description: this.state.description,
-                  color: this.state.color,
-                  material: this.state.material,
-                  productTypeName: 'Shirt',
-                  upc: this.state.upc,
-                  department: 'Mens',
-                  detailPageUrl: this.state.url,
-                  largeImg: resJson.imageUrl,
-                },
-                userId: this.props.userId,
-                tags: this.state.tags,
-                list: 'wardrobe'
-              })
-            })
-            .then((res) => { return res.json(); })
+              userId: this.props.userId,
+              tags: this.state.tags,
+              list: 'wardrobe'
+            };
+            return POSTfetch('userUpload', body)
             .then((resJson) => {
               this.setState({loading: false});
               Alert.alert('Upload Success', 'Your clothing has been successfully added to your wardrobe', [{text: 'OK', onPress: () => { this.props.setModalVisible(false); } }]);
@@ -106,7 +99,7 @@ export default class userUploadModal extends Component {
         animationType={'slide'}
         transparent={false}
         visible={this.props.modalVisible}
-        onRequestClose={() => { alert('Modal has been closed.'); }}
+        onRequestClose={() => { Alert.alert('Modal has been closed.'); }}
       >
         <View stye={styles.container}>
           <View style={styles.header}>
@@ -114,9 +107,9 @@ export default class userUploadModal extends Component {
               <TouchableWithoutFeedback onPress={() => {
                 this.props.setModalVisible(false);
               }}>
-                 <Icon name="ios-close-circle" size={20} color='orange' />
+                 <Icon name="ios-close-circle" size={20} color='#ff9554' />
               </TouchableWithoutFeedback>
-              <Text> Clothing Upload Form </Text>
+              <Text> CLOTHING UPLOAD FORM </Text>
             </View>
           </View>
         <KeyboardAwareScrollView>
@@ -128,7 +121,7 @@ export default class userUploadModal extends Component {
               <Text style={styles.text}>Clothing Type</Text>
               <Select
                 ref="SELECT1"
-                style={{flex: 1, zIndex: 25}}
+                style={styles.selector}
                 optionListRef={this._getOptionList.bind(this)}
                 defaultValue="Select clothing type..."
                 onSelect={(productTypeName) => this.setState({productTypeName})}>
@@ -145,18 +138,18 @@ export default class userUploadModal extends Component {
                 onChangeText={(title) => this.setState({title})}
                 value={this.state.title}
                 placeholder='Give your article of clothing a title'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             <View style={styles.input}>
               <Text style={styles.text}>Description</Text>
               <TextInput 
-                style={[styles.text, {flex: 4}]}
+                style={styles.descriptionText}
                 multiline={true}
                 onChangeText={(description) => this.setState({description})}
                 value={this.state.description}
                 placeholder='Give your article of clothing a description(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
                 />
             </View>
             <View style={styles.input}>
@@ -166,7 +159,7 @@ export default class userUploadModal extends Component {
                 onChangeText={(brand) => this.setState({brand})}
                 value={this.state.brand}
                 placeholder='If known, what brand is the clothing?(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             <View style={styles.input}>
@@ -176,7 +169,7 @@ export default class userUploadModal extends Component {
                 onChangeText={(color) => this.setState({color})}
                 value={this.state.color}
                 placeholder='What color is the clothing?(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             <View style={styles.input}>
@@ -186,7 +179,7 @@ export default class userUploadModal extends Component {
                 onChangeText={(tags) => this.setState({tags})}
                 value={this.state.tags}
                 placeholder='What tags should be associated with this article of clothing?(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             <View style={styles.input}>
@@ -196,7 +189,7 @@ export default class userUploadModal extends Component {
                 onChangeText={(url) => this.setState({url})}
                 value={this.state.url}
                 placeholder='Do you know the url where this could be purchased?(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             <View style={styles.input}>
@@ -206,78 +199,27 @@ export default class userUploadModal extends Component {
                 onChangeText={(upc) => this.setState({upc})}
                 value={this.state.upc}
                 placeholder='Do you known the UPC(universal product code) of the clothing?(optional)'
-                plaholderTextColor='orange'
+                plaholderTextColor='#ff9554'
               />
             </View>
             
-             <View style={styles.picker}>
+             <View style={styles.pickerView}>
               <Text style={styles.text}>Clothing Type</Text>
-             <Picker
-            style={[styles.picker, {padding: 10, margin: 10}]}
-            selectedValue={this.state.productTypeName}
-            onValueChange={(productTypeName) => this.setState({productTypeName})}>
-            <Picker.Item label="Shirt" value="Shirt" />
-            <Picker.Item label="Pants" value="Pants" />
-            <Picker.Item label="Shoes" value="Shoes" />
-            </Picker>
+              <Picker
+                style={styles.picker}
+                selectedValue={this.state.productTypeName}
+                onValueChange={(productTypeName) => this.setState({productTypeName})}>
+                <Picker.Item label="Shirt" value="Shirt" />
+                <Picker.Item label="Pants" value="Pants" />
+                <Picker.Item label="Shoes" value="Shoes" />
+              </Picker>
             </View>
           </View>
-          {this.state.loading ? <View style={{flex: 0.5, alignItems: 'center', marginTop: (Dimensions.get('window').height / -2)}}><ActivityIndicator style={{width: 0, height: 0}} size="large" color='#ff9554'/></View> : null}
-          <Button title="Add clothing to your Wardrobe" onPress={this.onButtonPress.bind(this, 'upload')} color='orange' style={{color: 'orange'}}/>
+          {this.state.loading ? <View style={styles.loading}><ActivityIndicator style={styles.activityIndicator} size="large" color='#ff9554'/></View> : null}
+          <Button title="Add clothing to your Wardrobe" onPress={this.onButtonPress.bind(this, 'upload')} color='#ff9554' style={styles.button}/>
           </KeyboardAwareScrollView>
         </View>
       </Modal>
     );
   }
 }
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#000',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // marginBottom: 0,
-  },
-  header: {
-    flexDirection: 'row',
-    paddingTop: 20, 
-    paddingLeft: 5,
-  },
-  img: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  text: {
-    height: 15,
-    color: 'orange',
-  },
-  form: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    // flexDirection: 'column',
-  },
-  input: {
-    flex: 1,
-    flexWrap: 'wrap',
-    overflow: 'hidden',
-    margin: 5,
-    height: 40,
-    width: Dimensions.get('window').width,
-  },
-  picker: {
-    flex: 2,
-    width: Dimensions.get('window').width,
-    height: 40,
-  },
-
-});

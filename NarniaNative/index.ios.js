@@ -11,8 +11,8 @@ import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
-import Mixer from './screens/mixer.js';
 import MenuScreen from './screens/menuScreen.js';
+import MixerScreen from './screens/mixerScreen.js';
 import Loading from './screens/loading.js';
 import Wardrobe from './screens/wardrobeScreen.js';
 import Camera from './screens/cameraScreen.js';
@@ -78,10 +78,10 @@ export default class NarniaNative extends Component {
       return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectedId={this.state.selectedId} viewedUser={this.viewedUser}/>);
     case 'SearchScreen':
       return (<SearchScreen navigator={navigator} title='SearchScreen' viewedUser={this.viewedUser} userId={this.state.userId}/>);
-    case 'Mixer':
-      return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'MenuScreen':
       return (<MenuScreen navigator={navigator} title='MenuScreen' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} destroySession={Auth.destroySession}/>);
+    case 'MixerScreen':
+      return (<MixerScreen navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
     case 'Loading':
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn} />);
     case 'WardrobeScreen':

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ScrollView, Button, Text, Image, Linking} from 'react-native';
+import { Alert, Modal, TouchableWithoutFeedback, View, Button, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ip from '../network.js';
 import Auth from '../auth.js';
-
+import { clothingModalStyles as styles } from '../stylesheet.js';
+import { POSTfetch } from '../utils.js';
 
 export default class clothingModal extends Component {
   constructor(props) {
@@ -14,8 +14,6 @@ export default class clothingModal extends Component {
   }
 
   componentWillMount() {
-    console.warn(JSON.stringify(this.props.clothing));
-    console.warn(this.findClothingPosition(this.props.clothing));
     Auth.getId()
     .then(function(resp) {
       this.setState({
@@ -37,26 +35,23 @@ export default class clothingModal extends Component {
   }
   onButtonPress(button) {
     switch (button) {
-    case 'addtoMixer':
+    case 'addToMixer':
         //once mixer is universal have this add the clothing to the mixer array at the proper position
       break;
-    case 'addtoDream':
+    case 'addToWardrobe':
       //send data to server
-      fetch('http://' + ip.address + ':3000/api/addToWardrobe', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: this.props.userId,
-          clothing: this.props.clothing,
-          list: 'wardrobe',
-          position: this.findClothingPosition(this.props.clothing)
-        })
-      }).then((res) => { console.log('returned'); return res.json(); })
+      var body = {
+        userId: this.props.userId,
+        clothing: this.props.clothing,
+        list: 'wardrobe',
+        position: this.findClothingPosition(this.props.clothing)
+      };
+      return POSTfetch('addToWardrobe', body)
         .then((resJson) => {
-          alert(this.props.clothing.Title + 'has been added to your Dreamrobe');
+          Alert.alert('Added to Wardrobe', this.props.clothing.Title + 'has been added to your Wardrobe', () => {
+            this.props.setModalVisible(false);
+          });
+
         })
         .catch((error) => {
           console.error(error);
@@ -74,14 +69,14 @@ export default class clothingModal extends Component {
         animationType={'slide'}
         transparent={false}
         visible={this.props.modalVisible}
-        onRequestClose={() => { alert('Modal has been closed.'); }}
+        onRequestClose={() => { Alert.alert('Modal has been closed.'); }}
       >
       <View style={styles.container}>
         <View>
           <TouchableWithoutFeedback onPress={() => {
             this.props.setModalVisible(false);
           }}>
-            <Icon name="ios-close-circle" size={20} color='orange' style={{paddingTop: 10}}/>
+            <Icon name="ios-close" size={42} color='#ff9554' style={styles.closeBtn}/>
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.textcontainer} >
@@ -91,42 +86,12 @@ export default class clothingModal extends Component {
           <Image style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
         <View>
-          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addtoMixer')} color='orange' style={styles.button} />
-          <Button title="Add to Dreamrobe" onPress={this.onButtonPress.bind(this, 'addtoDream')} color='orange' style={styles.button} />
-          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='orange' style={styles.button}/>
+          <Button title="Add Outfit Mixer" onPress={this.onButtonPress.bind(this, 'addToMixer')} color='#ff9554' style={styles.button} />
+          <Button title="Add to Wardrobe" onPress={this.onButtonPress.bind(this, 'addToWardrobe')} color='#ff9554' style={styles.button} />
+          <Button title="Buy" onPress={this.onButtonPress.bind(this, 'buy')} color='#ff9554' style={styles.button}/>
         </View>
       </View>
     </Modal>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    // marginBottom: 0,
-  },
-  textcontainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  button: {
-    color: 'orange',
-  },
-  imgSmall: {
-    width: Dimensions.get('window').width / 2,
-    height: Dimensions.get('window').width / 2,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  imgLarge: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-});

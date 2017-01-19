@@ -658,3 +658,272 @@ export const searchShop = StyleSheet.create({
     marginTop: (Dimensions.get('window').height / -2)
   }
 });
+
+export const cameraScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f7f5',
+    justifyContent: 'center',
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    // elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 20,
+  },
+  backBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button: {
+    backgroundColor: '#ff9554',
+    width: 150,
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554'
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
+  },
+  img: {
+    flex: 2,
+  }
+});
+
+export const userUploadModalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#000',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // marginBottom: 0,
+  },
+  header: {
+    flexDirection: 'row',
+    paddingTop: 20, 
+    paddingLeft: 5,
+  },
+  img: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  text: {
+    height: 15,
+    color: '#ff9554',
+  },
+  selector: {
+    flex: 1,
+  },
+  descriptionText: {
+    height: 15,
+    color: '#ff9554',
+    flex: 4,
+  },
+  form: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    // flexDirection: 'column',
+  },
+  input: {
+    flex: 1,
+    flexWrap: 'wrap',
+    overflow: 'hidden',
+    margin: 5,
+    height: 40,
+    width: Dimensions.get('window').width,
+  },
+  pickerView: {
+    flex: 2,
+    width: Dimensions.get('window').width,
+    height: 40,
+  },
+  picker: {
+    flex: 2,
+    padding: 10, 
+    margin: 10,    
+  },
+  loading: {
+    flex: 0.5, 
+    alignItems: 'center', 
+    marginTop: Dimensions.get('window').height / -2,
+  },
+  activityIndicator: {
+    width: 0,
+    height: 0,
+  },
+  button: {
+    color: '#ff9554',
+  },
+});
+
+export const mixerStyles = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    // elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //paddingTop: 20,
+  },
+  backBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554',
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
+  },
+  tuserContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 30,
+  },
+  muserContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buserContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  thumbnail: {
+    left: 50,
+    height: 125,
+    width: 125,
+    borderRadius: 25,
+  },
+  imgSmall: {
+    flex: 1,
+    width: Dimensions.get('window').width / 2,
+    height: 200,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  chevron: {
+    width: Dimensions.get('window').width / 4,
+    // height: Dimensions.get('window').height / 3,
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignItems: 'center'
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+
+  descriptionBar: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  post: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  thumbnail: {
+    width: Dimensions.get('window').width / 5,
+    height: Dimensions.get('window').width / 5,
+    // marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
+  emptyWardrobe: {
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  emptyWardrobeText: {
+    color: '#888',
+  },
+});
+
+export const clothingModalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    // marginBottom: 0,
+  },
+  textcontainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  button: {
+    color: '#ff9554',
+  },
+  imgSmall: {
+    width: Dimensions.get('window').width / 2,
+    height: Dimensions.get('window').width / 2,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  imgLarge: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  closeBtn: {
+    paddingTop: 10,
+  }
+});
