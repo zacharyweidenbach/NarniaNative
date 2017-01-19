@@ -55,9 +55,7 @@ export default class cameraScreen extends Component {
   render () {
     var rotateImage = () => {
       return (
-        <View style={styles.container}>
           <Image style={[styles.img, {transform: [{rotate: this.state.rotation + ' deg'}]}]} source={{uri: this.state.image}} resizeMode={Image.resizeMode.contain}/> 
-        </View>
       );
     };
 
@@ -65,33 +63,41 @@ export default class cameraScreen extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <Icon name="ios-arrow-back" size={38} color='orange' />
+            <Icon name="ios-arrow-back" size={38} color='#ff9554' />
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>UPLOAD CLOTHES</Text>
           </View>
+          <View style={styles.emptySpace}>
+          </View>
         </View>
+        <View style={styles.imageContainer}>
           {this.state.image ? rotateImage() : null}
           
-         <View style={styles.buttonContainer}>
-            {this.state.image ?
-              <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'upload')}>
-                <Text> Upload Image </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'rotate')}>
-                <Text> Rotate Image </Text>
-              </TouchableOpacity>
-              </View>
-              : null
-            }
+           <View style={styles.buttonContainer}>
+              {this.state.image ?
+                <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'upload')}>
+                  <Icon name='ios-cloud-upload-outline' size={38} color='#ff9554'/>
+                  <Text style={styles.iconText}> Upload </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this, 'rotate')}>
+                  <Icon name='ios-refresh-circle-outline' size={38} color='#ff9554'/>
+                  <Text style={styles.iconText}> Rotate </Text>
+                </TouchableOpacity>
+                </View>
+                : null
+              }
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer]}>
           <TouchableOpacity style={styles.button} onPress={this.chooseImageFromGallery.bind(this)}>
-            <Text> Pick image form Camera Roll </Text>
+            <Icon name='ios-images-outline' size={38} color='#ff9554'/>
+             <Text style={styles.iconText}> Pick Photo </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.chooseImageFromCamera.bind(this)}>
-            <Text> Take Picture </Text>
+            <Icon name='ios-camera-outline' size={38} color='#ff9554'/>
+             <Text style={styles.iconText}> Take Photo </Text>
           </TouchableOpacity>
         </View>
         {this.state.modalVisible ? <UserUploadModal userId={this.props.userId} image={this.state.image} rotation={this.state.rotation} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
