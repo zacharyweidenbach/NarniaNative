@@ -15,98 +15,108 @@ describe('server should', function() {
     });
   });
 
-  describe('POST from /api/test/setUser', function() {
+  var testUser = {
+    name: 'Bill',
+    email: 'bill@gmail.com',
+    token: '12345678910',
+    username: 'bill',
+    password: 'password',
+    thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg'
+  };
+
+  describe('POST from /api/users/mbSignup', function() {
     it('returns response', function(done) {
-      var testUser = {
-        name: 'Jonathan',
-        email: 'mrjonwu@gmail.com',
-        token: '12345678910',
-        username: 'MrJonWu',
-        password: 'password',
-        thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg'
-      };
       request
-      .post('/api/test/setUser')
+      .post('/api/users/mbSignup')
       .send(testUser)
-      .expect('1')
       .end(function(err, resp) {
-        var response = JSON.parse(resp.text).affectedRows.toString();
+        expect(!!resp.body.token).to.equal(true);
+        expect(!!resp.body.id).to.equal(true);
         done();
-        return response;
       });
     });
   });
 
-  describe('GET from /api/test/getUser', function() {
-    var testUser = {
-      name: 'Jonathan',
-      email: 'mrjonwu@gmail.com',
-      token: '12345678910',
-      username: 'MrJonWu',
-      thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg',
-      password: 'password'
-    };
+  describe('POST from /api/test/findUser', function() {
     it('returns response', function(done) {
       request
-      .get('/api/test/getUser')
+      .post('/api/test/findUser')
       .send({username: testUser.username})
-      .expect(JSON.stringify([testUser]));
-
-      request.post('/api/test/deleteUser')
-      .send({username: testUser.username})
-      .end(function() {
+      .end(function(err, res) {
+        expect(res.body[0].username).to.equal(testUser.username);
         done();
       });
     });
   });
 
-  // describe('archived websites', function () {
-  //   describe('GET', function () {
-  //     it('should return the content of a website from the archive', function (done) {
-  //       var fixtureName = 'www.google.com';
-  //       var fixturePath = archive.paths.archivedSites + '/' + fixtureName;
+  describe('Login from /api/users/mbLogin', function() {
+    it('returns response', function(done) {
+      request
+      .post('/api/users/mbLogin')
+      .send({
+        username: testUser.username,
+        password: testUser.password
+      })
 
-  //       // Create or clear the file.
-  //       var fd = fs.openSync(fixturePath, 'w');
-  //       fs.writeSync(fd, 'google');
-  //       fs.closeSync(fd);
+      // .expect(function(res) {
+      //   expect(!!res.body[0].token).to.equal(true);
+      //   expect(!!res.body[0].id).to.equal(true);
+      // })
+      // .end(function() {
+      //   request
+      //   .post('/api/test/removeUser')
+      //   .send({username: testUser.username})
+      //   .end(done);
+      // });
 
-  //       // Write data to the file.
-  //       fs.writeFileSync(fixturePath, 'google');
+      .end(function(err, res) {
+        expect(!!res.body.token).to.equal(true);
+        expect(!!res.body.id).to.equal(true);
+        done();
+      });
 
-  //       request
-  //         .get('/' + fixtureName)
-  //         .expect(200, /google/, function (err) {
-  //           fs.unlinkSync(fixturePath);
-  //           done(err);
-  //         });
-  //     });
+    });
+  });
 
-  //     it('Should 404 when asked for a nonexistent file', function(done) {
-  //       request.get('/arglebargle').expect(404, done);
-  //     });
-  //   });
+  var post = {
+    postId: 1000,
+    userId: 6,
+    likesCount: 0,
+    body: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
+    description: 'this should be a new post from Rick.',
+    type: 'image',
+    createdAt: new Date()
+  };
+  var postID;
 
-  //   describe('POST', function () {
-  //     it('should append submitted sites to \'sites.txt\'', function(done) {
-  //       var url = 'www.example.com';
+  describe('Post to db from /api/postToDbp, Fetch and delete', function() {
+    it('returns response', function(done) {
+      request
+      .post('/api/postToDb')
+      .send(post)
+      .expect(function(res) {
+        expect(res.body.affectedRows).to.equal(1);
+        postID = res.body.insertId;
+      })
+      .end(function() {
+        request
+        .post('/api/getPostFromPostId')
+        .send({postId: postID})
+        .expect(function(res) {
+          expect(res.body[0].body).to.equal(post.body);
+        })
+        .end(function() {
+          request
+          .post('/api/deletePost')
+          .send({postId: postID})
+          .expect(function(res) {
+            console.log(res.body, 'RESPONSE+++');
+            expect(res.body.affectedRows).to.equal(1);
+          })
+          .end(done);
+        });
+      });
+    });
+  });
 
-  //       // Reset the test file and process request
-  //       fs.closeSync(fs.openSync(archive.paths.list, 'w'));
-
-  //       request
-  //         .post('/')
-  //         .type('form')
-  //         .send({ url: url })
-  //         .expect(302, function (err) {
-  //           if (!err) {
-  //             var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
-  //             expect(fileContents).to.equal(url + '\n');
-  //           }
-
-  //           done(err);
-  //         });
-  //     });
-  //   });
-  // });
 });

@@ -3,17 +3,16 @@ import {
   AppRegistry,
   Navigator,
 } from 'react-native';
-
-import Auth from './auth.js';
-import Signup from './screens/signup';
-import Login from './screens/login';
-import SocialFeed from './screens/socialFeed';
+import Auth from './auth';
+import Signup from './screens/signupScreen';
+import Login from './screens/loginScreen';
+import SocialFeed from './screens/socialFeedScreen';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
-import MenuScreen from './screens/menuScreen.js';
-import MixerScreen from './screens/mixerScreen.js';
-import Loading from './screens/loading.js';
+import MenuScreen from './screens/menuScreen';
+import MixerScreen from './screens/mixerScreen';
+import Loading from './screens/loadingScreen';
 import Wardrobe from './screens/wardrobeScreen.js';
 import Camera from './screens/cameraScreen.js';
 
@@ -51,11 +50,13 @@ export default class NarniaNative extends Component {
     }.bind(this));
   }
 
+  //generic function for changing keys in state
   setUserId(obj) {
     this.setState(obj);
   }
 
-  viewedUser(id) { //for looking at user profiles
+  //for looking at user profiles
+  viewedUser(id) {
     this.setState({
       selectedId: id
     });

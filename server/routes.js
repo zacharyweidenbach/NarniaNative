@@ -38,7 +38,7 @@ module.exports = function(app, express) {
 
   //AMAZON API
   app.post('/api/search', amazonAPI.fetchClothes);
-  
+
   //POSTS
   app.post('/api/getCommentsFromDb', appPosts.getCommentsFromDb);
   app.post('/api/getTagsFromDb', appPosts.getTagsFromDb);
@@ -62,21 +62,21 @@ module.exports = function(app, express) {
   app.post('/api/deleteLikesPosts', appLikesPosts.deleteLike);
   app.post('/api/checkLikeExists', appLikesPosts.checkLikeExists);
   app.post('/api/findLikedPostId', appLikesPosts.findLikedPostId);
-  
+
   //USERFOLLOWERS JOIN TABLE
   app.post('/api/addFollower', appUsersFollowers.addFollower);
   app.post('/api/deleteFollower', appUsersFollowers.deleteFollower);
   app.post('/api/checkFollower', appUsersFollowers.checkFollower);
   app.post('/api/getNumberOfFollowers', appUsersFollowers.getNumberOfFollowers);
   app.post('/api/getAllFollowersPosts', appUsersFollowers.getAllFollowersPosts);
-  
+
   //LOGGEDINPROFILE
   app.post('/api/getLoggedInProfile', appLoggedInProfile.getLoggedInProfile);
 
   //CLOTHING
   app.get('/api/clothing', appClothing.getClothing);
   app.post('/api/checkClothingExists', appClothing.checkClothingExists);
-  
+
   //SEARCHUSER
   app.post('/api/searchUser', appSearchUser.searchUser);
   app.post('/api/searchUserId', appSearchUser.searchUserId);
@@ -94,4 +94,9 @@ module.exports = function(app, express) {
   //USERUPLOADS
   app.post('/api/clothingImgUpload', multer.single('userImage'), imgUpload.uploadToGcs, appUserUpload.gcsUpload);
   app.post('/api/userUpload', appUserUpload.userUpload);
+
+  // TEST ROUTES
+  app.get('/api/test', appAuth.test);
+  app.post('/api/test/removeUser', appAuth.removeUser);
+  app.post('/api/test/findUser', appAuth.findUser);
 };

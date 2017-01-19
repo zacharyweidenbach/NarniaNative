@@ -108,10 +108,5 @@ module.exports = {
       },
       body: JSON.stringify(resp)
     })
-  },
-
-
-  test: function() {
-    console.log('THIS IS NOT A DRILL');
   }
 }
