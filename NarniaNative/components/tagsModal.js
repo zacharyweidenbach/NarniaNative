@@ -5,7 +5,6 @@ import {
   TouchableHighlight, 
   View, 
   ScrollView, 
-  TextInput, 
   Text, 
   Image
 } from 'react-native';
@@ -38,8 +37,12 @@ export default class TagsModal extends Component {
     this.setState({currentPostId: postId, postModalVisible: true});
   }
 
-  setPostModalVisible(visible) {
-    this.setState({postModalVisible: visible});
+  setModalVisible(visible, screen) {
+    switch (screen) {
+    case 'postModal':
+      this.setState({postModalVisible: visible});
+      break;
+    }
   }
 
   render() {
@@ -75,7 +78,7 @@ export default class TagsModal extends Component {
           </View>
         </View>
         {/* Post Modal */}
-        {this.state.postModalVisible ? <PostModal userId={this.props.userId} postId={this.state.currentPostId} modalVisible={this.state.postModalVisible} setModalVisible={this.setPostModalVisible.bind(this)} viewedUser={this.props.viewedUser} navigator={this.props.navigator} /> : null}
+        {this.state.postModalVisible ? <PostModal userId={this.props.userId} postId={this.state.currentPostId} modalVisible={this.state.postModalVisible} setModalVisible={this.setModalVisible.bind(this)} viewedUser={this.props.viewedUser} navigator={this.props.navigator} /> : null}
     </Modal>
     );
   }
