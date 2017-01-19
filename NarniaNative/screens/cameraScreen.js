@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ImagePickerIOS, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { Text, View, Image, ImagePickerIOS, TouchableOpacity, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Exif from 'react-native-exif';
-import UserUploadModal from './userUploadModal.js';
+import UserUploadModal from '../components/userUploadModal.js';
+import {cameraScreenStyles as styles} from '../stylesheet.js';
 
 export default class cameraScreen extends Component {
   constructor(props) {
@@ -12,8 +12,6 @@ export default class cameraScreen extends Component {
       rotation: 0,
       modalVisible: false,
     };
-    // this.chooseImageFromGallery = this.chooseImageFromGallery.bind(this);
-    // this.chooseImageFromCamera = this.chooseImageFromCamera.bind(this);
   }
 
   componentDidMount() {
@@ -27,23 +25,7 @@ export default class cameraScreen extends Component {
 
   chooseImageFromCamera () {
     ImagePickerIOS.openCameraDialog({}, (imageUri) => {
-      // console.warn('i made it here', imageUri)
       this.setState({rotation: 90, image: imageUri});
-      // //the following will not run, won't even throw the catch. My guess is that the Exif function is struggling with the location of the taken picture
-      // Exif.getExif(imageUri)
-      // .then((msg) => {
-      //   console.warn('ok:', msg.Orientation)
-      //   if (JSON.stringify(msg.Orientation) === '0') {
-      //     this.setState({rotation: 90, image: imageUri})
-      //   } else if (JSON.stringify(msg.Orientation) === '1') {
-      //     this.setState({rotation: 0, image: imageUri})
-      //   } else if (JSON.stringify(msg.Orientation) === '2') {
-      //     this.setState({rotation: 270, image: imageUri})
-      //   } else if (JSON.stringify(msg.Orientation) === '3') {
-      //     this.setState({rotation: 180, image: imageUri})
-      //   }
-      // })
-      // .catch(function(msg){console.warn('ERROR: ' + msg)})
     }, error => console.log('Device Camera closed, or Error in cameraScreen.js in chooseImageFromCamera: ', error));
   }
 
@@ -73,11 +55,11 @@ export default class cameraScreen extends Component {
   render () {
     var rotateImage = () => {
       return (
-        <View style={[styles.container, {backgroundColor:"orange"}]}>
-          <Image style={{flex: 2, transform: [{rotate: this.state.rotation + ' deg'}]}} source={{uri: this.state.image}} resizeMode={Image.resizeMode.contain}/> 
+        <View style={styles.container}>
+          <Image style={[styles.img, {transform: [{rotate: this.state.rotation + ' deg'}]}]} source={{uri: this.state.image}} resizeMode={Image.resizeMode.contain}/> 
         </View>
-      )
-    }
+      );
+    };
 
     return (
       <View style={styles.container}>
@@ -86,7 +68,7 @@ export default class cameraScreen extends Component {
             <Icon name="ios-arrow-back" size={38} color='orange' />
           </TouchableHighlight>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>Upload Clothes</Text>
+            <Text style={styles.text}>UPLOAD CLOTHES</Text>
           </View>
         </View>
           {this.state.image ? rotateImage() : null}
@@ -118,50 +100,3 @@ export default class cameraScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9f7f5',
-    justifyContent: 'center',
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    // elevation: 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-  },
-  backBtn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  button: {
-    backgroundColor: 'orange',
-    width: 150,
-    height: 50,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    color: '#ff9554'
-  },
-  textContainer: {
-    flex: 4,
-    alignItems: 'center',
-  },
-
-});

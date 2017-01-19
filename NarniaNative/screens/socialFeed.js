@@ -21,9 +21,8 @@ import {
     LazyloadImage
 } from 'react-native-lazyload';
 import FeedPost from '../components/feedPost.js';
-import Mixer from './mixer.js';
+import MixerScreen from './mixerScreen.js';
 import LikesScreen from './likesScreen';
-// import ip from '../network.js';
 import {
   getFollowingPosts,
   getTrendingPosts,
@@ -285,7 +284,7 @@ export default class socialFeed extends Component {
       break;
     case 'post':
       this.props.navigator.push({
-        id: 'Mixer'
+        id: 'MixerScreen'
       });
       break;
     case 'search':
