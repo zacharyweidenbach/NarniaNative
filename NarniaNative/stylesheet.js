@@ -964,6 +964,7 @@ export const clothingModalStyles = StyleSheet.create({
   }
 });
 
+<<<<<<< HEAD
 export const loginSignup = StyleSheet.create({
   container: {
     flex: 1,
@@ -1112,5 +1113,63 @@ export const feedPost = StyleSheet.create({
     color: '#4f4f4f',
     paddingLeft: 15,
     paddingBottom: 10,
+
+export const loginScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: null, 
+    height: null,
+  },
+  header: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 30,
+    elevation: 2,
+  },
+  narniaText: {
+    fontWeight: 'bold',
+    fontSize: 36, color: '#ff9554'
+  },
+  form: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 50,
+  },
+  textInput: {
+    textAlign: 'center',
+    backgroundColor: 'rgba(255,255,255,0.35)',
+    width: Dimensions.get('window').width * (0.7),
+    height: 40,
+    marginTop: 10,
+    borderRadius: 20
+  }, 
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ff9554',
+    width: Dimensions.get('window').width * (0.7),
+    height: 40,
+    marginTop: 10,
+    borderRadius: 20
+  },
+  text: {
+    color: '#eee',
+    fontSize: 16,
+    textShadowColor: '#888',
+  },
+  loginText: {
+    color: '#eee',
+    fontSize: 18
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 30,
   }
 });
