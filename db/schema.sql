@@ -180,6 +180,9 @@ INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt, shi
 INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt, shirtId, pantId, shoesId) VALUES (4, 3, "https://images-na.ssl-images-amazon.com/images/I/31wxP4jMODL.jpg", "Dress up. #always", "image", "1484454925000", 4, 5, 6);
 INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt, shirtId, pantId, shoesId) VALUES (2, 8, "https://images-na.ssl-images-amazon.com/images/I/41k30cI9dAL.jpg", "Worship the chicken. Worship it. #chicken", "image", "1484454934000", 7, 8, 9);
 INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt, shirtId, pantId, shoesId) VALUES (1, 23, "https://images-na.ssl-images-amazon.com/images/I/51xx9KH--IL.jpg", "Sweatpants and dress shoes go surprisingly well together. #uniq #orange4life #orangeEveryDay", "image", "1484454942000", 10, 11, 12);
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (1, 2, "https://s30.postimg.org/79wqlenrl/dog_wearing_coat_and_hat.jpg", "This is totally my dog. #legit", "image", "1484454942000");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (3, 11, "https://ae01.alicdn.com/kf/HTB1ScHbLFXXXXa1XpXXq6xXFXXX6/Funny-font-b-Pet-b-font-font-b-Cat-b-font-Pirate-font-b-Costume-b.jpg", "Arrrrrrrrrrrrrrrrr. #cat #pirate #piratecat", "image", "1484454942000");
+INSERT INTO `posts` (userId, likesCount, body, description, type, createdAt) VALUES (4, 16, "https://s23.postimg.org/tw90t5f97/2016_Yellow_Minions_Pet_Dog_Clothes_Cartoon_Dog.jpg", "Meet my new minion.", "image", "1484454942000");
 
 -- Comments
 
@@ -200,6 +203,10 @@ INSERT INTO `tags` (tag, count) VALUES ("chicken", 1);
 INSERT INTO `tags` (tag, count) VALUES ("uniq", 1);
 INSERT INTO `tags` (tag, count) VALUES ("orange4life", 1);
 INSERT INTO `tags` (tag, count) VALUES ("orangeEveryDay", 1);
+INSERT INTO `tags` (tag, count) VALUES ("legit", 1);
+INSERT INTO `tags` (tag, count) VALUES ("cat", 1);
+INSERT INTO `tags` (tag, count) VALUES ("pirate", 1);
+INSERT INTO `tags` (tag, count) VALUES ("piratecat", 1);
 
 -- Post/Tags Join
 
@@ -209,6 +216,10 @@ INSERT INTO `postTags` (postId, tagId) VALUES (3, 3);
 INSERT INTO `postTags` (postId, tagId) VALUES (4, 4);
 INSERT INTO `postTags` (postId, tagId) VALUES (4, 5);
 INSERT INTO `postTags` (postId, tagId) VALUES (4, 6);
+INSERT INTO `postTags` (postId, tagId) VALUES (5, 7);
+INSERT INTO `postTags` (postId, tagId) VALUES (6, 8);
+INSERT INTO `postTags` (postId, tagId) VALUES (6, 9);
+INSERT INTO `postTags` (postId, tagId) VALUES (6, 10);
 
 -- Followers Join
 
