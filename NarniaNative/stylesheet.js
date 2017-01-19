@@ -483,3 +483,33 @@ export const commentsModal = StyleSheet.create({
     color: '#888'
   }
 });
+
+export const searchShopGallery = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+    // backgroundColor: '#f9f7f5',
+  },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    // backgroundColor: '#f9f7f5',
+  },
+  imgLarge: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  imgSmall: {
+    width: Dimensions.get('window').width / 2,
+    height: Dimensions.get('window').width / 2,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+});

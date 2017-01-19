@@ -7,7 +7,6 @@ import {
 import Auth from './auth.js';
 import Signup from './screens/signup';
 import Login from './screens/login';
-import Facebook from './screens/facebook.js';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
@@ -92,7 +91,6 @@ export default class NarniaNative extends Component {
     case 'WardrobeScreen':
       return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
     case 'cameraScreen':
-      console.log('ring of fire');
       return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />);
     }
   }
