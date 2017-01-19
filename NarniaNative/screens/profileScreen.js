@@ -9,7 +9,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileGallery from '../components/profileGallery';
 import ProfileStats from '../components/profileStats';
-import ip from '../network.js';
 import {POSTfetch} from '../utils.js';
 import {profileScreenStyles as styles} from '../stylesheet.js';
 

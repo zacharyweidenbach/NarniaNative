@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LikesGallery from '../components/likesGallery';
-import ip from '../network.js';
 import {POSTfetch} from '../utils.js';
 import {likesScreenStyles as styles} from '../stylesheet.js';
 
