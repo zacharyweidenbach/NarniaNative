@@ -1,34 +1,36 @@
 import React, { Component } from 'react';
-import { Alert, ActivityIndicator, Modal, Picker, TouchableWithoutFeedback, View, Dimensions, Button, TextInput, Text, Image, Linking} from 'react-native';
+import { Alert, ActivityIndicator, Modal, Picker, TouchableHighlight, View, Dimensions, Button, TextInput, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ip from '../network.js';
 import Auth from '../auth.js';
-import DropDown, { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
+// import DropDown, { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUploadModalStyles as styles } from '../stylesheet.js';
+import { POSTfetch } from '../utils.js';
+
 
 export default class userUploadModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'Testing title',
-      brand: 'Tester',
-      description: 'this is a test',
-      color: 'testesq',
+      title: '',
+      brand: '',
+      description: '',
+      color: '',
       material: '',
-      productTypeName: 'Shirt',
+      productTypeName: '',
       tags: '',
       upc: '',
-      department: 'Mens',
+      department: '',
       url: '',
       loading: false,
     };
   }
 
-  componentDidMount() {
-    updatePosition(this.refs['SELECT1']);
-    updatePosition(this.refs['OPTIONLIST']);
-  }
+  // componentDidMount() {
+    // updatePosition(this.refs['SELECT1']);
+    // updatePosition(this.refs['OPTIONLIST']);
+  // }
   onButtonPress(button) {
     switch (button) {
     case 'upload':
@@ -61,9 +63,9 @@ export default class userUploadModal extends Component {
                 description: this.state.description,
                 color: this.state.color,
                 material: this.state.material,
-                productTypeName: 'Shirt',
+                productTypeName: this.state.productTypeName,
                 upc: this.state.upc,
-                department: 'Mens',
+                department: this.state.department,
                 detailPageUrl: this.state.url,
                 largeImg: resJson.imageUrl,
               },
@@ -89,9 +91,9 @@ export default class userUploadModal extends Component {
       break;
     }
   }
-  _getOptionList() {
-    return this.refs['OPTIONLIST'];
-  }
+  // _getOptionList() {
+  //   return this.refs['OPTIONLIST'];
+  // }
 
   render() {
     return (
@@ -103,13 +105,13 @@ export default class userUploadModal extends Component {
       >
         <View stye={styles.container}>
           <View style={styles.header}>
-            <View>
-              <TouchableWithoutFeedback onPress={() => {
-                this.props.setModalVisible(false);
-              }}>
-                 <Icon name="ios-close-circle" size={20} color='#ff9554' />
-              </TouchableWithoutFeedback>
-              <Text> CLOTHING UPLOAD FORM </Text>
+            <TouchableHighlight onPress={() => { this.props.setModalVisible(false); }} underlayColor='transparent' style={styles.backBtn}>
+                <Icon name="ios-arrow-back" size={38} color='#ff9554' />
+              </TouchableHighlight>
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>CLOTHING FORM</Text>
+            </View>
+            <View style={styles.emptySpace}>
             </View>
           </View>
         <KeyboardAwareScrollView>
@@ -117,27 +119,33 @@ export default class userUploadModal extends Component {
             <Image style={[styles.img, {transform: [{rotate: this.props.rotation + ' deg'}]}]} source={{uri: this.props.image}} resizeMode={Image.resizeMode.contain} />
           </View>
           <View style={styles.form} >
-             <View style={styles.picker}>
+            <View style={styles.input}>
               <Text style={styles.text}>Clothing Type</Text>
-              <Select
-                ref="SELECT1"
-                style={styles.selector}
-                optionListRef={this._getOptionList.bind(this)}
-                defaultValue="Select clothing type..."
-                onSelect={(productTypeName) => this.setState({productTypeName})}>
-                <Option>Shirt</Option>
-                <Option>Pants</Option>
-                <Option>Shoes</Option>
-              </Select>
-              <OptionList ref="OPTIONLIST"/>
-            </View> 
+              <TextInput 
+                style={styles.text}
+                onChangeText={(productTypeName) => this.setState({productTypeName})}
+                value={this.state.productTypeName}
+                placeholder='Type of clothing? ("Shirt, Pants, Shoes, etc")'
+                plaholderTextColor='#ff9554'
+              />
+            </View>
             <View style={styles.input}>
               <Text style={styles.text}>Title</Text>
               <TextInput 
                 style={styles.text}
                 onChangeText={(title) => this.setState({title})}
                 value={this.state.title}
-                placeholder='Give your article of clothing a title'
+                placeholder='Give your clothing a title'
+                plaholderTextColor='#ff9554'
+              />
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.text}>Department</Text>
+              <TextInput 
+                style={styles.text}
+                onChangeText={(department) => this.setState({department})}
+                value={this.state.department}
+                placeholder='Womens, Mens, Boys , Girls, etc...'
                 plaholderTextColor='#ff9554'
               />
             </View>
@@ -148,7 +156,7 @@ export default class userUploadModal extends Component {
                 multiline={true}
                 onChangeText={(description) => this.setState({description})}
                 value={this.state.description}
-                placeholder='Give your article of clothing a description(optional)'
+                placeholder='(optional)Describe your clothing'
                 plaholderTextColor='#ff9554'
                 />
             </View>
@@ -158,7 +166,7 @@ export default class userUploadModal extends Component {
                 style={styles.text}
                 onChangeText={(brand) => this.setState({brand})}
                 value={this.state.brand}
-                placeholder='If known, what brand is the clothing?(optional)'
+                placeholder='(optional)'
                 plaholderTextColor='#ff9554'
               />
             </View>
@@ -168,7 +176,7 @@ export default class userUploadModal extends Component {
                 style={styles.text}
                 onChangeText={(color) => this.setState({color})}
                 value={this.state.color}
-                placeholder='What color is the clothing?(optional)'
+                placeholder='(optional)'
                 plaholderTextColor='#ff9554'
               />
             </View>
@@ -178,7 +186,7 @@ export default class userUploadModal extends Component {
                 style={styles.text}
                 onChangeText={(tags) => this.setState({tags})}
                 value={this.state.tags}
-                placeholder='What tags should be associated with this article of clothing?(optional)'
+                placeholder='(optional) i.e #winter, #fuzzy, #playful, etc...'
                 plaholderTextColor='#ff9554'
               />
             </View>
@@ -188,7 +196,7 @@ export default class userUploadModal extends Component {
                 style={styles.text}
                 onChangeText={(url) => this.setState({url})}
                 value={this.state.url}
-                placeholder='Do you know the url where this could be purchased?(optional)'
+                placeholder='(optional) Url where this could be purchased?'
                 plaholderTextColor='#ff9554'
               />
             </View>
@@ -198,21 +206,9 @@ export default class userUploadModal extends Component {
                 style={styles.text}
                 onChangeText={(upc) => this.setState({upc})}
                 value={this.state.upc}
-                placeholder='Do you known the UPC(universal product code) of the clothing?(optional)'
+                placeholder='(optional) Universal Product Code if known?'
                 plaholderTextColor='#ff9554'
               />
-            </View>
-            
-             <View style={styles.pickerView}>
-              <Text style={styles.text}>Clothing Type</Text>
-              <Picker
-                style={styles.picker}
-                selectedValue={this.state.productTypeName}
-                onValueChange={(productTypeName) => this.setState({productTypeName})}>
-                <Picker.Item label="Shirt" value="Shirt" />
-                <Picker.Item label="Pants" value="Pants" />
-                <Picker.Item label="Shoes" value="Shoes" />
-              </Picker>
             </View>
           </View>
           {this.state.loading ? <View style={styles.loading}><ActivityIndicator style={styles.activityIndicator} size="large" color='#ff9554'/></View> : null}

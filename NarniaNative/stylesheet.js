@@ -677,20 +677,31 @@ export const cameraScreenStyles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingLeft: 10,
   },
+  imageContainer: {
+    flex: 6,
+    backgroundColor: '#fff',
+  },
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#ff9554',
+    backgroundColor: '#fff',
     width: 150,
     height: 50,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10
+  },
+  iconText: {
+    // fontWeight: 'italic',
+    fontSize: 10,
+    color: '#ff9554'
   },
   text: {
     fontWeight: 'bold',
@@ -703,7 +714,10 @@ export const cameraScreenStyles = StyleSheet.create({
   },
   img: {
     flex: 2,
-  }
+  },
+  emptySpace: {
+    flex: 1,
+  },
 });
 
 export const userUploadModalStyles = StyleSheet.create({
@@ -718,9 +732,18 @@ export const userUploadModalStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   header: {
+    flex: 0.125,
+    // paddingTop: 20, 
     flexDirection: 'row',
-    paddingTop: 20, 
-    paddingLeft: 5,
+    // elevation: 2,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554',
   },
   img: {
     width: Dimensions.get('window').width,
@@ -774,6 +797,19 @@ export const userUploadModalStyles = StyleSheet.create({
   },
   button: {
     color: '#ff9554',
+  },
+  buttonContainer: {
+    flex: 1, 
+    alignItems: 'flex-end'
+  },
+  backBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
   },
 });
 
