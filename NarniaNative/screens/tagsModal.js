@@ -50,13 +50,16 @@ export default class tagsModal extends Component {
         onRequestClose={() => { alert('Modal has been closed.'); }}
       >
       <View style={styles.container}>
-        <View>
-          <TouchableWithoutFeedback onPress={() => {this.props.setModalVisible(false, 'tagsModal')}}>
-             <Icon name="ios-close-circle" size={20} color='orange' style={{paddingTop: 10}}/>
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={styles.textContainer} >
-          <Text style={styles.text}> #{this.props.tag.tag} </Text>
+        <View style={styles.header}>
+          <View style={styles.emptySpace}></View>
+          <View style={styles.textContainer} >
+            <Text style={styles.text}> #{this.props.tag.tag} </Text>
+          </View>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <TouchableWithoutFeedback onPress={() => { this.props.setModalVisible(false, 'tagsModal'); }}>
+               <Icon name="ios-close" size={42} color='orange' style={styles.closeBtn}/>
+            </TouchableWithoutFeedback>
+          </View>
         </View>
         <View style={styles.gallery}>
           <ScrollView>
@@ -78,6 +81,9 @@ export default class tagsModal extends Component {
  //              }) : null}
 
 const styles = StyleSheet.create({
+  emptySpace: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -85,8 +91,13 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
   },
+  header: {
+    flex: 1, 
+    alignItems: 'center', 
+    flexDirection: 'row'
+  },
   textContainer: {
-    flex: 1,
+    flex: 3,
     alignItems: 'center',
   },
   text: {
@@ -133,4 +144,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width,
     backgroundColor: '#fff'
   },
+  closeBtn: {
+    paddingRight: 15
+  }
 });
