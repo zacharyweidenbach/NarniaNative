@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
+import { StyleSheet, Dimensions } from 'react-native';
+
 export const socialFeedStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -110,7 +112,7 @@ export const profileStatsStyles = StyleSheet.create({
     borderRadius: 75,
   },
   statsContainer: {
-    flex: 1, 
+    flex: 1,
     flexDirection: 'row',
     paddingBottom: 20,
     width: Dimensions.get('window').width,
@@ -223,11 +225,11 @@ export const likesScreenStyles = StyleSheet.create({
     alignItems: 'center',
   },
   noPostsContainer: {
-    alignItems: 'center', 
+    alignItems: 'center',
     marginTop: 5
   },
   noPostsText: {
-    color: '#888', 
+    color: '#888',
     fontSize: 16
   }
 });
@@ -337,8 +339,8 @@ export const tagsModal = StyleSheet.create({
     marginRight: 5,
   },
   header: {
-    flex: 1, 
-    alignItems: 'center', 
+    flex: 1,
+    alignItems: 'center',
     flexDirection: 'row'
   },
   textContainer: {
@@ -358,7 +360,7 @@ export const tagsModal = StyleSheet.create({
     alignItems: 'flex-start',
   },
   buttonContainer: {
-    flex: 1, 
+    flex: 1,
     alignItems: 'flex-end'
   },
   closeBtn: {
@@ -425,7 +427,7 @@ export const searchTagsResults = StyleSheet.create({
     marginLeft: 10,
   },
   tagFont: {
-    color: '#ff9554', 
+    color: '#ff9554',
     fontSize: 36
   }
 });
@@ -473,7 +475,7 @@ export const commentsModal = StyleSheet.create({
     flex: 8,
   },
   buttonContainer: {
-    flex: 1, 
+    flex: 1,
     alignItems: 'flex-end'
   },
   emptyContainer: {
@@ -651,8 +653,8 @@ export const searchShop = StyleSheet.create({
     height: 0
   },
   activityIndicatorContainer: {
-    flex: 0.5, 
-    alignItems: 'center', 
+    flex: 0.5,
+    alignItems: 'center',
     marginTop: (Dimensions.get('window').height / -2)
   }
 });
@@ -733,7 +735,7 @@ export const userUploadModalStyles = StyleSheet.create({
   },
   header: {
     flex: 0.125,
-    // paddingTop: 20, 
+    // paddingTop: 20,
     flexDirection: 'row',
     // elevation: 2,
     backgroundColor: '#fff',
@@ -783,12 +785,12 @@ export const userUploadModalStyles = StyleSheet.create({
   },
   picker: {
     flex: 2,
-    padding: 10, 
-    margin: 10,    
+    padding: 10,
+    margin: 10,
   },
   loading: {
-    flex: 0.5, 
-    alignItems: 'center', 
+    flex: 0.5,
+    alignItems: 'center',
     marginTop: Dimensions.get('window').height / -2,
   },
   activityIndicator: {
@@ -799,7 +801,7 @@ export const userUploadModalStyles = StyleSheet.create({
     color: '#ff9554',
   },
   buttonContainer: {
-    flex: 1, 
+    flex: 1,
     alignItems: 'flex-end'
   },
   backBtn: {
@@ -952,5 +954,156 @@ export const clothingModalStyles = StyleSheet.create({
   },
   closeBtn: {
     paddingTop: 10,
+  }
+});
+
+export const loginSignup = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  header: {
+    flex: .4,
+    justifyContent: 'flex-end',
+    elevation: 2,
+    backgroundColor: '#fff',
+    paddingTop: 20,
+  },
+  form: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  textInput: {
+    textAlign: 'center',
+    borderWidth: 1,
+    borderColor: '#eee',
+    width: 270,
+    height: 40,
+    marginTop: 10,
+    borderRadius: 10
+  },
+  button: {
+    backgroundColor: '#eee',
+    width: 270,
+    height: 40,
+    marginTop: 10,
+    borderRadius: 10
+  },
+  link: {
+    paddingTop: 7
+  }
+});
+
+export const feedPost = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f7f5'
+  },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#fff',
+  },
+  imgContainer: {
+    flex: 5,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff',
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    backgroundColor: '#fff'
+  },
+  actionBar: {
+    //contains likesContainer, likesBtn, and commentBtn
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 5,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+  },
+  likesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  likesBtn: {
+    paddingLeft: 15,
+  },
+  commentBtn: {
+    paddingRight: 15,
+    justifyContent: 'flex-end',
+  },
+  descriptionWithoutTagsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+    marginBottom: 10,
+  },
+  descriptionContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+  },
+  descriptionText: {
+    paddingLeft: 15, paddingRight: 10, color: '#4f4f4f',
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  commentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  thumbnail: {
+    marginLeft: 15,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 0,
+  },
+  tagText: {
+    paddingLeft: 15, paddingRight: 10, color: '#ff9554',
+  },
+  tagsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    marginBottom: 10,
+    paddingBottom: 10,
+  },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start'
+  },
+  time: {
+    backgroundColor: '#fff',
+    color: '#4f4f4f',
+    paddingLeft: 15,
+    paddingBottom: 10,
   }
 });

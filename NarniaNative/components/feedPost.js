@@ -2,131 +2,17 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
   Image,
-  TouchableHighlight,
-  TextArea
+  TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TimeAgo from 'react-native-timeago';
 import CommentsModal from '../components/commentsModal.js';
 import TagsModal from './tagsModal.js';
-import ip from '../network';
 import PostModal from './postModal.js';
 import PostImage from '../components/postImage.js';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9f7f5'
-  },
-  userContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: '#fff',
-  },
-  imgContainer: {
-    flex: 5,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    backgroundColor: '#fff',
-  },
-  outfitContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  imgOutfitContainer: {
-    flex: 1,
-    width: Dimensions.get('window').width / 3,
-    height: Dimensions.get('window').width / 3,
-    backgroundColor: '#fff'
-  },
-  actionBar: {
-    //contains likesContainer, likesBtn, and commentBtn
-    flex: 1,
-    paddingTop: 10,
-    paddingBottom: 5,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-  },
-  likesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  likesBtn: {
-    paddingLeft: 15,
-  },
-  commentBtn: {
-    paddingRight: 15,
-    justifyContent: 'flex-end',
-  },
-  descriptionWithoutTagsContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingBottom: 10,
-    marginBottom: 10,
-  },
-  descriptionContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingBottom: 10,
-  },
-  descriptionText: {
-    paddingLeft: 15, paddingRight: 10, color: '#4f4f4f',
-  },
-  textStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingLeft: 10,
-  },
-  commentContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  thumbnail: {
-    marginLeft: 15,
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    marginBottom: 0,
-  },
-  tagText: {
-    paddingLeft: 15, paddingRight: 10, color: '#ff9554',
-  },
-  tagsContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    marginBottom: 10,
-    paddingBottom: 10,
-  },
-  timeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start'
-  },
-  time: {
-    backgroundColor: '#fff',
-    color: '#4f4f4f',
-    paddingLeft: 15,
-    paddingBottom: 10,
-  }
-});
+import { feedPost as styles } from '../stylesheet.js';
+import { POSTfetch } from '../utils.js';
 
 export default class FeedPost extends Component {
   constructor(props) {
@@ -151,21 +37,11 @@ export default class FeedPost extends Component {
     this.checkInitialLike();
     this.getTags();
     //change ip address to either wifi address or deployed server
-    return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({id: this.props.post.id})
-    })
-      .then((res) => res.json())
-      .then((resJSON) => this.setState({comments: resJSON}))
-      .catch((err) => console.log(err));
+    return POSTfetch('getCommentsFromDb', {id: this.props.post.id})
+    .then((resJSON) => this.setState({comments: resJSON}))
+    .catch((err) => console.log(err));
   }
 
-  // componentWillReceiveProps() {
-  //   this.setState({likesCount: this.props.post.likesCount});
   shouldComponentUpdate(nextProps, nextState) {
     return true;
   }
@@ -180,17 +56,8 @@ export default class FeedPost extends Component {
 
   getTags() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/getTagsFromDb', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({postId: that.props.post.id})
-    })
-    .then((res) => res.json())
+    return POSTfetch('getTagsFromDb', {postId: that.props.post.id})
     .then((resJSON) => that.setState({tags: resJSON}))
-    //.then(() => console.warn('tags', that.props.post.id, that.state.tags))
     .catch((err) => console.log(err));
   }
 
@@ -200,20 +67,11 @@ export default class FeedPost extends Component {
 
   checkLikeExists() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.post.id,
-      })
+    return POSTfetch('checkLikeExists', {
+      userId: this.props.userId,
+      postId: this.props.post.id
     })
-    .then((res) => res.json())
     .then((resJSON) => {
-      // console.log('resJSON in checkLikeExists', resJSON);
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
       } else {
@@ -225,20 +83,11 @@ export default class FeedPost extends Component {
 
   checkInitialLike() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.post.id,
-      })
+    return POSTfetch('checkLikeExists', {
+      userId: this.props.userId,
+      postId: this.props.post.id,
     })
-    .then((res) => res.json())
     .then((resJSON) => {
-      // console.log('resJSON in checkInitialLike', resJSON);
       if (resJSON.length > 0) {
         //set state of the button color to orange
         that.setState({postLiked: true});
@@ -251,32 +100,16 @@ export default class FeedPost extends Component {
 
   increaseLikeCount() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/increaseLikeCount', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.props.post.id,
-      })
-    })
+    POSTfetch('increaseLikeCount', {id: that.props.post.id})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount + 1,
-      postLiked: true,
+      postLiked: true
     }))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ip.address + ':3000/api/insertLikesPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.post.id,
-      })
+    return POSTfetch('insertLikesPosts', {
+      userId: that.props.userId,
+      postId: that.props.post.id
     })
     .then((resJSON) => console.log('successful insertLike'))
     .catch((err) => console.log(err));
@@ -284,31 +117,15 @@ export default class FeedPost extends Component {
 
   decreaseLikeCount() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/decreaseLikeCount', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.props.post.id,
-      })
-    })
+    POSTfetch('decreaseLikeCount', {id: this.props.post.id})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount - 1, postLiked: false,
     }))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ip.address + ':3000/api/deleteLikesPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.post.id,
-      })
+    return POSTfetch('deleteLikesPosts', {
+      userId: this.props.userId,
+      postId: this.props.post.id,
     })
     .then((resJSON) => console.log('successful deleteLike'))
     .catch((err) => console.log(err));

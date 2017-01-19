@@ -28,64 +28,20 @@ export async function POSTfetch(path, body) {
   }
 };
 
-
-//////////SOCIAL FEED//////////
-export const getFollowingPosts = function() {
-  return POSTfetch('getAllFollowersPosts', {userId: this.props.userId})
-  .then((resJSON) => {
-    this.setState({feedPosts: resJSON}, function() {
-      this.setState({
-        lastFeedId: resJSON[resJSON.length - 1].id,
-        dataSourceFollowers: this.dataSourceFollowers.cloneWithRows(this.state.feedPosts)
-      });
-    });
-  })
-};
-
-export const getTrendingPosts = function() {
-  return POSTfetch('getPostsFromDb')
-  .then((resJSON) => {
-    this.setState({trendingPosts: resJSON}, function() {
-      this.setState({
-        trendingRow: this.state.trendingRow + resJSON.length,
-        dataSoureTrending: this.dataSoureTrending.cloneWithRows(this.state.trendingPosts)
-      });
-    });
-  })
-};
-
-export const getOlderFollowingPosts = function() {
-  return POSTfetch('getAllFollowersPosts', {
-    userId: this.props.userId,
-    postId: this.state.lastFeedId,
-  })
-  .then((resJSON) => {
-    if (resJSON.length > 0) {
-      this.setState({feedPosts: this.state.feedPosts.concat(resJSON)}, function() {
-        this.setState({
-          dataSourceFollowers: this.dataSourceFollowers.cloneWithRows(this.state.feedPosts),
-          lastFeedId: resJSON[resJSON.length - 1].id
-        });
-      });
+export async function GETfetch(path) {
+  var api = 'http://' + ip.address + ':3000/api/' + path;
+  var info = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     }
-  })
-};
+  };
 
-export const getOlderTrendingPosts = function() {
-  return POSTfetch('getPostsFromDb', {
-    row: this.state.trendingRow,
-  })
-  .then((resJSON) => {
-    if (resJSON.length > 0) {
-      this.setState({
-        trendingPosts: this.state.trendingPosts.concat(resJSON)
-      }, function() {
-        this.setState({
-          dataSoureTrending: this.dataSoureTrending.cloneWithRows(this.state.trendingPosts),
-          trendingRow: this.state.trendingRow + resJSON.length
-        });
-      });
-    }
-  })
+  try {
+    return fetch(api, info).then((res) => res.json());
+  } catch(err) {
+    console.log(err);
+  }
 };
 
