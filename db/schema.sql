@@ -1,50 +1,3 @@
--- CREATE TABLE `Users` (
---     `id` INT AUTO_INCREMENT,
---     `post_count` INT NOT NULL,
---     PRIMARY KEY (`id`)
--- );
--- CREATE TABLE `Posts` (
---     `id` INT AUTO_INCREMENT,
---     `post_id` INT NOT NULL,
---     `user_id` INT NOT NULL,
---     `body` VARCHAR(255) NOT NULL,
---     `type` VARCHAR(255) NOT NULL,
---     PRIMARY KEY (`id`)
--- );
--- CREATE TABLE `User_Posts` (
---     `id` INT AUTO_INCREMENT,
---     `user_id` INT NOT NULL,
---     `post_id` INT NOT NULL,
---     PRIMARY KEY (`id`)
--- );
--- CREATE TABLE `Tags` (
---     `id` INT AUTO_INCREMENT,
---     `name` VARCHAR(255) NOT NULL,
---     `parent` INT NOT NULL,
---     PRIMARY KEY (`id`)
--- );
--- CREATE TABLE `Tags_Join` (
---     `tag_id` INT AUTO_INCREMENT,
---     `post_id` INT NOT NULL,
---     `clothing_id` INT NOT NULL
--- );
--- CREATE TABLE `Clothing` (
---     `id` INT AUTO_INCREMENT,
---     `types` VARCHAR(255) NOT NULL,
---     `img` VARCHAR(255) NOT NULL,
---     `tags` INT NOT NULL,
---     PRIMARY KEY (`id`)
--- );
--- ALTER TABLE `Posts` ADD CONSTRAINT `Posts_fk0` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`);
--- ALTER TABLE `User_Posts` ADD CONSTRAINT `User_Posts_fk0` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`);
--- ALTER TABLE `User_Posts` ADD CONSTRAINT `User_Posts_fk1` FOREIGN KEY (`post_id`) REFERENCES `Posts`(`id`);
--- ALTER TABLE `Tags` ADD CONSTRAINT `Tags_fk0` FOREIGN KEY (`parent`) REFERENCES `Tags`(`id`);
--- ALTER TABLE `Tags_Join` ADD CONSTRAINT `Tags_Join_fk0` FOREIGN KEY (`tag_id`) REFERENCES `Tags`(`id`);
--- ALTER TABLE `Tags_Join` ADD CONSTRAINT `Tags_Join_fk1` FOREIGN KEY (`post_id`) REFERENCES `Posts`(`id`);
--- ALTER TABLE `Tags_Join` ADD CONSTRAINT `Tags_Join_fk2` FOREIGN KEY (`clothing_id`) REFERENCES `Clothing`(`id`);
--- ALTER TABLE `Clothing` ADD CONSTRAINT `Clothing_fk0` FOREIGN KEY (`tags`) REFERENCES `Tags_Join`(`tag_id`);
-
-
 DROP DATABASE IF EXISTS `Narnia`;
 CREATE DATABASE `Narnia`;
 USE `Narnia`;
@@ -53,8 +6,6 @@ USE `Narnia`;
 -- Table 'users'
 --
 -- ---
-
-DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` INTEGER AUTO_INCREMENT,
@@ -69,7 +20,10 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `clothing`;
+-- ---
+-- Table 'clothing'
+--
+-- ---
 
 CREATE TABLE `clothing` (
   `id` INTEGER AUTO_INCREMENT,
@@ -94,7 +48,10 @@ CREATE TABLE `clothing` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `posts`;
+-- ---
+-- Table 'posts'
+--
+-- ---
 
 CREATE TABLE `posts` (
   `id` INTEGER AUTO_INCREMENT,
@@ -111,28 +68,10 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `userPosts`;
-
-CREATE TABLE `userPosts` (
-  `id` INTEGER AUTO_INCREMENT,
-  `userId` INTEGER NOT NULL,
-  `postId` INTEGER NOT NULL,
-  PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `likesPosts` (
-  `id` INTEGER AUTO_INCREMENT,
-  `userId` INTEGER NOT NULL,
-  `postId` INTEGER NOT NULL,
-  PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `userFollowers` (
-  `id` INTEGER AUTO_INCREMENT,
-  `userId` INTEGER NOT NULL,
-  `followerId` INTEGER NOT NULL,
-  PRIMARY KEY (`id`)
-);
+-- ---
+-- Table 'wardrobe'
+--
+-- ---
 
 CREATE TABLE `wardrobe` (
   `id` INTEGER AUTO_INCREMENT,
@@ -144,13 +83,59 @@ CREATE TABLE `wardrobe` (
   FOREIGN KEY (`clothingId`) REFERENCES clothing(`id`)
 );
 
+-- ---
+-- Table 'tags'
+--
+-- ---
+
 CREATE TABLE `tags` (
   `id` INTEGER AUTO_INCREMENT,
   `tag` VARCHAR(255) NOT NULL,
   `count` INTEGER NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag` (`tag`)
-) ENGINE=InnoDB;
+);
+
+-- ---
+-- Join Table 'userPosts'
+--
+-- ---
+
+CREATE TABLE `userPosts` (
+  `id` INTEGER AUTO_INCREMENT,
+  `userId` INTEGER NOT NULL,
+  `postId` INTEGER NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Join Table 'likesPosts'
+--
+-- ---
+
+CREATE TABLE `likesPosts` (
+  `id` INTEGER AUTO_INCREMENT,
+  `userId` INTEGER NOT NULL,
+  `postId` INTEGER NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Join Table 'userFollowers'
+--
+-- ---
+
+CREATE TABLE `userFollowers` (
+  `id` INTEGER AUTO_INCREMENT,
+  `userId` INTEGER NOT NULL,
+  `followerId` INTEGER NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Join Table 'postTags'
+--
+-- ---
 
 CREATE TABLE `postTags` (
   `id` INTEGER AUTO_INCREMENT,
@@ -160,6 +145,11 @@ CREATE TABLE `postTags` (
   FOREIGN KEY (`postId`) REFERENCES posts(`id`),
   FOREIGN KEY (`tagId`) REFERENCES tags(`id`)
 );
+
+-- ---
+-- Seed Data
+--
+-- ---
 
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/Hanes-Mens-X-Temp-Performance-X-Large/dp/B0132MGK5Q%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGK5Q", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41-qNmknnEL.jpg", "Hanes", "Deep Red", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Red, X-Large", "078715978150", "B0132MGK5Q", "top");
 INSERT INTO `clothing` (detailPageUrl, smallImg, mediumImg, largeImg, brand, color, department, listPrice, productGroup, productTypeName, title, upc, asin, position) VALUES ("https://www.amazon.com/Hanes-X-Temp-Performance-Royal-Large/dp/B0132MGJGQ%3Fpsc%3D1%26SubscriptionId%3DAKIAIYV2F3JA5VNKX37A%26tag%3Ddonannarni-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0132MGJGQ", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL75_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L._SL160_.jpg", "https://images-na.ssl-images-amazon.com/images/I/41dr%2BUP1D8L.jpg", "Hanes", "Deep Royal", "mens", "$10.00", "Apparel", "SHIRT", "Hanes Men's X-Temp Performance Polo, Deep Royal, Large", "078715978204", "B0132MGJGQ", "top");
@@ -209,13 +199,7 @@ INSERT INTO `posts` (postId, userId, body, type, createdAt) VALUES (4, 3, "The h
 
 INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 2);
 INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 3);
--- INSERT INTO `userFollowers` (userId, followerId) VALUES (1, 4);
 INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 1);
 INSERT INTO `userFollowers` (userId, followerId) VALUES (2, 4);
 INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 2);
 INSERT INTO `userFollowers` (userId, followerId) VALUES (3, 4);
-
--- ALTER TABLE `userPosts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
--- ALTER TABLE `userPosts` ADD FOREIGN KEY (postId) REFERENCES `posts` (`id`);
--- ALTER TABLE `posts` ADD FOREIGN KEY (userId) REFERENCES `users` (`id`);
--- select w.*, u.*, c.* from wardrobe w join users u on u.id = w.userId join clothing c on c.id = w.clothingId;
