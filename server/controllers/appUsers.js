@@ -32,7 +32,6 @@ var deleteUser = function(username) {
   return query(queryString, [username]);
 };
 
-
 module.exports = {
   query: query,
   getUser: getUser,
