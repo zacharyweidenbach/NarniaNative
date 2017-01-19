@@ -100,10 +100,10 @@ module.exports = {
             id: result[0].id
           });
         } else {
-          res.send('Invalid username or password.');
+          res.json('Invalid username or password.');
         }
       } else {
-        res.send('Invalid username or password.');
+        res.json('Invalid username or password.');
       }
     });
   },
@@ -133,7 +133,7 @@ module.exports = {
           });
         });
       } else {
-        res.send('User already exists.');
+        res.json('User already exists.');
       }
     });
   },
