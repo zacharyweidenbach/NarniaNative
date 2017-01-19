@@ -15,7 +15,7 @@ export default class SearchShopGallery extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      clothingInd: 0,
+      clothingIndex: 0,
       modalVisible: false,
       clothing: [],
       dataSource: dataSource.cloneWithRows([]),
@@ -37,7 +37,7 @@ export default class SearchShopGallery extends Component {
   onButtonPress(button, index) {
     switch (button) {
     case 'clothingModal':
-      this.setState({clothingInd: index, modalVisible: true});
+      this.setState({clothingIndex: index, modalVisible: true});
       break;
     }
   }
@@ -60,7 +60,7 @@ export default class SearchShopGallery extends Component {
           </TouchableHighlight>} 
         />
         {/* Clothing Modal */}
-        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingInd]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingIndex]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View>
     );
   }

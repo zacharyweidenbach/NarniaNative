@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import SearchShopGallery from './searchShopGallery';
+import SearchShopGallery from '../components/searchShopGallery';
 import ip from '../network.js';
 
 const styles = StyleSheet.create({

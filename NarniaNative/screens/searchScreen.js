@@ -1,84 +1,19 @@
 import React, { Component } from 'react';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
-  StyleSheet,
   ScrollView,
   Text,
   View,
-  Image,
   Dimensions,
   TouchableHighlight,
   TextInput,
 } from 'react-native';
+
+import {searchScreen as styles} from '../stylesheet';
 import Icon from 'react-native-vector-icons/Ionicons';
-import SearchPeople from './searchPeople.js';
+import SearchPeople from '../components/searchPeople.js';
 import SearchTags from '../components/searchTags.js';
 import SearchShop from './searchShop.js';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  tabViewContainer: {
-    flex: 11,
-  },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    // elevation: 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
-  },
-  searchBarContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  searchBar: {
-    flex: 4,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  searchBtn: {
-    flex: 1
-  },
-  tabbar: {
-    backgroundColor: '#fff',
-  },
-  page: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  indicator: {
-    backgroundColor: '#ff9554',
-  },
-  label: {
-    color: 'black',
-    fontWeight: '400',
-  },
-  backBtn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-  },
-  emptySpace: {
-    flex: 1,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    color: '#ff9554'
-  },
-  textContainer: {
-    flex: 4,
-    alignItems: 'center',
-  },
-});
 
 const initialLayout = {
   height: 0,
@@ -97,44 +32,39 @@ export default class searchScreen extends Component {
       ], 
       searchText: '',
       triggerSearch: '',
-      color: '#ff9554',
     };
-    this.resetSearchText = this.resetSearchText.bind(this);
   }
 
-  _handleChangeTab = (index) => {
-    this.setState({
-      index, searchText:''
-    });
-  };
+  handleChangeTab = (index) => {
+    this.setState({index: index, searchText:''});
+  }
 
-  _renderHeader = (props) => {
+  renderHeader = (props) => {
     return (
       <TabBarTop
         {...props}
-        // scrollEnabled
         indicatorStyle={styles.indicator}
         style={styles.tabbar}
         labelStyle={styles.label}
       />
     );
-  };
+  }
 
-  _renderScene = ({ route }) => {
-    switch (route.key) {
-    case '1':
+  renderScene = ({ route }) => {
+    switch (route.title) {
+    case 'People':
       return (
         <ScrollView>
           <SearchPeople userId={this.props.userId} navigator={this.props.navigator} viewedUser={this.props.viewedUser} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
-    case '2':
+    case 'Hashtags':
       return (
         <ScrollView>
           <SearchTags userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
-    case '3':
+    case 'Shop':
       return (
           <SearchShop userId={this.props.userId} navigator={this.props.navigator} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
       );
@@ -142,11 +72,6 @@ export default class searchScreen extends Component {
       return null;
     }
   };
-
-  resetSearchText() {
-    this.setState({ triggerSearch: ''});
-    console.log('reset triggerSearch');
-  }
 
   onButtonPress(button) {
     switch (button) {
@@ -163,8 +88,9 @@ export default class searchScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
+          {/* Back Button */}
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <Icon name="ios-arrow-back" size={38} color={this.state.color} />
+            <Icon name="ios-arrow-back" size={38} color='#ff9554' />
           </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.text}>SEARCH</Text>
@@ -172,20 +98,22 @@ export default class searchScreen extends Component {
           <View style={styles.emptySpace}>
           </View>
         </View>
+        {/* Search Box */}
         <View style={styles.searchBarContainer}>
-          <TextInput placeholder= 'Search' style={styles.searchBar} returnKeyType="search" onSubmitEditing={this.onButtonPress.bind(this, 'search')} onChangeText = {(searchText) => this.setState({searchText})} value={this.state.searchText} />
+          <TextInput placeholder='Search' style={styles.searchBar} returnKeyType="search" onSubmitEditing={this.onButtonPress.bind(this, 'search')} onChangeText={(searchText) => this.setState({searchText})} value={this.state.searchText} />
           <TouchableHighlight style={styles.searchBtn} onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
-            <View style={{alignItems: 'center'}}>
-              <Icon name="ios-search" size={38} color={this.state.color} />
+            <View style={styles.searchBtnContainer}>
+              <Icon name="ios-search" size={38} color='#ff9554' />
             </View>
           </TouchableHighlight>
         </View>
+        {/* Tab View */}
         <TabViewAnimated
-          style={[ styles.tabViewContainer, this.props.style ]}
+          style={styles.tabViewContainer}
           navigationState={this.state}
-          renderScene={this._renderScene}
-          renderHeader={this._renderHeader}
-          onRequestChangeTab={this._handleChangeTab} 
+          renderScene={this.renderScene}
+          renderHeader={this.renderHeader}
+          onRequestChangeTab={this.handleChangeTab} 
           initialLayout={initialLayout}
         />
       </View>

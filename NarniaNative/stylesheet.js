@@ -513,3 +513,116 @@ export const searchShopGallery = StyleSheet.create({
     borderColor: '#f9f7f5',
   },
 });
+
+export const searchPeople = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+  },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+});
+
+export const searchPeopleResult = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+  },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+});
+
+export const searchScreen = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  tabViewContainer: {
+    flex: 11,
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 20,
+  },
+  searchBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  searchBar: {
+    flex: 4,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  searchBtnContainer: {
+    alignItems: 'center'
+  },
+  searchBtn: {
+    flex: 1
+  },
+  tabbar: {
+    backgroundColor: '#fff',
+  },
+  page: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indicator: {
+    backgroundColor: '#ff9554',
+  },
+  label: {
+    color: 'black',
+    fontWeight: '400',
+  },
+  backBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  emptySpace: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554'
+  },
+  textContainer: {
+    flex: 4,
+    alignItems: 'center',
+  }
+});
