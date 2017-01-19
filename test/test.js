@@ -57,16 +57,24 @@ describe('server should', function() {
         username: testUser.username,
         password: testUser.password
       })
-      .expect(function(res) {
-        expect(!!res.body[0].token).to.equal(true);
-        expect(!!res.body[0].id).to.equal(true);
-      })
-      .end(function() {
-        request
-        .post('/api/test/removeUser')
-        .send({username: testUser.username})
-        .end(done);
+
+      // .expect(function(res) {
+      //   expect(!!res.body[0].token).to.equal(true);
+      //   expect(!!res.body[0].id).to.equal(true);
+      // })
+      // .end(function() {
+      //   request
+      //   .post('/api/test/removeUser')
+      //   .send({username: testUser.username})
+      //   .end(done);
+      // });
+
+      .end(function(err, res) {
+        expect(!!res.body.token).to.equal(true);
+        expect(!!res.body.id).to.equal(true);
+        done();
       });
+
     });
   });
 
@@ -79,23 +87,36 @@ describe('server should', function() {
     type: 'image',
     createdAt: new Date()
   };
+  var postID;
 
-  describe('POST from /api/postToDbp', function() {
+  describe('Post to db from /api/postToDbp, Fetch and delete', function() {
     it('returns response', function(done) {
       request
       .post('/api/postToDb')
       .send(post)
-      .end(function(res) {
-        console.log(res, 'RESPONSE+++');
-        // expect(!!resp.body.token).to.equal(true);
-        // expect(!!resp.body.id).to.equal(true);
-        done();
+      .expect(function(res) {
+        expect(res.body.affectedRows).to.equal(1);
+        postID = res.body.insertId;
+      })
+      .end(function() {
+        request
+        .post('/api/getPostFromPostId')
+        .send({postId: postID})
+        .expect(function(res) {
+          expect(res.body[0].body).to.equal(post.body);
+        })
+        .end(function() {
+          request
+          .post('/api/deletePost')
+          .send({postId: postID})
+          .expect(function(res) {
+            console.log(res.body, 'RESPONSE+++');
+            expect(res.body.affectedRows).to.equal(1);
+          })
+          .end(done);
+        });
       });
     });
   });
-
-
-
-
 
 });

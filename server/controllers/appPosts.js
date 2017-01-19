@@ -30,7 +30,7 @@ module.exports = {
   getPostsFromDb: function(req, res, next) {
     //86400000 in a day, *7 = 1 week
     var weekAgo = new Date().getTime() - (86400000 * 7);
-    
+
     if (req.body.row === undefined) {
       connection.query(
         'SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
