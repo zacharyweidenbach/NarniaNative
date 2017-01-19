@@ -5,8 +5,6 @@ var supertest = require('supertest');
 var request = supertest.agent(server);
 var connection = require('../db/index.js');
 
-
-
 describe('server should', function() {
 
   describe('GET from /api/test', function () {

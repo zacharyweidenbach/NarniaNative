@@ -14,9 +14,9 @@ module.exports = {
     });
   },
   getNotificationsLikes: function(req, res, next) {
-    connection.query('select u.id, u.name, u.thumbnail, p.id, p.body, p.description, n.action from notifications n join users u on u.id = n.senderId join posts p on p.id = n.postId where n.action="like" and n.userId=' + req.body.userId, function(err, result) {
-        var response = err || result;
-        res.json(response);
+    connection.query('SELECT u.id, u.name, u.thumbnail, p.id, p.body, p.description, n.action FROM notifications n JOIN users u ON u.id = n.senderId JOIN posts p ON p.id = n.postId WHERE n.action="like" and n.userId=' + req.body.userId, function(err, result) {
+      var response = err || result;
+      res.json(response);
     });
   },
   getNotificationsFollows: function(req, res, next) {
@@ -25,4 +25,4 @@ module.exports = {
       res.json(response);
     });
   }
-}
+};

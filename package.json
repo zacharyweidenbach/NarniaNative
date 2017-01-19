@@ -1,7 +1,7 @@
 {
-  "name": "outrageousocelots",
+  "name": "Narnia",
   "version": "1.0.0",
-  "description": "",
+  "description": "Social media platform for fashion",
   "main": "server/server.js",
   "scripts": {
     "start": "nodemon server/server.js",

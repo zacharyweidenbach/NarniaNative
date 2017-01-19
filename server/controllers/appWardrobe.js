@@ -2,15 +2,13 @@ var connection = require('../../db/index.js');
 
 module.exports = {
   getWardrobe: function(req, res, next) {
-    connection.query('select c.* from wardrobe w join users u on u.id = w.userId join clothing c on c.id = w.clothingId where w.userId=' + req.body.userId, function(err, result) {
+    connection.query('SELECT c.* FROM wardrobe w JOIN users u ON u.id = w.userId JOIN clothing c ON c.id = w.clothingId WHERE w.userId=' + req.body.userId, function(err, result) {
       var response = err || result;
       res.json(response);
     });
   },
   addToWardrobe: function(req, res, next) {
-    console.log(req.body.clothing.UPC);
-    console.log(req.body, 'CLOTHING LOGGED');
-    connection.query('select id from clothing where upc="' + req.body.clothing.UPC + '" OR asin="' + req.body.clothing.ASIN + '"', function(err, result) {
+    connection.query('SELECT id FROM clothing WHERE upc="' + req.body.clothing.UPC + '" OR asin="' + req.body.clothing.ASIN + '"', function(err, result) {
       if (err) {
         res.send(err);
       } else if (result.length !== 0) {
@@ -19,7 +17,7 @@ module.exports = {
           clothingId: result[0].id,
           list: req.body.list
         };
-        connection.query('insert into wardrobe set ?', reqbody, function(err, result) {
+        connection.query('INSERT INTO wardrobe SET ?', reqbody, function(err, result) {
           var response = err || result;
           res.json(response);
         });
@@ -55,7 +53,7 @@ module.exports = {
     });
   },
   removeFromWardrobe: function(req, res, next) {
-    connection.query('delete from wardrobe where userId=' + req.body.userId + ' and clothingId=' + req.body.clothingId, function(err, result) {
+    connection.query('DELETE FROM wardrobe WHERE userId=' + req.body.userId + ' and clothingId=' + req.body.clothingId, function(err, result) {
       var response = err || result;
       res.json(response);
     });

@@ -31,14 +31,11 @@ module.exports = {
         tempArr.push(result[i].postId);
       }
       str = tempArr.join(',');
-      console.log('here', str);
+
       connection.query('select * from posts where id in (' + str + ')', function(err, result) {
         var response = err || result;
         res.json(response); 
-        console.log(response);   
       });
     });
   }
 };
-
-// 'SELECT users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="image"'
