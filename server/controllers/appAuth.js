@@ -78,7 +78,7 @@ module.exports = {
   },
   findUser: function(req, res, next) {
     if (!req.body.username) {
-      res.send('no username provided');
+      res.json('no username provided');
       return;
     }
     return dbUser.getUser(req.body.username)
