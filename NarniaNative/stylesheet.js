@@ -254,8 +254,232 @@ export const likesGalleryStyles = StyleSheet.create({
   imgSmall: {
     width: Dimensions.get('window').width / 3,
     height: Dimensions.get('window').width / 3,
-    // marginTop: 1,
     borderWidth: 1,
     borderColor: '#f9f7f5',
   },
+});
+
+export const wardrobeScreen = StyleSheet.create({
+  defaults: {
+    color: '#ff9554'
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f7f5',
+    justifyContent: 'center',
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 20,
+  },
+  textContainer: {
+    flex: 3,
+    alignItems: 'center',
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+  },
+  gallery: {
+    flex: 12,
+  },
+  backBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554'
+  },
+  thumbnail: {
+    height: 150,
+    width: 150,
+  },
+  imgLarge: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    marginTop: 1,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  imgSmall: {
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  emptySpace: {
+    flex: 1
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    paddingTop: 10
+  }
+});
+
+export const tagsModal = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  header: {
+    flex: 1, 
+    alignItems: 'center', 
+    flexDirection: 'row'
+  },
+  textContainer: {
+    flex: 3,
+    alignItems: 'center',
+  },
+  imgContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+  },
+  buttonContainer: {
+    flex: 1, 
+    alignItems: 'flex-end'
+  },
+  closeBtn: {
+    paddingRight: 15,
+  },
+  gallery: {
+    flex: 12,
+    backgroundColor: '#f9f7f5'
+  },
+  tagHeader: {
+    color: '#ff9554',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff'
+  },
+  imgSmall: {
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  imgLarge: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    borderWidth: 1,
+    borderColor: '#f9f7f5',
+  },
+  emptySpace: {
+    flex: 1,
+  },
+});
+
+export const searchTagsResults = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  countStyle: {
+    fontSize: 14,
+    paddingLeft: 10,
+    color: '#888'
+  },
+  tagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+  },
+  tagFont: {
+    color: '#ff9554', 
+    fontSize: 36
+  }
+});
+
+export const searchTags = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+  },
+  tagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+});
+
+export const commentsModal = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  textInputContainer: {
+    flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 15,
+  },
+  commentsContainer: {
+    flex: 8,
+  },
+  buttonContainer: {
+    flex: 1, 
+    alignItems: 'flex-end'
+  },
+  emptyContainer: {
+    alignItems: 'center'
+  },
+  emptyText: {
+    color: '#888'
+  }
 });
