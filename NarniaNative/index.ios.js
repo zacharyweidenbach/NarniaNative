@@ -7,13 +7,12 @@ import {
 import Auth from './auth.js';
 import Signup from './screens/signup';
 import Login from './screens/login';
-import Facebook from './screens/facebook.js';
 import SocialFeed from './screens/socialFeed';
 import LikesScreen from './screens/likesScreen';
 import ProfileScreen from './screens/profileScreen';
 import SearchScreen from './screens/searchScreen';
 import Mixer from './screens/mixer.js';
-import ProfileMenu from './screens/profileMenu.js';
+import MenuScreen from './screens/menuScreen.js';
 import Loading from './screens/loading.js';
 import Wardrobe from './screens/wardrobeScreen.js';
 import Camera from './screens/cameraScreen.js';
@@ -30,10 +29,6 @@ export default class NarniaNative extends Component {
     this.viewedUser = this.viewedUser.bind(this);
     this.isLoggedIn = this.isLoggedIn.bind(this);
   }
-
-  // componentWillMount() {
-  //   Auth.destroySession();
-  // }
 
   isLoggedIn(that) {
     Auth.getToken()
@@ -85,14 +80,13 @@ export default class NarniaNative extends Component {
       return (<SearchScreen navigator={navigator} title='SearchScreen' viewedUser={this.viewedUser} userId={this.state.userId}/>);
     case 'Mixer':
       return (<Mixer navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
-    case 'ProfileMenu':
-      return (<ProfileMenu navigator={navigator} title='ProfileMenu' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} destroySession={Auth.destroySession}/>);
+    case 'MenuScreen':
+      return (<MenuScreen navigator={navigator} title='MenuScreen' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} destroySession={Auth.destroySession}/>);
     case 'Loading':
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn} />);
     case 'WardrobeScreen':
       return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
     case 'cameraScreen':
-      console.log('ring of fire');
       return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />);
     }
   }
@@ -107,7 +101,7 @@ export default class NarniaNative extends Component {
           this.navigatorRenderScene
         }
         configureScene={(route) => {
-          if (route.id === 'ProfileMenu') {
+          if (route.id === 'MenuScreen') {
             return Navigator.SceneConfigs.FloatFromLeft;
           } else if (route.id === 'SearchScreen') {
             return Navigator.SceneConfigs.FloatFromRight;

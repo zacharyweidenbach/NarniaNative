@@ -20,7 +20,7 @@ import {
     LazyloadView,
     LazyloadImage
 } from 'react-native-lazyload';
-import FeedPost from './feedPost.js';
+import FeedPost from '../components/feedPost.js';
 import Mixer from './mixer.js';
 import LikesScreen from './likesScreen';
 // import ip from '../network.js';
@@ -275,7 +275,7 @@ export default class socialFeed extends Component {
     switch (button) {
     case 'menu':
       this.props.navigator.push({
-        id: 'ProfileMenu'
+        id: 'MenuScreen'
       });
       break;
     case 'likes':
