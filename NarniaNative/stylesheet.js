@@ -118,9 +118,18 @@ export const profileStatsStyles = StyleSheet.create({
     justifyContent: 'space-between',
     justifyContent: 'space-around',
   },
+  dynamicTextContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  dynamicTextStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   textStyle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#888'
   },
 });
 

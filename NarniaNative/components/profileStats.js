@@ -13,13 +13,13 @@ var ProfileStats = (props) => {
         <Image style={styles.thumbnail} source={{uri: props.profileImage}} />
       </View>
       <View style={styles.statsContainer}>
-        <View>
-          <Text style={styles.textStyle}>{props.followersCount}</Text>
-          <Text style={styles.textStyle}>Followers</Text>
+        <View style={styles.dynamicTextContainer}>
+          <Text style={styles.dynamicTextStyle}>{props.followersCount}</Text>
+          <Text style={styles.textStyle}>followers</Text>
         </View>
-        <View>
-          <Text style={styles.textStyle}>{props.postCount}</Text>
-          <Text style={styles.textStyle}>Posts</Text>
+        <View style={styles.dynamicTextContainer}>
+          <Text style={styles.dynamicTextStyle}>{props.postCount}</Text>
+          <Text style={styles.textStyle}>posts</Text>
         </View>
       </View>
     </View>
