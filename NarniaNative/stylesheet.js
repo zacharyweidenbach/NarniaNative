@@ -492,13 +492,11 @@ export const searchShopGallery = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: '#f9f7f5',
   },
   listContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
-    // backgroundColor: '#f9f7f5',
   },
   imgLarge: {
     width: Dimensions.get('window').width,
@@ -668,7 +666,6 @@ export const cameraScreenStyles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -719,7 +716,6 @@ export const userUploadModalStyles = StyleSheet.create({
     marginRight: 5,
     alignItems: 'center',
     justifyContent: 'space-between',
-    // marginBottom: 0,
   },
   header: {
     flexDirection: 'row',
@@ -748,7 +744,6 @@ export const userUploadModalStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    // flexDirection: 'column',
   },
   input: {
     flex: 1,
@@ -795,11 +790,9 @@ export const mixerStyles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    // elevation: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    //paddingTop: 20,
   },
   backBtn: {
     flex: 1,
@@ -850,7 +843,6 @@ export const mixerStyles = StyleSheet.create({
   },
   chevron: {
     width: Dimensions.get('window').width / 4,
-    // height: Dimensions.get('window').height / 3,
     borderWidth: 1,
     borderColor: '#fff',
     alignItems: 'center'
@@ -902,7 +894,6 @@ export const clothingModalStyles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,
-    // marginBottom: 0,
   },
   textcontainer: {
     flex: 1,
