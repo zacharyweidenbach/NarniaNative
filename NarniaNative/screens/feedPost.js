@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TimeAgo from 'react-native-timeago';
-import CommentsModal from './commentsModal.js';
+import CommentsModal from '../components/commentsModal.js';
 import TagsModal from './tagsModal.js';
 import ip from '../network';
 import PostModal from './postModal.js';
