@@ -1,41 +1,12 @@
 import React, {Component} from 'react';
 import {
-  Text,
   View,
-  StyleSheet,
-  Dimensions,
   Image,
   TouchableHighlight
 } from 'react-native';
 
 import PostModal from './postModal';
-
-const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingLeft: 10,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-  },
-  imgLarge: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    marginTop: 1,
-    borderWidth: 1,
-    borderColor: '#f9f7f5',
-  },
-  imgSmall: {
-    width: Dimensions.get('window').width / 2,
-    height: Dimensions.get('window').width / 2,
-    borderWidth: 1,
-    borderColor: '#f9f7f5',
-  },
-});
+import {profileGalleryStyles as styles} from '../stylesheet.js';
 
 export default class ProfileGallery extends Component {
   constructor(props) {
@@ -46,11 +17,9 @@ export default class ProfileGallery extends Component {
       postsVisible: false
     };
   }
-
   handleLikePostClick(postId) {
     this.setState({currentPostId: postId, postsVisible: true});
   }
-
   setPostsVisible(visible) {
     this.setState({postsVisible: visible});
   }
@@ -69,4 +38,4 @@ export default class ProfileGallery extends Component {
       </View>
     );
   }
-};
+}

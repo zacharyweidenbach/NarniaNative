@@ -3,7 +3,7 @@ import {
 } from 'react-native';
 import ip from './network.js';
 
-async function POSTfetch(path, body) {
+export async function POSTfetch(path, body) {
   var api = 'http://' + ip.address + ':3000/api/' + path;
   if (body) {
     var info = {
@@ -91,11 +91,4 @@ export const getOlderTrendingPosts = function() {
     }
   })
 };
-
-
-
-
-
-
-
 

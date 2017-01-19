@@ -2,47 +2,9 @@ import React from 'react';
 import {
   Text,
   View,
-  StyleSheet,
-  Component,
-  Dimensions,
   Image,
 } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: Dimensions.get('window').width,
-    backgroundColor: '#fff',
-  },
-  thumbnailContainer: {
-    flex: 3,
-    paddingTop: 20,
-    paddingBottom: 20,
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  thumbnail: {
-    height: 150,
-    width: 150,
-    borderRadius: 75,
-  },
-  statsContainer: {
-    flex: 1, 
-    flexDirection: 'row',
-    paddingBottom: 20,
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    justifyContent: 'space-around',
-  },
-  textStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
+import {profileStatsStyles as styles} from '../stylesheet.js';
 
 var ProfileStats = (props) => {
   return (
