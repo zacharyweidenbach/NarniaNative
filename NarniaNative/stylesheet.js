@@ -429,6 +429,34 @@ export const searchTagsResults = StyleSheet.create({
     fontSize: 36
   }
 });
+export const searchTagsResults = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  countStyle: {
+    fontSize: 14,
+    paddingLeft: 10,
+    color: '#888'
+  },
+  tagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+  },
+  tagFont: {
+    color: '#ff9554', 
+    fontSize: 36
+  }
+});
 
 export const searchTags = StyleSheet.create({
   textStyle: {
