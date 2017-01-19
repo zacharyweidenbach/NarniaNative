@@ -4,21 +4,16 @@ import {
   ScrollView,
   Text,
   View,
-  Dimensions,
   TouchableHighlight,
   TextInput,
 } from 'react-native';
 
 import {searchScreen as styles} from '../stylesheet';
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import SearchPeople from '../components/searchPeople.js';
 import SearchTags from '../components/searchTags.js';
-import SearchShop from './searchShop.js';
-
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-};
+import SearchShop from '../components/searchShop.js';
 
 export default class searchScreen extends Component {
   constructor(props) {
@@ -35,11 +30,11 @@ export default class searchScreen extends Component {
     };
   }
 
-  handleChangeTab = (index) => {
-    this.setState({index: index, searchText:''});
+  handleChangeTab(index) {
+    this.setState({index: index, searchText: ''});
   }
 
-  renderHeader = (props) => {
+  renderHeader(props) {
     return (
       <TabBarTop
         {...props}
@@ -50,7 +45,7 @@ export default class searchScreen extends Component {
     );
   }
 
-  renderScene = ({ route }) => {
+  renderScene({ route }) {
     switch (route.title) {
     case 'People':
       return (
@@ -71,7 +66,7 @@ export default class searchScreen extends Component {
     default:
       return null;
     }
-  };
+  }
 
   onButtonPress(button) {
     switch (button) {
@@ -111,10 +106,9 @@ export default class searchScreen extends Component {
         <TabViewAnimated
           style={styles.tabViewContainer}
           navigationState={this.state}
-          renderScene={this.renderScene}
-          renderHeader={this.renderHeader}
-          onRequestChangeTab={this.handleChangeTab} 
-          initialLayout={initialLayout}
+          renderScene={this.renderScene.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
+          onRequestChangeTab={this.handleChangeTab.bind(this)} 
         />
       </View>
     );

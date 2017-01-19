@@ -626,3 +626,35 @@ export const searchScreen = StyleSheet.create({
     alignItems: 'center',
   }
 });
+
+export const searchShop = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+  },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    left: 50,
+    height: 125,
+    width: 125,
+    borderRadius: 25,
+  },
+  activityIndicator: {
+    width: 0,
+    height: 0
+  },
+  activityIndicatorContainer: {
+    flex: 0.5, 
+    alignItems: 'center', 
+    marginTop: (Dimensions.get('window').height / -2)
+  }
+});
