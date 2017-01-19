@@ -1,6 +1,3 @@
-import {
-  ListView
-} from 'react-native';
 import ip from './network.js';
 
 export async function POSTfetch(path, body) {

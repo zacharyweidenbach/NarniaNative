@@ -62,7 +62,6 @@ export default class NarniaNative extends Component {
   }
 
   navigatorRenderScene(route, navigator) {
-    _navigator = navigator;
     switch (route.id) {
     case 'Login':
       return (<Login navigator={navigator} title='Login' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId}/>);

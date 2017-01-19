@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Text,
   View,
-  Image,
   ActivityIndicator,
 } from 'react-native';
 
 import SearchShopGallery from './searchShopGallery';
 import {POSTfetch} from '../utils';
 import {searchShop as styles} from '../stylesheet';
-import ip from '../network';
 
 export default class SearchShop extends Component {
   constructor(props) {
