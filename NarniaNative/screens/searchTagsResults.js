@@ -17,17 +17,7 @@ export default class SearchTagsResults extends Component {
       tagsModalVisible: false
     };
   }
-
-  onButtonPress(button) {
-    switch (button) {
-    case 'tag':
-      this.props.navigator.push({
-        id: 'ProfileScreen'
-      });
-      break;
-    }
-  }
-
+  
   handleTagClick(tag) {
     this.setState({currentTag: tag, tagsModalVisible: true});
   }
@@ -47,9 +37,13 @@ export default class SearchTagsResults extends Component {
         <TouchableHighlight onPress={() => this.handleTagClick(this.props.tag)} underlayColor='transparent'>
             <View style={styles.tagContainer}>
               <View style={styles.thumbnail}>
-                <Text style={styles.tagFont}>#</Text>
+                <Text style={styles.tagFont}>
+                  #
+                </Text>
               </View>
-              <Text style={styles.textStyle}>{this.props.tag.tag}</Text>
+              <Text style={styles.textStyle}>
+                {this.props.tag.tag}
+              </Text>
               <Text style={styles.countStyle}>
                 {this.props.tag.count} posts
               </Text>   
