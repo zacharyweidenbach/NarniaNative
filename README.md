@@ -9,7 +9,7 @@ Motivation
 
 - The motivation for Project Narnia is vast and diverse. One influencing factor is that the fashion industry seems beyond the reach of most as it exists at the moment. From stylist to designer there is a large barrier to entry. One of Project Narnia's aim is to break that, allowing anyone to be a stylist and designer with ease; and all from the comfort of their couch. Another influencer is that it's currently rather difficult to buy clothes for others. It's challenging to know what they already have, what they could use/what would go well with items they already own and what would fit. We aim to solve this.  
 
-Installation (prerequists: node, xcode, npm, react-native-cli)
+Installation (prerequisite: node, xcode, npm, react-native-cli)
 
 - In the terminal run npm install while in the main Narnia directory. (be patient it may take a minute)
 - run npm install again while in the NarinaNative directory.(be patient it may take a minute)
