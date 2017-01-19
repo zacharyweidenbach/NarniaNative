@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SearchPeople from './searchPeople.js';
-import SearchTags from './searchTags.js';
+import SearchTags from '../components/searchTags.js';
 import SearchShop from './searchShop.js';
 
 const styles = StyleSheet.create({

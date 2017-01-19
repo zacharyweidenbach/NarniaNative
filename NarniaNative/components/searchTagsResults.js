@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {searchTagsResults as styles} from '../stylesheet';
-import TagsModal from '../components/tagsModal';
+import TagsModal from './tagsModal';
 
 export default class SearchTagsResults extends Component {
   constructor(props) {

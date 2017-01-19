@@ -429,7 +429,29 @@ export const searchTagsResults = StyleSheet.create({
     fontSize: 36
   }
 });
-export const searchTagsResults = StyleSheet.create({
+
+export const searchTags = StyleSheet.create({
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  container: {
+    flex: 1,
+  },
+  tagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  thumbnail: {
+    marginLeft: 10,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+});export const searchTagsResults = StyleSheet.create({
   container: {
     flex: 1,
   },
