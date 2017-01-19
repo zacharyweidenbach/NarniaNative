@@ -11,7 +11,7 @@ import ProfileGallery from '../components/profileGallery';
 import ProfileStats from '../components/profileStats';
 import {profileMenuStyles as styles} from '../stylesheet.js';
 
-export default class profileMenu extends Component {
+export default class MenuScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {

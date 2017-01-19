@@ -275,7 +275,7 @@ export default class socialFeed extends Component {
     switch (button) {
     case 'menu':
       this.props.navigator.push({
-        id: 'ProfileMenu'
+        id: 'MenuScreen'
       });
       break;
     case 'likes':
