@@ -7,9 +7,8 @@ import {
   Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProfileGallery from './profileGallery';
-import ProfileStats from './profileStats';
-import ip from '../network.js';
+import ProfileGallery from '../components/profileGallery';
+import ProfileStats from '../components/profileStats';
 import {POSTfetch} from '../utils.js';
 import {profileScreenStyles as styles} from '../stylesheet.js';
 
