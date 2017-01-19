@@ -10,10 +10,10 @@ import {
   RefreshControl
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import FeedPost from './feedPost.js';
+import FeedPost from '../components/feedPost';
 import LikesScreen from './likesScreen';
-import { POSTfetch } from '../utils.js';
-import { socialFeedStyles as styles } from '../stylesheet.js';
+import { POSTfetch } from '../utils';
+import { socialFeedStyles as styles } from '../stylesheet';
 
 const initialLayout = {
   height: 0,
