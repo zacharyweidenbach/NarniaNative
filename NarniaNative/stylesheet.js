@@ -964,47 +964,6 @@ export const clothingModalStyles = StyleSheet.create({
   }
 });
 
-<<<<<<< HEAD
-export const loginSignup = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  header: {
-    flex: .4,
-    justifyContent: 'flex-end',
-    elevation: 2,
-    backgroundColor: '#fff',
-    paddingTop: 20,
-  },
-  form: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  textInput: {
-    textAlign: 'center',
-    borderWidth: 1,
-    borderColor: '#eee',
-    width: 270,
-    height: 40,
-    marginTop: 10,
-    borderRadius: 10
-  },
-  button: {
-    backgroundColor: '#eee',
-    width: 270,
-    height: 40,
-    marginTop: 10,
-    borderRadius: 10
-  },
-  link: {
-    paddingTop: 7
-  }
-});
-
 export const feedPost = StyleSheet.create({
   container: {
     flex: 1,
@@ -1113,6 +1072,8 @@ export const feedPost = StyleSheet.create({
     color: '#4f4f4f',
     paddingLeft: 15,
     paddingBottom: 10,
+  }
+});
 
 export const loginScreenStyles = StyleSheet.create({
   container: {

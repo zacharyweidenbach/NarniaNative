@@ -10,8 +10,8 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import Main from '../index.ios.js';
-import Login from './login.js';
+
+import Login from './loginScreen.js';
 import ip from '../network.js';
 import {loginScreenStyles as styles} from '../stylesheet.js';
 
