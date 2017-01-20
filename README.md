@@ -1,37 +1,37 @@
-# Narnia
-fashion social media
+# Project Narnia
+Fashion Social Media
 
-Synopsis
+## Synopsis
 
-- Project Narnia is a social media platfrom to encourage and assist in the creation of user generated content for the fashion space. Having basic social platform functionality (likes, shares, comments, etc) allows users to easily share their outfits and get feedback on their styling. With functionality like personal wardrobes it allow users to upload thier personal wardrobe into the application and design outfits to wear with out having to pull anything out of the closet or try it on. Tying into Amazon's Product Advertising API allows us to make a seemless easy to use 
+- Project Narnia is a social media platform to encourage and assist in the creation of user generated content for the fashion space. Having basic social platform functionality (likes, shares, comments, etc) allows users to easily share their outfits and get feedback on their styling. With functionality like personal wardrobes users are able to upload their personal wardrobe into the application and design outfits to wear without having to pull anything out of their closets. Tapping into Amazon's Product Advertising API makes adding clothing easy and seamless. 
 
-Motivation
+## Motivation
 
-- The motivation for Project Narnia is vast and diverse. One influencing factor is that the fashion industry seems beyond the reach of most as it exists at the moment. From stylist to designer there is a large barrier to entry. One of Project Narnia's aim is to break that, allowing anyone to be a stylist and designer with ease; and all from the comfort of their couch. Another influencer is that it's currently rather difficult to buy clothes for others. It's challenging to know what they already have, what they could use/what would go well with items they already own and what would fit. We aim to solve this.  
+- The motivation for Project Narnia is vast and diverse. One influencing factor is that the fashion industry seems beyond the reach of most in its current state. From stylist to designer, there is a large barrier to entry. One goal is to break that and allow anyone to be a stylist and designer with ease; all from the comfort of their couch. Another influencer is that it is rather difficult to buy clothes effectively. It is challenging to know what they already have, what they could use, what would go well with items they already own, and what would actually fit. Project Narnia aims to solve this.  
 
-Installation (prerequisite: node, xcode, npm, react-native-cli)
+## Installation
 
-- In the terminal run npm install while in the main Narnia directory. (be patient it may take a minute)
-- run npm install again while in the NarinaNative directory.(be patient it may take a minute)
-- Boot up MySQL server
-- Create and populate the database by having mysql excute "schema.sql" in the DB directory
-- While in the main Narnia directory launch a node server with "npm start"
-- While in the NarniaNative directory boot up the immulator with "react-native run-ios"
+- Install all prerequisites: [node](https://github.com/nodejs/node), [npm](https://github.com/npm/npm), [xcode](https://developer.apple.com/xcode/), [react-native-cli](https://facebook.github.io/react-native/docs/getting-started.html)
+- In the terminal run `npm install && cd NarniaNative && npm install` in the main Narnia directory. (be patient it may take a minute)
+- Start up MySQL server with `mysql.server start`
+- Create and populate the database by having excuting `mysql < schema.sql` in the DB directory
+- While in the Narnia directory, launch node server with `npm start`
+- While in the NarniaNative directory, boot up the simulator with `react-native run-ios`
 
-API Reference
+## API Reference
 
-- The APIs in use are 
-   - Amazon Product Advertising API
-   - Google Cloud Storage
+- The APIs in use are: 
+   - [Amazon Product Advertising API](https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html)
+   - [Google Cloud Storage](https://cloud.google.com/storage/)
 
-Tests
+## Tests
 
 Describe and show how to run the tests with code examples.
 
-Contributors
+## Contributors
 
-- If you are reading this you should already know how to contribute. If further direction is needed talk to your engineering lead. 
+- Read the `_CONTRIBUTING.md` document in the repo. If further direction is needed, talk to your engineering lead. 
 
 License
    
-- This a private repo and if you made it here you are on the team, or a very resourceful hacker, congratulations! Taking any code and claiming it as yours is tantamount to STEALING.
+- This a private repo. If you made it here, you are on the team or a very resourceful hacker. Congratulations! Taking any code and claiming it as yours is tantamount to STEALING.
