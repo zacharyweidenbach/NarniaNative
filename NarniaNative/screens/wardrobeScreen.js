@@ -65,9 +65,9 @@ export default class WardrobeScreen extends Component {
             <View style={styles.scrollContainer}>
               {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
                 if (key === 0) {
-                  return <TouchableHighlight key={key} onPress={() => this.handleClothingClick(clothing)}><Image style={styles.imgLarge} source={{uri: clothing.largeImg}} /></TouchableHighlight>;
+                  return <TouchableHighlight key={key} onPress={() => this.handleClothingClick(clothing)} underlayColor='transparent'><Image style={styles.imgLarge} source={{uri: clothing.largeImg}} /></TouchableHighlight>;
                 } else {
-                  return <TouchableHighlight key={key} onPress={() => this.handleClothingClick(clothing)}><Image style={styles.imgSmall} source={{uri: clothing.largeImg}} /></TouchableHighlight>;
+                  return <TouchableHighlight key={key} onPress={() => this.handleClothingClick(clothing)} underlayColor='transparent'><Image style={styles.imgSmall} source={{uri: clothing.largeImg}} /></TouchableHighlight>;
                 }
               }) : <Text style={styles.emptyText}>No items added!</Text>}
             </View>
