@@ -32,6 +32,6 @@ Describe and show how to run the tests with code examples.
 
 - Read the `_CONTRIBUTING.md` document in the repo. If further direction is needed, talk to your engineering lead. 
 
-License
+## License
    
 - This a private repo. If you made it here, you are on the team or a very resourceful hacker. Congratulations! Taking any code and claiming it as yours is tantamount to STEALING.
