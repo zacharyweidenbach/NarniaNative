@@ -250,7 +250,7 @@ export default class MixerScreen extends Component {
           <ScrollView horizontal={true}>
             <View style={styles.scrollContainer}>
               {this.state.wardrobe.length > 0 ? this.state.wardrobe.map((clothing, key) => {
-                return <TouchableHighlight onPress={() => this.changeMixerDisplay(clothing)} key={key}><Image style={styles.thumbnail} source={{uri: clothing.largeImg}} resizeMode={Image.resizeMode.contain}/></TouchableHighlight>;
+                return <TouchableHighlight underlayColor='transparent' onPress={() => this.changeMixerDisplay(clothing)} key={key}><Image style={styles.thumbnail} source={{uri: clothing.largeImg}} resizeMode={Image.resizeMode.contain}/></TouchableHighlight>;
               }) : <View style={styles.emptyWardrobe}><Text style={styles.emptyWardrobeText}>No items in wardrobe!</Text></View>}
             </View>
           </ScrollView>
