@@ -48,7 +48,7 @@ export default class FeedPost extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.post !== this.props.post) {
-      this.setState({likesCount: this.props.post.likesCount});
+      this.setState({likesCount: this.props.post.likesCount, createdAt: Number(this.props.post.createdAt)});
       this.checkInitialLike();
       this.getTags();
     }
