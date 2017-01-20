@@ -13,7 +13,7 @@ const clothingModal = (props) => {
       'PANTS': 'middle',
       'SHOES': 'bottom',
     };
-    return positionKey[clothing.productTypeName];
+    return positionKey[clothing.productTypeName.toUpperCase()];
   };
   
   let onButtonPress = (button) => {
