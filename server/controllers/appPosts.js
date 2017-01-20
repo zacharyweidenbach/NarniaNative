@@ -76,7 +76,6 @@ module.exports = {
     });
   },
   getPostsFromTag: function(req, res, next) {
-    console.log(req.body.tagId);
     connection.query(
       'SELECT p.id, p.body, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
       FROM postTags \
