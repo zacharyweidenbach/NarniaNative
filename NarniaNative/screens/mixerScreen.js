@@ -86,9 +86,12 @@ export default class MixerScreen extends Component {
       'PANT': 'middle',
       'PANTS': 'middle',
       'SHOES': 'bottom',
+      'SHOE': 'bottom',
     };
 
-    return positionKey[clothing.productTypeName];
+    console.warn(clothing.productTypeName.toUpperCase());
+
+    return positionKey[clothing.productTypeName.toUpperCase()];
   }
 
   insertPost(message) {
