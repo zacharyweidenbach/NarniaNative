@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
   Text,
   View,
   Alert,
-  TextInput,
-  Button,
-  Navigator,
-  StyleSheet,
   Image,
+  TextInput,
+  Button
 } from 'react-native';
-
-import Login from './loginScreen.js';
-import ip from '../network.js';
-import {loginScreenStyles as styles} from '../stylesheet.js';
+import { POSTfetch } from '../utils.js';
+import { loginScreenStyles as styles} from '../stylesheet.js';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -23,13 +18,12 @@ export default class Signup extends Component {
       password: '',
       confirmPassword: '',
       email: '',
-      confirmEmail: '',
-      pwDisplay: null,
-      emailDisplay: null
+      confirmEmail: ''
     };
   }
 
   submitHandler() {
+    var that = this;
     var newUser = {
       username: this.state.username,
       password: this.state.password,
@@ -38,88 +32,37 @@ export default class Signup extends Component {
     if (this.state.password !== this.state.confirmPassword || this.state.email !== this.state.confirmEmail) {
       Alert.alert('Username and/or password do not match');
     } else {
-      fetch('http://' + ip.address + ':3000/api/users/mbSignup', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser)
-      })
-      .then(function(response) {
-        if (response._bodyText === 'User already exists.') { // check if valid signup
-          Alert.alert(response._bodyText);
-          this.setState({
+      return POSTfetch('users/mbSignup', newUser)
+      .then((resJSON) => {
+        if (resJSON === 'User already exists.') {
+          Alert.alert(resJSON);
+          that.setState({
             username: '',
             password: '',
             confirmPassword: '',
             email: '',
             confirmEmail: ''
           });
-        } else { // let them login
-          var userId = JSON.parse(response._bodyText).id;
-          var token = JSON.parse(response._bodyText).token;
-          this.props.setToken(token)
-          .then(function() {
-            this.props.setUserId({userId: userId});
-            this.props.setId(userId)
-            .then(function() {
-              this.props.navigator.resetTo({ //send to home page
+        } else {
+          that.props.setToken(resJSON.token)
+          .then(() => {
+            that.props.setUserId({userId: resJSON.id});
+            that.props.setId(resJSON.id)
+            .then(() => {
+              that.props.navigator.resetTo({ //send to home page
                 id: 'SocialFeed'
               });
-            }.bind(this));
-          }.bind(this));
+            });
+          });
         }
-      }.bind(this));
+      })
+      .catch((err) => console.log('error: ', err));
     }
   }
 
   loginHandler() {
     this.props.navigator.push({id: 'Login'});
   }
-
-  passwordHandler(text) {
-    var that = this;
-    if (text.length !== 0) {
-      this.setState({
-        password: text,
-        pwDisplay: <TextInput style={styles.textInput}
-                    onChangeText={(text) => that.setState({confirmPassword: text})}
-                    placeholder="Confirm Password"
-                    secureTextEntry={true}
-                    placeholderTextColor="#eee"
-                    value={that.state.confirmPassword}
-                  />
-      });
-    } else {
-      this.setState({
-        password: '',
-        pwDisplay: null
-      });
-    }
-  }
-
-  emailHandler(text) {
-    var that = this;
-    if (text.length !== 0) {
-      this.setState({
-        email: text,
-        emailDisplay: <TextInput style={styles.textInput}
-                    onChangeText={(text) => that.setState({confirmEmail: text})}
-                    placeholder="Confirm Email"
-                    secureTextEntry={true}
-                    placeholderTextColor="#eee"
-                    value={that.state.confirmEmail}
-                  />
-      });
-    } else {
-      this.setState({
-        email: '',
-        emailDisplay: null
-      });
-    }
-  }
-
 
   render() {
     return (
@@ -138,7 +81,7 @@ export default class Signup extends Component {
             value={this.state.username}
           />
           <TextInput style={styles.textInput}
-            onChangeText={(text) => this.passwordHandler(text)}
+            onChangeText={(text) => this.setState({password: text})}
             maxLength={25}
             placeholder="Password"
             secureTextEntry={true}
@@ -147,32 +90,37 @@ export default class Signup extends Component {
             selectionColor="#eee"
             value={this.state.password}
           />
+          {this.state.password.length > 0
+          ? <TextInput style={styles.textInput}
+              onChangeText={(text) => this.setState({confirmPassword: text})}
+              maxLength={25}
+              placeholder="Confirm Password"
+              secureTextEntry={true}
+              placeholderTextColor="#eee"
+              color="#eee"
+              selectionColor="#eee"
+              value={this.state.confirmPassword}
+            />
+          : null}
           <TextInput style={styles.textInput}
-            onChangeText={(text) => this.setState({confirmPassword: text})}
+            onChangeText={(text) => this.setState({email: text})}
             maxLength={25}
-            placeholder="Confirm Password"
-            secureTextEntry={true}
-            placeholderTextColor="#eee"
-            color="#eee"
-            selectionColor="#eee"
-            value={this.state.confirmPassword}
-          />
-          <TextInput style={styles.textInput}
-            onChangeText={(text) => this.emailHandler(text)}
             placeholder="Email"
             placeholderTextColor="#eee"
             color="#eee"
             selectionColor="#eee"
             value={this.state.email}
           />
-          <TextInput style={styles.textInput}
-            onChangeText={(text) => this.setState({confirmEmail: text})}
-            placeholder="Confirm Email"
-            placeholderTextColor="#eee"
-            color="#eee"
-            selectionColor="#eee"
-            value={this.state.confirmEmail}
-          />
+          {this.state.email.length > 0
+          ? <TextInput style={styles.textInput}
+              onChangeText={(text) => this.setState({confirmEmail: text})}
+              placeholder="Confirm Email"
+              placeholderTextColor="#eee"
+              color="#eee"
+              selectionColor="#eee"
+              value={this.state.confirmEmail}
+            />
+          : null}
           <View style={styles.button}>
             <Button
               onPress={this.submitHandler.bind(this)}
@@ -181,15 +129,15 @@ export default class Signup extends Component {
               accessibilityLabel="Submit to create new account"
             />
           </View>
-        </View>
-        <View style ={styles.footer}>
-          <Text style={styles.text}>Have an account?</Text>
-          <Button
-            onPress={this.loginHandler.bind(this)}
-            title="Login"
-            color="#ff9554"
-            accessibilityLabel="Already have an account? Go to login."
-          />
+          <View style ={styles.footer}>
+            <Text style={styles.text}>Have an account?</Text>
+            <Button
+              onPress={this.loginHandler.bind(this)}
+              title="Login"
+              color="#ff9554"
+              accessibilityLabel="Already have an account? Go to login."
+            />
+          </View>
         </View>
       </Image>
     );
