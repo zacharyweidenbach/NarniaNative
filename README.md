@@ -1,7 +1,5 @@
 # Project Narnia
 
-Fashion Social Media
-
 <p align="center">
   <img src="./examples/feed.png" width="250">
   
