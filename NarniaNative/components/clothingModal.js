@@ -72,16 +72,18 @@ export default class clothingModal extends Component {
         onRequestClose={() => { Alert.alert('Modal has been closed.'); }}
       >
       <View style={styles.container}>
-        <View>
-          <TouchableWithoutFeedback onPress={() => {
-            this.props.setModalVisible(false);
-          }}>
-            <Icon name="ios-close" size={42} color='#ff9554' style={styles.closeBtn}/>
-          </TouchableWithoutFeedback>
+        <View style={styles.header}>
+          <View style={styles.backBtnContainer}>
+            <TouchableWithoutFeedback onPress={() => {
+              this.props.setModalVisible(false);
+            }}>
+              <Icon name="ios-arrow-back" size={38} color='#ff9554' style={styles.backBtn}/>
+            </TouchableWithoutFeedback>
+          </View>
         </View>
         <View style={styles.textcontainer} >
-          <Text> {this.props.clothing.Title} </Text>
-        </View>
+            <Text> {this.props.clothing.Title} </Text>
+          </View>
         <View >
           <Image style={styles.imgLarge} source={{uri: this.props.clothing.Image}} resizeMode={Image.resizeMode.contain} />
         </View>
