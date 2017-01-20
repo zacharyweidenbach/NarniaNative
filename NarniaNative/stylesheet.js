@@ -294,7 +294,6 @@ export const wardrobeScreen = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
