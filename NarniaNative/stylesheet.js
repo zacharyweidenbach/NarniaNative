@@ -17,8 +17,31 @@ export const socialFeedStyles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 20,
   },
+  headerIcons: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  narniaContainer: {
+    flex: 3,
+    alignItems: 'center'
+  },
+  narniaText: {
+    fontWeight: 'bold',
+    fontSize: 26,
+    color: '#ff9554'
+  },
   tabbar: {
     backgroundColor: '#fff',
+  },
+  feedRender: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+    marginTop: 5
+  },
+  feedText: {
+    color: '#888',
+    fontSize: 16
   },
   page: {
     flex: 1,
@@ -1090,7 +1113,7 @@ export const loginScreenStyles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     justifyContent: 'center',
     alignItems: 'center',
-    width: null, 
+    width: null,
     height: null,
   },
   header: {
@@ -1117,7 +1140,7 @@ export const loginScreenStyles = StyleSheet.create({
     height: 40,
     marginTop: 10,
     borderRadius: 20
-  }, 
+  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',

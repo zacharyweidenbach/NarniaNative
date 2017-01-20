@@ -39,7 +39,6 @@ export default class socialFeed extends Component {
       trendingPosts: [],
       dataSoureTrending: this.dataSoureTrending.cloneWithRows([]),
       trendingRow: 0,
-      color: '#ff9554',
       isRefreshing: false,
     }
   };
@@ -147,7 +146,7 @@ export default class socialFeed extends Component {
             enableEmptySections={true}
             onEndReached={() => this.getOlderFollowingPosts()}
             dataSource={this.state.dataSourceFollowers}
-            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
+            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
 
       return (
         <View>
@@ -160,7 +159,7 @@ export default class socialFeed extends Component {
               enableEmptySections={true}
               onEndReached={() => this.getOlderTrendingPosts()}
               dataSource={this.state.dataSoureTrending}
-              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, alignItems:'center', marginTop: 5}}><Text style={{color:'#888', fontSize:16}}>No posts available!</Text></View></ScrollView>
+              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
       return (
         <View>
           {trendingList}
@@ -212,17 +211,17 @@ export default class socialFeed extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={{flex: 1, alignItems: 'center'}}>
+          <View style={styles.headerIcons}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'menu')} underlayColor='transparent'>
-              <Icon name="ios-menu" size={38} color={this.state.color} />
+              <Icon name="ios-menu" size={38} color={'#ff9554'} />
             </TouchableHighlight>
           </View>
-          <View style={{flex: 3, alignItems: 'center'}}>
-            <Text style={{fontWeight: 'bold', fontSize: 26, color: this.state.color}}>NARNIA</Text>
+          <View style={styles.narniaContainer}>
+            <Text style={styles.narniaText}>NARNIA</Text>
           </View>
-          <View style={{flex: 1, alignItems: 'center'}}>
+          <View style={styles.headerIcons}>
             <TouchableHighlight onPress={this.onButtonPress.bind(this, 'search')} underlayColor='transparent'>
-              <Icon name="ios-search" size={38} color={this.state.color} />
+              <Icon name="ios-search" size={38} color={'#ff9554'} />
             </TouchableHighlight>
           </View>
         </View>
@@ -236,13 +235,13 @@ export default class socialFeed extends Component {
         />
         <View class="footer" style={styles.footer}>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'likes')} underlayColor='transparent'>
-            <Icon name="ios-heart" size={38} color={this.state.color} />
+            <Icon name="ios-heart" size={38} color={'#ff9554'} />
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'post')} underlayColor='transparent'>
-            <Icon name="ios-add-circle-outline" size={38} color={this.state.color} />
+            <Icon name="ios-add-circle-outline" size={38} color={'#ff9554'} />
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'profile')} underlayColor='transparent'>
-            <Icon name="ios-contact" size={38} color={this.state.color} />
+            <Icon name="ios-contact" size={38} color={'#ff9554'} />
           </TouchableHighlight>
         </View>
       </View>
