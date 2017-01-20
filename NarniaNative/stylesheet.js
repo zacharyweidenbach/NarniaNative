@@ -118,9 +118,18 @@ export const profileStatsStyles = StyleSheet.create({
     justifyContent: 'space-between',
     justifyContent: 'space-around',
   },
+  dynamicTextContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  dynamicTextStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   textStyle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#888'
   },
 });
 
@@ -955,46 +964,6 @@ export const clothingModalStyles = StyleSheet.create({
   }
 });
 
-export const loginSignup = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  header: {
-    flex: .4,
-    justifyContent: 'flex-end',
-    elevation: 2,
-    backgroundColor: '#fff',
-    paddingTop: 20,
-  },
-  form: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  textInput: {
-    textAlign: 'center',
-    borderWidth: 1,
-    borderColor: '#eee',
-    width: 270,
-    height: 40,
-    marginTop: 10,
-    borderRadius: 10
-  },
-  button: {
-    backgroundColor: '#eee',
-    width: 270,
-    height: 40,
-    marginTop: 10,
-    borderRadius: 10
-  },
-  link: {
-    paddingTop: 7
-  }
-});
-
 export const feedPost = StyleSheet.create({
   container: {
     flex: 1,
@@ -1103,5 +1072,65 @@ export const feedPost = StyleSheet.create({
     color: '#4f4f4f',
     paddingLeft: 15,
     paddingBottom: 10,
+  }
+});
+
+export const loginScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: null, 
+    height: null,
+  },
+  header: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 30,
+    elevation: 2,
+  },
+  narniaText: {
+    fontWeight: 'bold',
+    fontSize: 36, color: '#ff9554'
+  },
+  form: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 50,
+  },
+  textInput: {
+    textAlign: 'center',
+    backgroundColor: 'rgba(255,255,255,0.35)',
+    width: Dimensions.get('window').width * (0.7),
+    height: 40,
+    marginTop: 10,
+    borderRadius: 20
+  }, 
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ff9554',
+    width: Dimensions.get('window').width * (0.7),
+    height: 40,
+    marginTop: 10,
+    borderRadius: 20
+  },
+  text: {
+    color: '#eee',
+    fontSize: 16,
+    textShadowColor: '#888',
+  },
+  loginText: {
+    color: '#eee',
+    fontSize: 18
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 30,
   }
 });
