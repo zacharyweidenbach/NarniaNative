@@ -51,7 +51,11 @@ export default class TagsModal extends Component {
         {/*Tags Modal*/}
         <View style={styles.container}>
           <View style={styles.header}>
-            <View style={styles.emptySpace}>
+            {/* Close Button */}
+            <View style={styles.buttonContainer}>
+              <TouchableWithoutFeedback onPress={() => { this.props.setModalVisible(false, 'tagsModal'); }}>
+                 <Icon name="ios-arrow-back" size={38} color='#ff9554' style={styles.backBtn}/>
+              </TouchableWithoutFeedback>
             </View>
             {/*Tag Header*/}   
             <View style={styles.textContainer}>
@@ -59,12 +63,7 @@ export default class TagsModal extends Component {
                 #{this.props.tag.tag} 
               </Text>
             </View>
-            {/* Close Button */}
-            <View style={styles.buttonContainer}>
-              <TouchableWithoutFeedback onPress={() => { this.props.setModalVisible(false, 'tagsModal'); }}>
-                 <Icon name="ios-close" size={42} color='orange' style={styles.closeBtn}/>
-              </TouchableWithoutFeedback>
-            </View>
+            <View style={styles.emptySpace}></View>
           </View>
         {/*Tag Gallery*/}
           <View style={styles.gallery}>

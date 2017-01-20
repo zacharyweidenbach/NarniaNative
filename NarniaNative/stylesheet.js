@@ -64,7 +64,7 @@ export const profileScreenStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   menu: {
     flex: 1,
@@ -75,13 +75,15 @@ export const profileScreenStyles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 26,
+    color: '#ff9554'
   },
   textContainer: {
     flex: 4,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   emptySpace: {
-    flex: 1
+    flex: 1,
   },
   whitebg: {
     backgroundColor: '#fff',
@@ -155,7 +157,7 @@ export const profileMenuStyles = StyleSheet.create({
   backBtn: {
     flex: 1,
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   text: {
     fontWeight: 'bold',
@@ -217,7 +219,7 @@ export const likesScreenStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   emptySpace: {
     flex: 1,
@@ -303,7 +305,7 @@ export const wardrobeScreen = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   headerText: {
     fontWeight: 'bold',
@@ -348,6 +350,7 @@ export const tagsModal = StyleSheet.create({
   header: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row'
   },
   textContainer: {
@@ -368,10 +371,9 @@ export const tagsModal = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end'
   },
-  closeBtn: {
-    paddingRight: 15,
+  backBtn: {
+    paddingLeft: 20,
   },
   gallery: {
     flex: 12,
@@ -618,7 +620,7 @@ export const searchScreen = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   emptySpace: {
     flex: 1,
@@ -684,7 +686,7 @@ export const cameraScreenStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   imageContainer: {
     flex: 6,
@@ -815,7 +817,7 @@ export const userUploadModalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   emptySpace: {
     flex: 1,
@@ -843,7 +845,7 @@ export const mixerStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   emptySpace: {
     flex: 1,
@@ -940,6 +942,13 @@ export const clothingModalStyles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
   },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   textcontainer: {
     flex: 1,
     alignItems: 'center',
@@ -959,11 +968,14 @@ export const clothingModalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
   },
-  closeBtn: {
-    paddingTop: 10,
+  backBtnContainer: {
+    flex: 1,
+  },
+  backBtn: {
+    paddingLeft: 20,
   }
 });
-
+ 
 export const feedPost = StyleSheet.create({
   container: {
     flex: 1,

@@ -35,7 +35,7 @@ export default class SearchShop extends Component {
   }
 
   onRefresh() {
-    if (this.state.page < 10 && this.state.items.length > 0) {
+    if (this.state.page < 10 && this.state.items.length >= 10) {
       this.setState({page: this.state.page + 1, loading: true}, () => this.searchAmazon());
     }
   }
