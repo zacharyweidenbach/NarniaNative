@@ -86,9 +86,10 @@ export default class MixerScreen extends Component {
       'PANT': 'middle',
       'PANTS': 'middle',
       'SHOES': 'bottom',
+      'SHOE': 'bottom',
     };
 
-    return positionKey[clothing.productTypeName];
+    return positionKey[clothing.productTypeName.toUpperCase()];
   }
 
   insertPost(message) {
@@ -162,13 +163,11 @@ export default class MixerScreen extends Component {
       this.props.navigator.pop();
       break;
     case 'topLess':
-      console.log('decrease press', this.state.topIndex);
       if (this.state.topIndex > 0) {
         this.setState({topIndex: this.state.topIndex -= 1});
       }
       break;
     case 'topMore':
-      console.log('increase press', this.state.topImages);
       if (this.state.topIndex < this.state.topImages.length - 1) {
         this.setState({topIndex: this.state.topIndex += 1});
       }
@@ -223,7 +222,7 @@ export default class MixerScreen extends Component {
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topLess')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropleft" size={38} color={this.state.color} />
             </TouchableHighlight>
-            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} />
+            <Image style={styles.imgSmall} source={{uri: this.state.topImages[this.state.topIndex].URL}} resizeMode={Image.resizeMode.contain} />
             <TouchableHighlight style={styles.chevron} onPress={this.onButtonPress.bind(this, 'topMore')} underlayColor='transparent' >
               <Icon name="ios-arrow-dropright" size={38} color={this.state.color} />
             </TouchableHighlight>
