@@ -23,15 +23,15 @@ module.exports = {
       for (var i = 0; i < AmazonResponse.length; i++) {
         if (AmazonResponse[i].LargeImage && AmazonResponse[i].ImageSets && AmazonResponse[i].ImageSets.ImageSet[0] && AmazonResponse[i].ImageSets.ImageSet[0].ThumbnailImage ) {
           clothing.push({
-            Image: AmazonResponse[i].LargeImage.URL, 
-            DetailPageURL: AmazonResponse[i].DetailPageURL, 
-            ProductTypeName: AmazonResponse[i].ItemAttributes.ProductTypeName, 
-            Title: AmazonResponse[i].ItemAttributes.Title, 
-            ASIN: AmazonResponse[i].ASIN, 
-            UPC: AmazonResponse[i].ItemAttributes.UPC, 
-            Brand: AmazonResponse[i].ItemAttributes.Brand, 
-            Thumbnail: AmazonResponse[i].ImageSets.ImageSet[0].ThumbnailImage.URL, 
-            Color: AmazonResponse[i].ItemAttributes.Color
+            largeImg: AmazonResponse[i].LargeImage.URL,  
+            detailPageUrl: AmazonResponse[i].DetailPageURL, 
+            productTypeName: AmazonResponse[i].ItemAttributes.ProductTypeName, 
+            title: AmazonResponse[i].ItemAttributes.Title, 
+            asin: AmazonResponse[i].ASIN, 
+            upc: AmazonResponse[i].ItemAttributes.UPC, 
+            brand: AmazonResponse[i].ItemAttributes.Brand, 
+            thumbnail: AmazonResponse[i].ImageSets.ImageSet[0].ThumbnailImage.URL, 
+            color: AmazonResponse[i].ItemAttributes.Color
           });
         }
       }

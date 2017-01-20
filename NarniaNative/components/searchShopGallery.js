@@ -56,11 +56,11 @@ export default class SearchShopGallery extends Component {
         dataSource={this.state.dataSource}
         renderRow={(rowData, sectionID, rowID) => 
           <TouchableHighlight onPress={this.onButtonPress.bind(this, 'clothingModal', rowID)} underlayColor='transparent'>
-             <Image style={styles.imgSmall} source={{uri: rowData.Image}} resizeMode={Image.resizeMode.contain}/>   
+             <Image style={styles.imgSmall} source={{uri: rowData.largeImg}} resizeMode={Image.resizeMode.contain}/>   
           </TouchableHighlight>} 
         />
         {/* Clothing Modal */}
-        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingIndex]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.props.items[this.state.clothingIndex]} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)} inShopGallery={true}/> : null}
       </View>
     );
   }

@@ -949,12 +949,19 @@ export const clothingModalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcontainer: {
+  textContainer: {
     flex: 1,
     alignItems: 'center',
   },
+  text: {
+    color: '#ff9554', 
+    fontSize: 18
+  },
   button: {
     color: '#ff9554',
+  },
+  imgContainer: {
+    flex: 5
   },
   imgSmall: {
     width: Dimensions.get('window').width / 2,
