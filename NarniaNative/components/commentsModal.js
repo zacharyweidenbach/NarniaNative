@@ -53,13 +53,15 @@ export default class CommentsModal extends Component {
     return (
       <Modal animationType={'slide'} transparent={false} visible={this.props.modalVisible}>
         <View style={styles.container}>
-          {/* Close Button */}
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight underlayColor='transparent' onPress={() => {
-              this.props.setModalVisible(false, 'commentsModal');
-            }}>
-              <Icon name="ios-close" size={38} color='#ff9554'/>
-            </TouchableHighlight>
+          <View style={styles.header}> 
+            {/* Close Button */}
+            <View style={styles.buttonContainer}>
+              <TouchableHighlight style={styles.button} underlayColor='transparent' onPress={() => {
+                this.props.setModalVisible(false, 'commentsModal');
+              }}>
+                <Icon name="ios-arrow-back" size={38} color='#ff9554'/>
+              </TouchableHighlight>
+            </View>
           </View>
           {/* Message Box */}
           <View style={styles.textInputContainer}>
