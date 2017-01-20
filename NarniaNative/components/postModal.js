@@ -4,21 +4,18 @@ import {
   Modal,
   TouchableHighlight,
   View,
-  StyleSheet,
-  Dimensions,
   ScrollView,
   Button,
-  TextInput,
   Text,
   Image,
   AlertIOS
 } from 'react-native';
 
 import Comment from './comment.js';
-import ip from '../network.js';
 import PostImage from './postImage.js';
 import TimeAgo from 'react-native-timeago';
-import {postModalStyles as styles} from '../stylesheet'; 
+import {postModalStyles as styles} from '../stylesheet';
+import { POSTfetch } from '../utils.js';
 
 export default class PostScreen extends Component {
   constructor(props) {
@@ -56,18 +53,10 @@ export default class PostScreen extends Component {
 
   checkLikeExists() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.postId
-      })
+    return POSTfetch('checkLikeExists', {
+      userId: this.props.userId,
+      postId: this.props.postId
     })
-    .then((res) => res.json())
     .then((resJSON) => {
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
@@ -80,20 +69,11 @@ export default class PostScreen extends Component {
 
   checkInitialLike() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/checkLikeExists', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.postId
-      })
+    return POSTfetch('checkLikeExists', {
+      userId: this.props.userId,
+      postId: this.props.postId
     })
-    .then((res) => res.json())
     .then((resJSON) => {
-      console.log('resJSON in checkInitialLike', resJSON);
       if (resJSON.length > 0) {
         //set state of the button color to orange
         that.setState({postLiked: true});
@@ -106,32 +86,18 @@ export default class PostScreen extends Component {
 
   increaseLikeCount() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/increaseLikeCount', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.props.postId,
-      })
+    POSTfetch('increaseLikeCount', {id: this.props.postId})
+    .then((resJSON) => {
+      that.setState({
+        likesCount: that.state.likesCount + 1,
+        postLiked: true
+      });
     })
-    .then((resJSON) => that.setState({
-      likesCount: that.state.likesCount + 1,
-      postLiked: true,
-    }))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ip.address + ':3000/api/insertLikesPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.postId,
-      })
+    return POSTfetch('insertLikesPosts', {
+      userId: this.props.userId,
+      postId: this.props.postId,
     })
     .then((resJSON) => console.log('successful insertLike'))
     .catch((err) => console.log(err));
@@ -139,31 +105,15 @@ export default class PostScreen extends Component {
 
   decreaseLikeCount() {
     var that = this;
-    fetch('http://' + ip.address + ':3000/api/decreaseLikeCount', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.props.postId,
-      })
-    })
+    POSTfetch('decreaseLikeCount', {id: this.props.postId})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount - 1, postLiked: false,
     }))
     .catch((err) => console.log(err));
 
-    fetch('http://' + ip.address + ':3000/api/deleteLikesPosts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.userId,
-        postId: this.props.postId
-      })
+    return POSTfetch('deleteLikesPosts', {
+      userId: this.props.userId,
+      postId: this.props.postId
     })
     .then((resJSON) => console.log('successful deleteLike'))
     .catch((err) => console.log(err));
@@ -171,15 +121,7 @@ export default class PostScreen extends Component {
 
   getPost() {
     var that = this;
-    return fetch('http://' + ip.address + ':3000/api/getPostFromPostId', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({postId: this.props.postId})
-    })
-    .then((res) => res.json())
+    return POSTfetch('getPostFromPostId', {postId: this.props.postId})
     .then((resJSON) => that.setState({post: resJSON[0], likesCount: resJSON[0].likesCount}))
     .then(() => console.log('getPost', this.state.post))
     .catch((err) => console.log(err));
@@ -187,15 +129,7 @@ export default class PostScreen extends Component {
 
   getComments() {
     var that = this;
-    return fetch('http://' + ip.address + ':3000/api/getCommentsFromDb', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({id: this.props.postId})
-    })
-    .then((res) => res.json())
+    return POSTfetch('getCommentsFromDb', {id: this.props.postId})
     .then((resJSON) => that.setState({comments: resJSON}))
     .catch((err) => console.log(err));
   }
@@ -205,25 +139,18 @@ export default class PostScreen extends Component {
     var today = new Date;
 
     if (this.state.post !== '') {
-      return fetch('http://' + ip.address + ':3000/api/postToDb', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          postid: this.props.postId,
-          userid: this.props.userId,
-          body: this.state.message,
-          type: 'comment',
-          createdAt: today.getTime(),
-        })
+      return POSTfetch('postToDb', {
+        postid: this.props.postId,
+        userid: this.props.userId,
+        body: this.state.message,
+        type: 'comment',
+        createdAt: today.getTime(),
       })
       .then((res) => {
         that.setState({message: ''});
         that.getComments();
       })
-      .catch((err) => console.warn(err));
+      .catch((err) => console.log(err));
     }
   }
 
@@ -281,7 +208,7 @@ export default class PostScreen extends Component {
             <ScrollView horizontal={true} pagingEnabled={true}>
               <PostImage _style={styles} post={this.state.post}/>
             </ScrollView>
-            
+
             {/* Likes Button */}
             <View style={styles.actionBar}>
               <View style={styles.likesContainer}>

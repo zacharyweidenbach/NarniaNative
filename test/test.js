@@ -7,13 +7,7 @@ var connection = require('../db/index.js');
 
 describe('server should', function() {
 
-  describe('GET from /api/test', function () {
-    it('returns "success"', function (done) {
-      request
-      .get('/api/test')
-      .expect('"success"', done);
-    });
-  });
+  var testPostId;
 
   var testUser = {
     name: 'Bill',
@@ -23,100 +17,99 @@ describe('server should', function() {
     password: 'password',
     thumbnail: 'http://www.safarickszoo.com/wp-content/uploads/2014/03/ocelot2.jpg'
   };
-
-  describe('POST from /api/users/mbSignup', function() {
-    it('returns response', function(done) {
-      request
-      .post('/api/users/mbSignup')
-      .send(testUser)
-      .end(function(err, resp) {
-        expect(!!resp.body.token).to.equal(true);
-        expect(!!resp.body.id).to.equal(true);
-        done();
-      });
-    });
-  });
-
-  describe('POST from /api/test/findUser', function() {
-    it('returns response', function(done) {
-      request
-      .post('/api/test/findUser')
-      .send({username: testUser.username})
-      .end(function(err, res) {
-        expect(res.body[0].username).to.equal(testUser.username);
-        done();
-      });
-    });
-  });
-
-  describe('Login from /api/users/mbLogin', function() {
-    it('returns response', function(done) {
-      request
-      .post('/api/users/mbLogin')
-      .send({
-        username: testUser.username,
-        password: testUser.password
-      })
-
-      // .expect(function(res) {
-      //   expect(!!res.body[0].token).to.equal(true);
-      //   expect(!!res.body[0].id).to.equal(true);
-      // })
-      // .end(function() {
-      //   request
-      //   .post('/api/test/removeUser')
-      //   .send({username: testUser.username})
-      //   .end(done);
-      // });
-
-      .end(function(err, res) {
-        expect(!!res.body.token).to.equal(true);
-        expect(!!res.body.id).to.equal(true);
-        done();
-      });
-
-    });
-  });
-
-  var post = {
+  var testPost = {
     postId: 1000,
-    userId: 6,
+    userId: 1,
     likesCount: 0,
     body: 'http://funnycatsgif.com/wp-content/uploads/2015/04/cat-images-funny-picture.jpg',
     description: 'this should be a new post from Rick.',
     type: 'image',
     createdAt: new Date()
   };
-  var postID;
 
-  describe('Post to db from /api/postToDbp, Fetch and delete', function() {
-    it('returns response', function(done) {
+
+  after((done) => {
+    request
+    .post('/api/deletePost')
+    .send({postId: testPostId});
+
+    request
+    .post('/api/test/removeUser')
+    .send({username: testUser.username})
+    .end(done);
+  });
+
+  describe('GET from /api/test', () => {
+    it('returns "success"', (done) => {
+      request
+      .get('/api/test')
+      .expect('"success"', done);
+    });
+  });
+
+  describe('POST from /api/users/mbSignup', () => {
+    it('returns response', (done) => {
+      request
+      .post('/api/users/mbSignup')
+      .send(testUser)
+      .end((err, res) => {
+        expect(!!res.body.token).to.equal(true);
+        expect(!!res.body.id).to.equal(true);
+        done();
+      });
+    });
+  });
+
+  describe('POST from /api/test/findUser', () => {
+    it('returns response', (done) => {
+      request
+      .post('/api/test/findUser')
+      .send({username: testUser.username})
+      .end((err, res) => {
+        expect(res.body[0].username).to.equal(testUser.username);
+        done();
+      });
+    });
+  });
+
+  describe('Login from /api/users/mbLogin', () => {
+    it('returns response', (done) => {
+      request
+      .post('/api/users/mbLogin')
+      .send({
+        username: testUser.username,
+        password: testUser.password
+      })
+      .end((err, res) => {
+        expect(!!res.body.token).to.equal(true);
+        expect(!!res.body.id).to.equal(true);
+        done();
+      });
+    });
+  });
+
+  describe('Post to db from /api/postToDbp, Fetch and delete', () => {
+    it('returns response', (done) => {
       request
       .post('/api/postToDb')
-      .send(post)
-      .expect(function(res) {
+      .send(testPost)
+      .expect((res) => {
         expect(res.body.affectedRows).to.equal(1);
-        postID = res.body.insertId;
+        testPostId = res.body.insertId;
       })
-      .end(function() {
+      .end(() => {
         request
         .post('/api/getPostFromPostId')
-        .send({postId: postID})
-        .expect(function(res) {
-          expect(res.body[0].body).to.equal(post.body);
-        })
-        .end(function() {
-          request
-          .post('/api/deletePost')
-          .send({postId: postID})
-          .expect(function(res) {
-            console.log(res.body, 'RESPONSE+++');
-            expect(res.body.affectedRows).to.equal(1);
-          })
-          .end(done);
+        .send({postId: testPostId})
+        .end((err, res) => {
+          expect(res.body[0].body).to.equal(testPost.body);
+          done();
         });
       });
     });
   });
+
+
+
 
 });

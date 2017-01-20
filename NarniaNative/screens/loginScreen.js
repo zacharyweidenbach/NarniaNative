@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import {
   Text,
   View,
   Alert,
-  TextInput,
-  Button,
-  Navigator,
-  StyleSheet,
   Image,
+  TextInput,
+  Button
 } from 'react-native';
+import { POSTfetch } from '../utils.js';
+import { loginScreenStyles as styles} from '../stylesheet.js';
 
-import Signup from './signupScreen.js';
-import ip from '../network.js';
-import {loginScreenStyles as styles} from '../stylesheet.js';
 
 export default class Login extends Component {
   constructor(props) {
@@ -25,37 +21,29 @@ export default class Login extends Component {
   }
 
   submitHandler() {
-    fetch('http://' + ip.address + ':3000/api/users/mbLogin', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state)
-    })
-    .then(function(response) {
-      if (response._bodyText === 'Invalid username or password.') { // check if valid login
-        Alert.alert(response._bodyText);
-        this.setState({
+    var that = this;
+    return POSTfetch('users/mblogin', that.state)
+    .then((resJSON) => {
+      if (resJSON === 'Invalid username or password.') {
+        Alert.alert(resJSON);
+        that.setState({
           username: '',
           password: '',
           email: ''
         });
-      } else { // let them login
-        var userId = JSON.parse(response._bodyText).id;
-        var token = JSON.parse(response._bodyText).token;
-        this.props.setToken(token)
-        .then(function() {
-          this.props.setUserId({userId: userId});
-          this.props.setId(userId)
-          .then(function() {
-            this.props.navigator.resetTo({
+      } else { // login
+        that.props.setToken(resJSON.token)
+        .then(() => {
+          that.props.setUserId({userId: resJSON.id});
+          that.props.setId(resJSON.id)
+          .then(() => {
+            that.props.navigator.resetTo({
               id: 'SocialFeed'
             });
-          }.bind(this));
-        }.bind(this));
+          });
+        });
       }
-    }.bind(this));
+    });
   }
 
   signupHandler() {
@@ -63,12 +51,6 @@ export default class Login extends Component {
       id: 'Signup'
     });
   }
-
-  // facebookHandler() {
-  //   this.props.navigator.push({
-  //     id: 'Facebook'
-  //   });
-  // }
 
   render() {
     return (
@@ -88,7 +70,6 @@ export default class Login extends Component {
           />
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.setState({password: text})}
-            maxLength={25}
             placeholder="Password"
             secureTextEntry={true}
             placeholderTextColor="#eee"
@@ -99,27 +80,22 @@ export default class Login extends Component {
           <View style={styles.button}>
             <Button
               onPress={this.submitHandler.bind(this)}
-              title="Log In"
+              title="Submit"
               color="#eee"
-              accessibilityLabel="Submit to create new account"
+              accessibilityLabel="Submit to login"
             />
           </View>
-        </View>
-        <View style={styles.footer}>
-          <Text style={styles.text}>Need an account?</Text>
-          <Button
-            onPress={this.signupHandler.bind(this)}
-            title="Sign Up"
-            color="#ff9554"
-            accessibilityLabel="Need an account? Go to signup."
-          />
+          <View style ={styles.footer}>
+            <Text style={styles.text}>Need an account?</Text>
+            <Button
+              onPress={this.signupHandler.bind(this)}
+              title="Signup"
+              color="#ff9554"
+              accessibilityLabel="Need an account? Go to signup."
+            />
+          </View>
         </View>
       </Image>
     );
   }
 }
-
-
-
-
-

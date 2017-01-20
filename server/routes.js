@@ -52,7 +52,6 @@ module.exports = function(app, express) {
 
   //TESTS
   app.get('/api/test', appAuth.test);
-  app.post('/api/test/createUser', appAuth.createUser);
   app.get('/api/test/findUser', appAuth.findUser);
   app.post('/api/test/removeUser', appAuth.removeUser);
   app.post('/api/createDummy', appPosts.dummyUser);
