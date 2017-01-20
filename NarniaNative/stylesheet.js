@@ -938,9 +938,6 @@ export const clothingModalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
   },
   header: {
     flex: 1,
@@ -949,19 +946,12 @@ export const clothingModalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textContainer: {
+  textcontainer: {
     flex: 1,
     alignItems: 'center',
   },
-  text: {
-    color: '#ff9554', 
-    fontSize: 18
-  },
   button: {
     color: '#ff9554',
-  },
-  imgContainer: {
-    flex: 5
   },
   imgSmall: {
     width: Dimensions.get('window').width / 2,

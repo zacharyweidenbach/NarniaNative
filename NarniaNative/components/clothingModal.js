@@ -56,10 +56,10 @@ const clothingModal = (props) => {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      <View style={styles.textContainer} >
-          <Text style={styles.text}> {props.clothing.title} </Text>
+      <View style={styles.textcontainer} >
+          <Text> {props.clothing.title} </Text>
       </View>
-      <View style={styles.imgContainer}>
+      <View>
         <Image style={styles.imgLarge} source={{uri: props.clothing.largeImg}} resizeMode={Image.resizeMode.contain} />
       </View>
       <View>
