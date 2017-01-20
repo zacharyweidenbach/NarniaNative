@@ -35,7 +35,7 @@ The APIs in use are:
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
+Run `npm test` within the Narnia directory.
 
 ## Contributors
 
