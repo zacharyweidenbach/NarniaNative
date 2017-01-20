@@ -43,7 +43,7 @@ const clothingModal = (props) => {
       break;
     }
   };
-
+  
   return (
     <Modal animationType={'slide'} transparent={false} visible={props.modalVisible} >
     <View style={styles.container}>

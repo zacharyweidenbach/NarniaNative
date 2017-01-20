@@ -51,7 +51,7 @@ export default class TagsModal extends Component {
         {/*Tags Modal*/}
         <View style={styles.container}>
           <View style={styles.header}>
-            {/* Close Button */}
+            {/* Back Button */}
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback onPress={() => { this.props.setModalVisible(false, 'tagsModal'); }}>
                  <Icon name="ios-arrow-back" size={38} color='#ff9554' style={styles.backBtn}/>

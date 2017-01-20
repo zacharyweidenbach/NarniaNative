@@ -70,12 +70,12 @@ export default class cameraScreen extends Component {
           <View style={styles.textContainer}>
             <Text style={styles.text}>UPLOAD CLOTHES</Text>
           </View>
-          <View style={styles.emptySpace}>
-          </View>
+          <View style={styles.emptySpace}></View>
         </View>
         <View style={styles.imageContainer}>
           {this.state.image ? rotateImage() : null}
           
+        </View>
            <View style={styles.buttonContainer}>
               {this.state.image ?
                 <View style={styles.buttonContainer}>
@@ -91,8 +91,7 @@ export default class cameraScreen extends Component {
                 : null
               }
           </View>
-        </View>
-        <View style={[styles.buttonContainer]}>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={this.chooseImageFromGallery.bind(this)}>
             <Icon name='ios-images-outline' size={38} color='#ff9554'/>
              <Text style={styles.iconText}> Pick Photo </Text>

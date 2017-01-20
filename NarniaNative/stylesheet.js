@@ -342,16 +342,15 @@ export const wardrobeScreen = StyleSheet.create({
 export const tagsModal = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     backgroundColor: '#fff',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
   },
   header: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row'
+    paddingTop: 20,
   },
   textContainer: {
     flex: 3,
@@ -467,9 +466,13 @@ export const searchTags = StyleSheet.create({
 export const commentsModal = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
   },
   textInputContainer: {
     flex: 1,
@@ -485,7 +488,10 @@ export const commentsModal = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end'
+    alignItems: 'flex-start'
+  },
+  button: {
+    paddingLeft: 20,
   },
   emptyContainer: {
     alignItems: 'center'
@@ -677,10 +683,9 @@ export const cameraScreenStyles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: 10,
   },
   backBtn: {
     flex: 1,
@@ -689,19 +694,15 @@ export const cameraScreenStyles = StyleSheet.create({
     paddingLeft: 20,
   },
   imageContainer: {
-    flex: 6,
-    backgroundColor: '#fff',
+    flex: 5,
   },
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'flex-end',
-    backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#fff',
     width: 150,
     height: 50,
     borderRadius: 10,
@@ -720,7 +721,7 @@ export const cameraScreenStyles = StyleSheet.create({
     color: '#ff9554'
   },
   textContainer: {
-    flex: 4,
+    flex: 3,
     alignItems: 'center',
   },
   img: {
@@ -1141,5 +1142,112 @@ export const loginScreenStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 30,
+  }
+});
+
+export const postModalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  header: {
+    flex: 0.08,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  scrollViewContainer: {
+    flex: 8,
+  },
+  postcomment: {
+    flex: 1,
+  },
+  comments: {
+    flex: 8,
+    marginLeft: 10
+  },
+  imgContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff',
+  },
+  outfitContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgOutfitContainer: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    backgroundColor: '#fff'
+  },
+  userContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+  },
+  actionBar: {
+    //contains likesContainer, likesBtn, and commentBtn
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 5,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+  },
+  likesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 15
+  },
+  likesBtn: {
+    paddingLeft: 15,
+  },
+  thumbnail: {
+    marginLeft: 15,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 10,
+  },
+  descriptionContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+    paddingBottom: 10,
+  },
+  descriptionText: {
+    paddingLeft: 15, paddingRight: 10, color: '#4f4f4f',
+  },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start' 
+  },
+  time: {
+    backgroundColor: '#fff',
+    color: '#4f4f4f',
+    paddingLeft: 15,
+    paddingBottom: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+    paddingLeft: 20
+  },
+  text: {
+    color: '#888'
+  },
+  centerView: {
+    alignItems: 'center'
   }
 });

@@ -130,34 +130,47 @@ export default class Signup extends Component {
         <View style={styles.form}>
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.setState({username: text})}
+            maxLength={25}
             placeholder="Username"
             placeholderTextColor="#eee"
+            color="#eee"
+            selectionColor="#eee"
             value={this.state.username}
           />
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.passwordHandler(text)}
+            maxLength={25}
             placeholder="Password"
             secureTextEntry={true}
             placeholderTextColor="#eee"
+            color="#eee"
+            selectionColor="#eee"
             value={this.state.password}
           />
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.setState({confirmPassword: text})}
+            maxLength={25}
             placeholder="Confirm Password"
             secureTextEntry={true}
             placeholderTextColor="#eee"
+            color="#eee"
+            selectionColor="#eee"
             value={this.state.confirmPassword}
           />
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.emailHandler(text)}
             placeholder="Email"
             placeholderTextColor="#eee"
+            color="#eee"
+            selectionColor="#eee"
             value={this.state.email}
           />
           <TextInput style={styles.textInput}
             onChangeText={(text) => this.setState({confirmEmail: text})}
             placeholder="Confirm Email"
             placeholderTextColor="#eee"
+            color="#eee"
+            selectionColor="#eee"
             value={this.state.confirmEmail}
           />
           <View style={styles.button}>
