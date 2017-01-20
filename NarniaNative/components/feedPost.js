@@ -178,7 +178,7 @@ export default class FeedPost extends Component {
         </View>
 
         {/* Post Image*/}
-        <TouchableHighlight onPress={this.onButtonPress.bind(this, 'posts')}>
+        <TouchableHighlight underlayColor='transparent' onPress={this.onButtonPress.bind(this, 'posts')}>
           <View >
             <PostImage _style={styles} post={this.props.post}/>
           </View>
