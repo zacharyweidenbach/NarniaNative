@@ -23,18 +23,18 @@ module.exports = {
         });
       } else {
         var clothing = {
-          detailPageUrl: req.body.clothing.DetailPageURL,
-          largeImg: req.body.clothing.Image,
-          brand: req.body.clothing.Brand,
-          color: req.body.clothing.Color,
-          thumbnail: req.body.clothing.Thumbnail,
-          productTypeName: req.body.clothing.ProductTypeName,
-          asin: req.body.clothing.ASIN,
-          upc: req.body.clothing.UPC,
+          detailPageUrl: req.body.clothing.detailPageUrl,
+          largeImg: req.body.clothing.largeImg,
+          brand: req.body.clothing.brand,
+          color: req.body.clothing.color,
+          thumbnail: req.body.clothing.thumbnail,
+          productTypeName: req.body.clothing.productTypeName,
+          asin: req.body.clothing.asin,
+          upc: req.body.clothing.upc,
           title: req.body.clothing.title,
           position: req.body.position
         };
-        connection.query('insert into clothing set ?', clothing, function(err, result) {
+        connection.query('INSERT into clothing SET ?', clothing, function(err, result) {
           if (err) {
             res.json(err);
           } else {
@@ -43,7 +43,7 @@ module.exports = {
               clothingId: result.insertId,
               list: req.body.list
             };
-            connection.query('insert into wardrobe set ?', reqbody, function(err, result) {
+            connection.query('INSERT into wardrobe SET ?', reqbody, function(err, result) {
               var response = err || result;
               res.json(response);
             });
