@@ -739,8 +739,8 @@ export const cameraScreenStyles = StyleSheet.create({
   },
   text: {
     fontWeight: 'bold',
-    fontSize: 26,
-    color: '#ff9554'
+    fontSize: 25,
+    color: '#ff9554',
   },
   textContainer: {
     flex: 3,
