@@ -62,9 +62,11 @@ export default class cameraScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
-            <Icon name="ios-arrow-back" size={38} color='#ff9554' />
-          </TouchableHighlight>
+          <View style={styles.emptySpace}>
+            <TouchableHighlight onPress={this.onButtonPress.bind(this, 'back')} underlayColor='transparent' style={styles.backBtn}>
+              <Icon name="ios-arrow-back" size={38} color='#ff9554' />
+            </TouchableHighlight>
+          </View>
           <View style={styles.textContainer}>
             <Text style={styles.text}>UPLOAD CLOTHES</Text>
           </View>

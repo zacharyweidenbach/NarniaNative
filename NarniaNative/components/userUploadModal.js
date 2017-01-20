@@ -105,9 +105,11 @@ export default class userUploadModal extends Component {
       >
         <View stye={styles.container}>
           <View style={styles.header}>
-            <TouchableHighlight onPress={() => { this.props.setModalVisible(false); }} underlayColor='transparent' style={styles.backBtn}>
-                <Icon name="ios-arrow-back" size={38} color='#ff9554' />
-              </TouchableHighlight>
+            <View style={styles.emptySpace}>
+              <TouchableHighlight onPress={() => { this.props.setModalVisible(false); }} underlayColor='transparent' style={styles.backBtn}>
+                  <Icon name="ios-arrow-back" size={38} color='#ff9554' />
+                </TouchableHighlight>
+            </View>
             <View style={styles.textContainer}>
               <Text style={styles.headerText}>CLOTHING FORM</Text>
             </View>
