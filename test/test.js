@@ -58,22 +58,22 @@ describe('server should', function() {
         password: testUser.password
       })
 
-      // .expect(function(res) {
-      //   expect(!!res.body[0].token).to.equal(true);
-      //   expect(!!res.body[0].id).to.equal(true);
-      // })
-      // .end(function() {
-      //   request
-      //   .post('/api/test/removeUser')
-      //   .send({username: testUser.username})
-      //   .end(done);
-      // });
-
-      .end(function(err, res) {
-        expect(!!res.body.token).to.equal(true);
-        expect(!!res.body.id).to.equal(true);
-        done();
+      .expect(function(res) {
+        expect(!!res.body[0].token).to.equal(true);
+        expect(!!res.body[0].id).to.equal(true);
+      })
+      .end(function() {
+        request
+        .post('/api/test/removeUser')
+        .send({username: testUser.username})
+        .end(done);
       });
+
+      // .end(function(err, res) {
+      //   expect(!!res.body.token).to.equal(true);
+      //   expect(!!res.body.id).to.equal(true);
+      //   done();
+      // });
 
     });
   });
@@ -110,7 +110,6 @@ describe('server should', function() {
           .post('/api/deletePost')
           .send({postId: postID})
           .expect(function(res) {
-            console.log(res.body, 'RESPONSE+++');
             expect(res.body.affectedRows).to.equal(1);
           })
           .end(done);
