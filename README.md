@@ -1,5 +1,10 @@
 # Project Narnia
-Fashion Social Media
+
+
+<p align="center">
+  <p>Fashion Social Media</p>
+  <img src="./examples/splash.png" width="250">
+</p>
 
 ## Synopsis
 
