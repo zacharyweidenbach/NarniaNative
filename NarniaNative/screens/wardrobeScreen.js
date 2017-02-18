@@ -26,7 +26,7 @@ export default class WardrobeScreen extends Component {
   }
 
   getWardrobe() {
-    POSTfetch('getWardrobe', {userId: this.props.userId})
+    POSTfetch('getWardrobe')
     .then((res) => this.setState({wardrobe: res}));
   }
 
@@ -74,7 +74,7 @@ export default class WardrobeScreen extends Component {
           </ScrollView>
         </View>
         {/* Clothing Modal */}
-        {this.state.modalVisible ? <ClothingModal userId={this.props.userId} clothing={this.state.currentClothing} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)} inShopGallery={false}/> : null}
+        {this.state.modalVisible ? <ClothingModal clothing={this.state.currentClothing} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)} inShopGallery={false}/> : null}
       </View>
     );
   }

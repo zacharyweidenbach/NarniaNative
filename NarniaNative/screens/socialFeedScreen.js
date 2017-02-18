@@ -49,7 +49,7 @@ export default class socialFeed extends Component {
   }
 
   getFollowingPosts() {
-    return POSTfetch('getAllFollowersPosts', {userId: this.props.userId})
+    return POSTfetch('getAllFollowersPosts')
     .then((resJSON) => {
       this.setState({feedPosts: resJSON}, function() {
         this.setState({
@@ -76,8 +76,7 @@ export default class socialFeed extends Component {
 
   getOlderFollowingPosts() {
     return POSTfetch('getAllFollowersPosts', {
-      userId: this.props.userId,
-      postId: this.state.lastFeedId,
+      postId: this.state.lastFeedId
     })
     .then((resJSON) => {
       if (resJSON.length > 0) {
@@ -146,7 +145,7 @@ export default class socialFeed extends Component {
             enableEmptySections={true}
             onEndReached={() => this.getOlderFollowingPosts()}
             dataSource={this.state.dataSourceFollowers}
-            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
+            renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} selectUser={this.props.selectUser}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
 
       return (
         <View>
@@ -159,7 +158,7 @@ export default class socialFeed extends Component {
               enableEmptySections={true}
               onEndReached={() => this.getOlderTrendingPosts()}
               dataSource={this.state.dataSoureTrending}
-              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} viewedUser={this.props.viewedUser} userId={this.props.userId} selectedId={this.props.selectedId}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
+              renderRow={(rowData) => <FeedPost navigator={this.props.navigator} style={styles.page} post={rowData} selectUser={this.props.selectUser}/>} /> : <ScrollView  name="trending-feed" refreshControl={ <RefreshControl refreshing={this.state.isRefreshing} onRefresh={this._onRefresh} tintColor="#ffa56e"/> }><View style={styles.feedRender}><Text style={styles.feedText}>No posts available!</Text></View></ScrollView>
       return (
         <View>
           {trendingList}
@@ -199,7 +198,7 @@ export default class socialFeed extends Component {
       });
       break;
     case 'profile':
-      this.props.viewedUser(this.props.userId);
+      this.props.selectUser(this.props.userId);
       this.props.navigator.push({
         id: 'ProfileScreen'
       });

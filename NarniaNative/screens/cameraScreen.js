@@ -101,7 +101,7 @@ export default class cameraScreen extends Component {
              <Text style={styles.iconText}> Take Photo </Text>
           </TouchableOpacity>
         </View>
-        {this.state.modalVisible ? <UserUploadModal userId={this.props.userId} image={this.state.image} rotation={this.state.rotation} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.modalVisible ? <UserUploadModal image={this.state.image} rotation={this.state.rotation} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
       </View> 
     );
   }

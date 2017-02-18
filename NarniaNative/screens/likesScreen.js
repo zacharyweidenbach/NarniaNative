@@ -28,9 +28,7 @@ export default class likesScreen extends Component {
 
   getLikedPostId() {
     var that = this;
-    return POSTfetch('findLikedPostId', {
-      userId: this.props.userId
-    })
+    return POSTfetch('findLikedPostId')
     .then((resJSON) => { that.setState({likes: resJSON}); });
   }
 
@@ -59,7 +57,7 @@ export default class likesScreen extends Component {
         </View>
         <View style={styles.gallery}>
           <ScrollView>
-            {this.state.likes.length > 0 ? <LikesGallery userId={this.props.userId} likes={this.state.likes} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/> : <View style={styles.noPostsContainer}><Text style={styles.noPostsText}>No posts liked!</Text></View>}
+            {this.state.likes.length > 0 ? <LikesGallery likes={this.state.likes} selectedUser={this.props.selectedUser} navigator={this.props.navigator}/> : <View style={styles.noPostsContainer}><Text style={styles.noPostsText}>No posts liked!</Text></View>}
           </ScrollView>
         </View>
       </View>

@@ -50,7 +50,7 @@ export default class MenuScreen extends Component {
       });
       break;
     case 'profile':
-      this.props.viewedUser(this.props.userId);
+      this.props.selectUser(this.props.userId);
       this.props.navigator.push({
         id: 'ProfileScreen'
       });

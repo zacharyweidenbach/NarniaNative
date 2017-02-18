@@ -50,7 +50,7 @@ export default class searchScreen extends Component {
     case 'People':
       return (
         <ScrollView>
-          <SearchPeople userId={this.props.userId} navigator={this.props.navigator} viewedUser={this.props.viewedUser} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
+          <SearchPeople userId={this.props.userId} navigator={this.props.navigator} selectedUser={this.props.selectedUser} style={styles.page} index={this.state.index} triggerSearch={this.state.triggerSearch} />
         </ScrollView>
       );
     case 'Hashtags':

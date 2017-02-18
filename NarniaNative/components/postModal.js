@@ -53,10 +53,7 @@ export default class PostScreen extends Component {
 
   checkLikeExists() {
     var that = this;
-    return POSTfetch('checkLikeExists', {
-      userId: this.props.userId,
-      postId: this.props.postId
-    })
+    return POSTfetch('checkLikeExists', {postId: this.props.postId})
     .then((resJSON) => {
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
@@ -69,10 +66,7 @@ export default class PostScreen extends Component {
 
   checkInitialLike() {
     var that = this;
-    return POSTfetch('checkLikeExists', {
-      userId: this.props.userId,
-      postId: this.props.postId
-    })
+    return POSTfetch('checkLikeExists', {postId: this.props.postId})
     .then((resJSON) => {
       if (resJSON.length > 0) {
         //set state of the button color to orange
@@ -86,7 +80,7 @@ export default class PostScreen extends Component {
 
   increaseLikeCount() {
     var that = this;
-    POSTfetch('increaseLikeCount', {id: this.props.postId})
+    POSTfetch('increaseLikeCount', {postId: this.props.postId})
     .then((resJSON) => {
       that.setState({
         likesCount: that.state.likesCount + 1,
@@ -95,26 +89,20 @@ export default class PostScreen extends Component {
     })
     .catch((err) => console.log(err));
 
-    return POSTfetch('insertLikesPosts', {
-      userId: this.props.userId,
-      postId: this.props.postId,
-    })
+    return POSTfetch('insertLikesPosts', {postId: this.props.postId})
     .then((resJSON) => console.log('successful insertLike'))
     .catch((err) => console.log(err));
   }
 
   decreaseLikeCount() {
     var that = this;
-    POSTfetch('decreaseLikeCount', {id: this.props.postId})
+    POSTfetch('decreaseLikeCount', {postId: this.props.postId})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount - 1, postLiked: false,
     }))
     .catch((err) => console.log(err));
 
-    return POSTfetch('deleteLikesPosts', {
-      userId: this.props.userId,
-      postId: this.props.postId
-    })
+    return POSTfetch('deleteLikesPosts', {postId: this.props.postId})
     .then((resJSON) => console.log('successful deleteLike'))
     .catch((err) => console.log(err));
   }
@@ -129,7 +117,7 @@ export default class PostScreen extends Component {
 
   getComments() {
     var that = this;
-    return POSTfetch('getCommentsFromDb', {id: this.props.postId})
+    return POSTfetch('getCommentsFromDb', {postId: this.props.postId})
     .then((resJSON) => that.setState({comments: resJSON}))
     .catch((err) => console.log(err));
   }
@@ -141,7 +129,6 @@ export default class PostScreen extends Component {
     if (this.state.post !== '') {
       return POSTfetch('postToDb', {
         postid: this.props.postId,
-        userid: this.props.userId,
         body: this.state.message,
         type: 'comment',
         createdAt: today.getTime(),
@@ -167,7 +154,7 @@ export default class PostScreen extends Component {
   }
 
   onNamePress() {
-    this.props.viewedUser(this.state.post.userId);
+    this.props.selectUser(this.state.post.userId);
     this.props.navigator.push({
       id: 'ProfileScreen',
     });

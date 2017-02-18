@@ -28,7 +28,7 @@ export default class CommentsModal extends Component {
   }
 
   getCommentsFromDb() {
-    POSTfetch('getCommentsFromDb', {id: this.props.postId})
+    POSTfetch('getCommentsFromDb', {postId: this.props.postId})
     .then((res) => this.setState({comments: res}));
   }
 
@@ -37,7 +37,6 @@ export default class CommentsModal extends Component {
     if (this.state.message !== '') {
       POSTfetch('postToDb', {
         postid: this.props.postId,
-        userid: this.props.userId,
         body: this.state.message,
         type: 'comment',
         createdAt: today.getTime()

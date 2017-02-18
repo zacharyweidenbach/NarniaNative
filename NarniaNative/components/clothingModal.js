@@ -23,7 +23,6 @@ const clothingModal = (props) => {
       break;
     case 'addToWardrobe':
       var body = {
-        userId: props.userId,
         clothing: props.clothing,
         list: 'wardrobe',
         position: findClothingPosition(props.clothing)

@@ -29,7 +29,7 @@ export default class MixerScreen extends Component {
   }
 
   fetchWardrobe() {
-    return POSTfetch('getWardrobe', {userId: this.props.userId})
+    return POSTfetch('getWardrobe')
     .then((resJSON) => this.setState({wardrobe: resJSON}))
     .catch((err) => console.error(err));
   }
@@ -97,7 +97,6 @@ export default class MixerScreen extends Component {
     var today = new Date;
     var msg = message;
     var body = {
-      userId: this.props.userId,
       likesCount: 0,
       body: this.state.topImages[this.state.topIndex].URL,
       shirtId: this.state.topImages[this.state.topIndex].id,

@@ -12,7 +12,7 @@ const SearchPeopleResult = (props) => {
   let onButtonPress = (button) => {
     switch (button) {
     case 'user':
-      props.viewedUser(props.result.id);
+      props.selectedUser(props.result.id);
       props.navigator.push({
         id: 'ProfileScreen'
       });

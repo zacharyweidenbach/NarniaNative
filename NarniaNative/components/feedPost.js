@@ -67,10 +67,7 @@ export default class FeedPost extends Component {
 
   checkLikeExists() {
     var that = this;
-    return POSTfetch('checkLikeExists', {
-      userId: this.props.userId,
-      postId: this.props.post.id
-    })
+    return POSTfetch('checkLikeExists', {postId: this.props.post.id})
     .then((resJSON) => {
       if (resJSON.length > 0) {
         that.decreaseLikeCount();
@@ -83,10 +80,7 @@ export default class FeedPost extends Component {
 
   checkInitialLike() {
     var that = this;
-    return POSTfetch('checkLikeExists', {
-      userId: this.props.userId,
-      postId: this.props.post.id,
-    })
+    return POSTfetch('checkLikeExists', {postId: this.props.post.id})
     .then((resJSON) => {
       if (resJSON.length > 0) {
         //set state of the button color to orange
@@ -100,39 +94,33 @@ export default class FeedPost extends Component {
 
   increaseLikeCount() {
     var that = this;
-    POSTfetch('increaseLikeCount', {id: that.props.post.id})
+    POSTfetch('increaseLikeCount', {postId: that.props.post.id})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount + 1,
       postLiked: true
     }))
     .catch((err) => console.log(err));
 
-    return POSTfetch('insertLikesPosts', {
-      userId: that.props.userId,
-      postId: that.props.post.id
-    })
+    return POSTfetch('insertLikesPosts', {postId: that.props.post.id})
     .then((resJSON) => console.log('successful insertLike'))
     .catch((err) => console.log(err));
   }
 
   decreaseLikeCount() {
     var that = this;
-    POSTfetch('decreaseLikeCount', {id: this.props.post.id})
+    POSTfetch('decreaseLikeCount', {postId: this.props.post.id})
     .then((resJSON) => that.setState({
       likesCount: that.state.likesCount - 1, postLiked: false,
     }))
     .catch((err) => console.log(err));
 
-    return POSTfetch('deleteLikesPosts', {
-      userId: this.props.userId,
-      postId: this.props.post.id,
-    })
+    return POSTfetch('deleteLikesPosts', {postId: this.props.post.id})
     .then((resJSON) => console.log('successful deleteLike'))
     .catch((err) => console.log(err));
   }
 
   onNamePress() {
-    this.props.viewedUser(this.props.post.userId);
+    this.props.selectUser(this.props.post.userId);
     this.props.navigator.push({
       id: 'ProfileScreen',
     });
@@ -223,10 +211,10 @@ export default class FeedPost extends Component {
             <Text style={styles.descriptionText}>{this.props.post.description}</Text>
           </View>}
 
-        {this.state.commentsVisible ? <CommentsModal userId={this.props.userId} postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
-        {this.state.tagsModalVisible ? <TagsModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.commentsVisible ? <CommentsModal postId={this.props.post.id} modalVisible={this.state.commentsVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.tagsModalVisible ? <TagsModal selectUser={this.props.selectUser} navigator={this.props.navigator} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
 
-        {this.state.postsVisible ? <PostModal viewedUser={this.props.viewedUser} navigator={this.props.navigator} userId={this.props.userId} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
+        {this.state.postsVisible ? <PostModal selectUser={this.props.selectUser} navigator={this.props.navigator} postId={this.props.post.id} post={this.props.post} modalVisible={this.state.postsVisible} setModalVisible={this.setPostsVisible.bind(this)} onNamePress={this.onNamePress.bind(this)} onButtonPress={this.onButtonPress.bind(this)} color={this.state.color} postLiked={this.state.postLiked} likesCount={this.state.likesCount}/> : null}
       </View>
     );
   }

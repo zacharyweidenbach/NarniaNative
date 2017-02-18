@@ -38,7 +38,7 @@ export default class profileScreen extends Component {
   getLoggedInProfile() {
     var that = this;
     return POSTfetch('getLoggedInProfile', {
-      userId: that.props.selectedId
+      userId: that.props.userId
     })
     .then((resJSON) => {
       if (resJSON.length > 0) {
@@ -49,7 +49,7 @@ export default class profileScreen extends Component {
         }); 
       } else {
         return POSTfetch('searchUserId', {
-          id: that.props.selectedId
+          id: that.props.userId
         })
         .then((resJSON) => {
           that.setState({
@@ -64,7 +64,7 @@ export default class profileScreen extends Component {
   getNumberOfFollowers() {
     var that = this;
     return POSTfetch('getNumberOfFollowers', {
-      userId: that.props.selectedId
+      userId: that.props.userId
     })
     .then((resJSON) => {
       var tempArr = [];
@@ -81,8 +81,7 @@ export default class profileScreen extends Component {
   checkFollower(init) {
     var that = this;
     return POSTfetch('checkFollower', {
-      userId: that.props.userId,
-      followerId: that.props.selectedId,
+      userId: that.props.userId
     })
     .then((resJSON) => {
       if (init) {
@@ -107,8 +106,7 @@ export default class profileScreen extends Component {
   addFollower() {
     var that = this;
     return POSTfetch('addFollower', {
-      userId: that.props.userId,
-      followerId: that.props.selectedId,
+      userId: that.props.userId
     })
     .then(() => that.setState({following: true, followerCount: this.state.followerCount + 1}))
     .then(() => console.log('added follower'));
@@ -117,8 +115,7 @@ export default class profileScreen extends Component {
   removeFollower() {
     var that = this;
     return POSTfetch('deleteFollower', {
-      userId: that.props.userId,
-      followerId: that.props.selectedId,
+      userId: that.props.userId
     })
     .then(() => that.setState({following: false, followerCount: this.state.followerCount - 1}))
     .then(() => console.log('removed follower'));
@@ -156,9 +153,9 @@ export default class profileScreen extends Component {
           <ScrollView>
             <ProfileStats profileImage={this.state.thumbnail} followersCount={this.state.followerCount} postCount={this.state.bodyArr.length}/>
             <View style={styles.whitebg}>
-              {this.props.userId != this.props.selectedId ? this.state.following ? <Button title='Unfollow' color='#888' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color={this.state.color} onPress={() => this.checkFollower()}></Button> : null}
+              {this.state.following ? <Button title='Unfollow' color='#888' onPress={() => this.checkFollower()}></Button> : <Button title='Follow' color={this.state.color} onPress={() => this.checkFollower()}></Button>}
             </View>
-            <ProfileGallery userId={this.props.userId} userPosts={this.state.bodyArr} viewedUser={this.props.viewedUser} navigator={this.props.navigator}/>
+            <ProfileGallery userId={this.props.userId} userPosts={this.state.bodyArr} selectUser={this.props.selectUser} navigator={this.props.navigator}/>
           </ScrollView>
         </View>
       </View>

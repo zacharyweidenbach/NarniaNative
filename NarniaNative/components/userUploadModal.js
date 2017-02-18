@@ -69,7 +69,6 @@ export default class userUploadModal extends Component {
                 detailPageUrl: this.state.url,
                 largeImg: resJson.imageUrl,
               },
-              userId: this.props.userId,
               tags: this.state.tags,
               list: 'wardrobe'
             };
