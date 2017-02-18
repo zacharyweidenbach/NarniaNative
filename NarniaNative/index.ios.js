@@ -20,12 +20,10 @@ export default class NarniaNative extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      selectedId: ''
+      userId: ''
     };
     this.navigatorRenderScene = this.navigatorRenderScene.bind(this);
-    this.setUserId = this.setUserId.bind(this);
-    this.viewedUser = this.viewedUser.bind(this);
+    this.selectUser = this.selectUser.bind(this);
     this.isLoggedIn = this.isLoggedIn.bind(this);
   }
 
@@ -37,57 +35,42 @@ export default class NarniaNative extends Component {
           id: 'Login'
         });
       } else {
-        Auth.getId()
-        .then(function(id) {
-          this.setState({
-            userId: id
-          });
-          that.props.navigator.resetTo({
-            id: 'SocialFeed'
-          });
-        }.bind(this));
+        that.props.navigator.resetTo({
+          id: 'SocialFeed'
+        });
       }
-    }.bind(this));
-  }
-
-  //generic function for changing keys in state
-  setUserId(obj) {
-    this.setState(obj);
+    });
   }
 
   //for looking at user profiles
-  viewedUser(id) {
-    this.setState({
-      selectedId: id
-    });
+  selectUser(id) {
+    this.setState({userId: id});
   }
 
   navigatorRenderScene(route, navigator) {
     switch (route.id) {
     case 'Login':
-      return (<Login navigator={navigator} title='Login' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId}/>);
+      return (<Login navigator={navigator} title='Login' setToken={Auth.setToken}/>);
     case 'Signup':
-      return (<Signup navigator={navigator} title='Signup' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId}/>);
-    case 'Facebook':
-      return (<Facebook navigator={navigator} title='Facebook' setId={Auth.setId} setToken={Auth.setToken} setUserId={this.setUserId}/>);
+      return (<Signup navigator={navigator} title='Signup' setToken={Auth.setToken}/>);
     case 'SocialFeed':
-      return (<SocialFeed navigator={navigator} title='SocialFeed' viewedUser={this.viewedUser} userId={this.state.userId} selectedId={this.state.selectedId}/>);
+      return (<SocialFeed navigator={navigator} title='SocialFeed' selectUser={this.selectUser}/>);
     case 'LikesScreen':
-      return (<LikesScreen navigator={navigator} title='LikesScreen' userId={this.state.userId} viewedUser={this.viewedUser}/>);
+      return (<LikesScreen navigator={navigator} title='LikesScreen' selectUser={this.selectUser}/>);
     case 'ProfileScreen':
-      return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectedId={this.state.selectedId} viewedUser={this.viewedUser}/>);
+      return (<ProfileScreen navigator={navigator} title='ProfileScreen' userId={this.state.userId} selectUser={this.selectUser}/>);
     case 'SearchScreen':
-      return (<SearchScreen navigator={navigator} title='SearchScreen' viewedUser={this.viewedUser} userId={this.state.userId}/>);
+      return (<SearchScreen navigator={navigator} title='SearchScreen' selectUser={this.selectUser} userId={this.state.userId}/>);
     case 'MenuScreen':
-      return (<MenuScreen navigator={navigator} title='MenuScreen' viewedUser={this.viewedUser.bind(this)} userId={this.state.userId} destroySession={Auth.destroySession}/>);
+      return (<MenuScreen navigator={navigator} title='MenuScreen' selectUser={this.selectUser} userId={this.state.userId} destroySession={Auth.destroySession}/>);
     case 'MixerScreen':
-      return (<MixerScreen navigator={navigator} title='CommentScreen' userId={this.state.userId}/>);
+      return (<MixerScreen navigator={navigator} title='CommentScreen'/>);
     case 'Loading':
       return (<Loading navigator={navigator} title='Loading' isLoggedIn={this.isLoggedIn} />);
     case 'WardrobeScreen':
-      return (<Wardrobe navigator={navigator} title='Wardrobe' userId={this.state.userId} />);
+      return (<Wardrobe navigator={navigator} title='Wardrobe'/>);
     case 'cameraScreen':
-      return (<Camera navigator={navigator} title='Camera' userId={this.state.userId} />);
+      return (<Camera navigator={navigator} title='Camera'/>);
     }
   }
 
