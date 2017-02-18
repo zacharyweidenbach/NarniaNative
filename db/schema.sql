@@ -11,10 +11,10 @@ CREATE TABLE `users` (
   `id` INTEGER AUTO_INCREMENT,
   `name` VARCHAR(150) NULL DEFAULT NULL,
   `email` VARCHAR(40) NULL DEFAULT NULL,
-  `token` VARCHAR(255) NULL DEFAULT NULL,
   `username` VARCHAR(30) NULL DEFAULT NULL,
+  `password` VARCHAR(60) NULL DEFAULT NULL,
+  `salt` VARCHAR(30) NULL DEFAULT NULL,
   `thumbnail` VARCHAR(255) DEFAULT 'https://www.buira.org/assets/images/shared/default-profile.png',
-  `password` VARCHAR(40) NULL DEFAULT NULL,
   `createdAt` VARCHAR(60) NULL DEFAULT NULL,
   `updatedAt` VARCHAR(60) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -153,11 +153,11 @@ CREATE TABLE `postTags` (
 
 -- Users
 
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jon", "Jon@jon.com", "12345678910", "Jon", "password", "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460");
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Haris", "haris@haris.com", "12345678910", "Haris", "password", "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460");
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Rick", "Rick@rick.com", "12345678910", "Rick", "password", "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460");
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Zach", "Zach@zach.com", "12345678910", "Zach", "password", "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460");
-INSERT INTO `users` (name, email, token, username, password, thumbnail) VALUES ("Jonathan", "jonathan@Jonathan.com", "12345678910", "Jonathan", "password", "https://s30.postimg.org/spxl38nch/sadpanda.jpg");
+INSERT INTO `users` (name, email, username, password, salt, thumbnail) VALUES ("Jon", "Jon@jon.com", "Jon", "$2a$12$JNUXhU397X7/JBivk9fE6uu/eJnkNeiwzqS/glIFGBijZPcOyHSO2", "$2a$12$JNUXhU397X7/JBivk9fE6u", "https://avatars1.githubusercontent.com/u/21250622?v=3&s=460");
+INSERT INTO `users` (name, email, username, password, salt, thumbnail) VALUES ("Haris", "haris@haris.com", "Haris", "$2a$12$b/8sHDofVjvgpAbBOt4VdObolhWX2ro3WBMyEZaOBcN8fw5CGIUpi", "$2a$12$b/8sHDofVjvgpAbBOt4VdO", "https://avatars2.githubusercontent.com/u/19330576?v=3&s=460");
+INSERT INTO `users` (name, email, username, password, salt, thumbnail) VALUES ("Rick", "Rick@rick.com", "Rick", "$2a$12$cjWG/8EpYmcp31rFalJBSuLf188XccKLhYeLBpNjEX8OxXONAR5CK", "$2a$12$cjWG/8EpYmcp31rFalJBSu", "https://avatars0.githubusercontent.com/u/20013587?v=3&s=460");
+INSERT INTO `users` (name, email, username, password, salt, thumbnail) VALUES ("Zach", "Zach@zach.com", "Zach", "$2a$12$1u23TXHquuEr24eN7LCRuectA7xsbvwHzYemT.Szw6vfw1gNwlbZK", "$2a$12$1u23TXHquuEr24eN7LCRue", "https://avatars3.githubusercontent.com/u/14946412?v=3&s=460");
+INSERT INTO `users` (name, email, username, password, salt, thumbnail) VALUES ("Jonathan", "jonathan@Jonathan.com", "Jonathan", "$2a$12$Pxzzx6uKRDyPRWyAxJGrZuMFvQcIt3YnZ2DpCM/LdfSLGAb9xelFK", "$2a$12$Pxzzx6uKRDyPRWyAxJGrZu", "https://s30.postimg.org/spxl38nch/sadpanda.jpg");
 
 -- Clothing
 
