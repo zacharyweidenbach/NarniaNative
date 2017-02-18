@@ -7,7 +7,7 @@ import {
   TextInput,
   Button
 } from 'react-native';
-import { POSTfetch } from '../utils.js';
+import { POSTauth } from '../utils.js';
 import { loginScreenStyles as styles} from '../stylesheet.js';
 
 export default class Signup extends Component {
@@ -32,8 +32,9 @@ export default class Signup extends Component {
     if (this.state.password !== this.state.confirmPassword || this.state.email !== this.state.confirmEmail) {
       Alert.alert('Username and/or password do not match');
     } else {
-      return POSTfetch('users/mbSignup', newUser)
+      return POSTauth('users/mbSignup', newUser)
       .then((resJSON) => {
+        console.warn(JSON.stringify(resJSON));
         if (resJSON === 'User already exists.') {
           Alert.alert(resJSON);
           that.setState({
@@ -46,12 +47,8 @@ export default class Signup extends Component {
         } else {
           that.props.setToken(resJSON.token)
           .then(() => {
-            that.props.setUserId({userId: resJSON.id});
-            that.props.setId(resJSON.id)
-            .then(() => {
-              that.props.navigator.resetTo({ //send to home page
-                id: 'SocialFeed'
-              });
+            that.props.navigator.resetTo({ //send to home page
+              id: 'SocialFeed'
             });
           });
         }

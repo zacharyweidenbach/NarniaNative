@@ -7,7 +7,7 @@ import {
   TextInput,
   Button
 } from 'react-native';
-import { POSTfetch } from '../utils.js';
+import { POSTauth } from '../utils.js';
 import { loginScreenStyles as styles} from '../stylesheet.js';
 
 
@@ -22,7 +22,7 @@ export default class Login extends Component {
 
   submitHandler() {
     var that = this;
-    return POSTfetch('users/mblogin', that.state)
+    return POSTauth('users/mblogin', that.state)
     .then((resJSON) => {
       if (resJSON === 'Invalid username or password.') {
         Alert.alert(resJSON);
@@ -34,12 +34,8 @@ export default class Login extends Component {
       } else { // login
         that.props.setToken(resJSON.token)
         .then(() => {
-          that.props.setUserId({userId: resJSON.id});
-          that.props.setId(resJSON.id)
-          .then(() => {
-            that.props.navigator.resetTo({
-              id: 'SocialFeed'
-            });
+          that.props.navigator.resetTo({
+            id: 'SocialFeed'
           });
         });
       }
