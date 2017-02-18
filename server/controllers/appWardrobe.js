@@ -2,7 +2,7 @@ var connection = require('../../db/index.js');
 
 module.exports = {
   getWardrobe: function(req, res, next) {
-    connection.query('SELECT c.* FROM wardrobe w JOIN users u ON u.id = w.userId JOIN clothing c ON c.id = w.clothingId WHERE w.userId=' + req.body.userId, function(err, result) {
+    connection.query('SELECT c.* FROM wardrobe w JOIN users u ON u.id = w.userId JOIN clothing c ON c.id = w.clothingId WHERE w.userId=' + req.body.id, function(err, result) {
       var response = err || result;
       res.json(response);
     });
@@ -13,7 +13,7 @@ module.exports = {
         res.send(err);
       } else if (result.length !== 0) {
         var reqbody = {
-          userId: req.body.userId,
+          userId: req.body.id,
           clothingId: result[0].id,
           list: req.body.list
         };
@@ -39,7 +39,7 @@ module.exports = {
             res.json(err);
           } else {
             var reqbody = {
-              userId: req.body.userId,
+              userId: req.body.id,
               clothingId: result.insertId,
               list: req.body.list
             };
@@ -53,7 +53,7 @@ module.exports = {
     });
   },
   removeFromWardrobe: function(req, res, next) {
-    connection.query('DELETE FROM wardrobe WHERE userId=' + req.body.userId + ' and clothingId=' + req.body.clothingId, function(err, result) {
+    connection.query('DELETE FROM wardrobe WHERE userId=' + req.body.id + ' and clothingId=' + req.body.clothingId, function(err, result) {
       var response = err || result;
       res.json(response);
     });

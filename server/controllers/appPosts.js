@@ -22,14 +22,17 @@ module.exports = {
     });
   },
   postToDb: function(req, res, next) {
+    req.body.userId = req.body.id;
+    delete req.body.id;
     connection.query('INSERT INTO posts SET ?', req.body, function(err, result) {
       var response = err || result;
+      console.log(response, "RESPONSE");
       res.json(response);
     });
   },
   getPostsFromDb: function(req, res, next) {
     //86400000 in a day, *7 = 1 week
-    var weekAgo = new Date().getTime() - (86400000 * 7);
+    var weekAgo = new Date().getTime() - (86400000 * 50);
 
     if (req.body.row === undefined) {
       connection.query(
@@ -64,7 +67,7 @@ module.exports = {
     });
   },
   getCommentsFromDb: function(req, res, next) {
-    connection.query('SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.postId, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="comment" and posts.postId =' + req.body.id + ' ORDER BY createdAt DESC', function(err, result) {
+    connection.query('SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.postId, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt FROM users INNER JOIN posts on users.id=posts.userId and posts.type="comment" and posts.postId =' + req.body.postId + ' ORDER BY createdAt DESC', function(err, result) {
       var response = err || result;
       res.json(response);
     });
@@ -89,13 +92,13 @@ module.exports = {
     });
   },
   increaseLikeCount: function(req, res, next) {
-    connection.query('UPDATE posts SET likesCount = likesCount + 1 WHERE id = ' + req.body.id, function(err, result) {
+    connection.query('UPDATE posts SET likesCount = likesCount + 1 WHERE id = ' + req.body.postId, function(err, result) {
       var response = err || result;
       res.json(response);
     });
   },
   decreaseLikeCount: function(req, res, next) {
-    connection.query('UPDATE posts SET likesCount = likesCount - 1 WHERE id = ' + req.body.id, function(err, result) {
+    connection.query('UPDATE posts SET likesCount = likesCount - 1 WHERE id = ' + req.body.postId, function(err, result) {
       var response = err || result;
       res.json(response);
     });

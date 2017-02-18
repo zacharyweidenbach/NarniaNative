@@ -16,7 +16,7 @@ module.exports = {
         res.json(err);
       } else {
         var reqbody = {
-          userId: req.body.userId,
+          userId: req.body.id,
           clothingId: result.insertId,
           list: req.body.list
         };

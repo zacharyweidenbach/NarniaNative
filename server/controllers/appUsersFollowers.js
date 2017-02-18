@@ -4,7 +4,7 @@ module.exports = {
   addFollower: function(req, res, next) {
     var reqbody = {
       userId: req.body.userId,
-      followerId: req.body.followerId,
+      followerId: req.body.id,
     };
     connection.query('INSERT INTO userFollowers SET ?', reqbody, function(err, result) {
       var response = err || result;
@@ -12,31 +12,26 @@ module.exports = {
     });
   },
   deleteFollower: function(req, res, next) {
-    connection.query('DELETE FROM userFollowers WHERE userId=' + req.body.userId + ' and followerId=' + req.body.followerId, function(err, result) {
+    connection.query('DELETE FROM userFollowers WHERE userId=' + req.body.userId + ' and followerId=' + req.body.id, function(err, result) {
       var response = err || result;
       res.json(response);
     });
   },
   checkFollower: function(req, res, next) {
-    connection.query('SELECT * FROM userFollowers WHERE userId=' + req.body.userId + ' and followerId=' + req.body.followerId, function(err, result) {
+    connection.query('SELECT * FROM userFollowers WHERE userId=' + req.body.userId + ' and followerId=' + req.body.id, function(err, result) {
       var response = err || result;
       res.json(response);
     });
   },
   getNumberOfFollowers: function(req, res, next) {
-    connection.query('SELECT * FROM userFollowers WHERE followerId=' + req.body.userId, function(err, result) {
+    connection.query('SELECT * FROM userFollowers WHERE followerId=' + req.body.id, function(err, result) {
       var response = err || result;
       res.json(response);
     });
   },
   getAllFollowersPosts: function(req, res, next) {
-    connection.query('SELECT * FROM userFollowers WHERE userId=' + req.body.userId, function(err, result) {
-      var str = '';
-      var tempArr = [req.body.userId];
-      for (var i = 0; i < result.length; i++) {
-        tempArr.push(result[i].followerId);
-      }
-      str = tempArr.join(',');
+    connection.query('SELECT * FROM userFollowers WHERE followerId=' + req.body.id, function(err, result) {
+      var str = result.reduce((string, item) => string + ',' + item.userId, req.body.id);
       if (req.body.postId === undefined) {
         connection.query(
         'SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.shirtId, posts.pantId, posts.shoesId, posts.createdAt, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
@@ -51,7 +46,7 @@ module.exports = {
         });
       } else {
         connection.query(
-          'SELECT posts.userId,  users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt, posts.shirtId, posts.pantId, posts.shoesId, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
+          'SELECT posts.userId, users.username, users.thumbnail, posts.id, posts.body, posts.description, posts.likesCount, posts.type, posts.createdAt, posts.shirtId, posts.pantId, posts.shoesId, shirt.largeImg as shirtImg, pant.largeImg as pantImg, shoes.largeImg as shoesImg \
           FROM users INNER JOIN posts ON users.id=posts.userId and users.id in (' + str + ') and posts.type="image" and posts.id < ' + req.body.postId + '\
             LEFT JOIN clothing shirt ON shirt.id=posts.shirtId \
             LEFT JOIN clothing pant ON pant.id=posts.pantId \
