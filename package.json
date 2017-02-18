@@ -23,6 +23,7 @@
   "dependencies": {
     "@google-cloud/storage": "^0.6.1",
     "apac": "^3.0.0",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
@@ -30,6 +31,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "jquery": "^3.1.1",
+    "jsonwebtoken": "^7.3.0",
     "mocha": "^3.2.0",
     "multer": "^1.2.1",
     "mysql": "^2.12.0",
