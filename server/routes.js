@@ -29,13 +29,6 @@ const multer = Multer({
 module.exports = function(app, express) {
   app.get('/', appController.homepage);
 
-  //AUTH
-  app.post('/api/users/login', appAuth.login);
-  app.post('/api/users/signup', appAuth.signup);
-  app.post('/api/users/mbSignup', appAuth.createUser);
-  app.post('/api/users/mbLogin', appAuth.mbLogin);
-  app.post('/api/users/mobileFbLogin', appAuth.mobileFbLogin);
-
   //AMAZON API
   app.post('/api/search', amazonAPI.fetchClothes);
 
