@@ -50,7 +50,7 @@ export default class SearchTagsResults extends Component {
             </View>
         </TouchableHighlight>
         {/* Tags Modal */}
-        {this.state.tagsModalVisible ? <TagsModal userId={this.props.userId} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)}/> : null}
+        {this.state.tagsModalVisible ? <TagsModal userId={this.props.userId} selectUser={this.props.selectUser} tag={this.state.currentTag} modalVisible={this.state.tagsModalVisible} setModalVisible={this.setModalVisible.bind(this)} navigator={this.props.navigator}/> : null}
       </View>
     );
   }

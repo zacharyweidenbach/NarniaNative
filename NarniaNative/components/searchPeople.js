@@ -36,7 +36,7 @@ export default class SearchPeople extends Component {
     return (
       <ScrollView style={styles.container}>
          {this.state.results.map((result, key) => {
-           return <SearchPeopleResult key={key} result={result} navigator={this.props.navigator} selectedUser={this.props.selectedUser}/>;
+           return <SearchPeopleResult key={key} result={result} navigator={this.props.navigator} selectUser={this.props.selectUser}/>;
          })}
       </ScrollView>
     ); 
