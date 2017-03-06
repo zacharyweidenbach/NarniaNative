@@ -34,7 +34,6 @@ export default class Signup extends Component {
     } else {
       return POSTauth('users/mbSignup', newUser)
       .then((resJSON) => {
-        console.warn(JSON.stringify(resJSON));
         if (resJSON === 'User already exists.') {
           Alert.alert(resJSON);
           that.setState({

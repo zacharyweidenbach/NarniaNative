@@ -49,7 +49,7 @@ export default class profileScreen extends Component {
         }); 
       } else {
         return POSTfetch('searchUserId', {
-          id: that.props.userId
+          userId: that.props.userId
         })
         .then((resJSON) => {
           that.setState({
