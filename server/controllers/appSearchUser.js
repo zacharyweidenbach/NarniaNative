@@ -1,15 +1,14 @@
-var connection = require('../../db/index.js');
+var query = require('../config').query;
+var sqlEscape = require('../config').sqlEscape;
+
 module.exports = {
-  searchUser: function(req, res, next) {
-    connection.query('SELECT * FROM users WHERE username LIKE "%' + req.body.username + '%" or email="' + req.body.username + '"', function(err, result) {
-      var response = err || result;
-      res.json(response);
-    });
+  searchUser: (req, res, next) => {
+    const username = sqlEscape(req.body.username);
+    return query('SELECT * FROM users WHERE username LIKE "%' + username + '%" or email="' + username + '"')
+    .then((result) => res.json(result));
   },
-  searchUserId: function(req, res, next) {
-    connection.query('SELECT * FROM users WHERE id=' + req.body.id, function(err, result) {
-      var response = err || result;
-      res.json(response);
-    });
+  searchUserId: (req, res, next) => {
+    return query('SELECT * FROM users WHERE id=?', [req.body.userId])
+    .then((result) => res.json(result));
   },
 };

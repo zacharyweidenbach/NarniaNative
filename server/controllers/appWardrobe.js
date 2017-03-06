@@ -1,26 +1,22 @@
-var connection = require('../../db/index.js');
+var query = require('../config').query;
+var sqlEscape = require('../config').sqlEscape;
 
 module.exports = {
-  getWardrobe: function(req, res, next) {
-    connection.query('SELECT c.* FROM wardrobe w JOIN users u ON u.id = w.userId JOIN clothing c ON c.id = w.clothingId WHERE w.userId=' + req.body.id, function(err, result) {
-      var response = err || result;
-      res.json(response);
-    });
+  getWardrobe: (req, res, next) => {
+    return query('SELECT c.* FROM wardrobe w JOIN users u ON u.id = w.userId JOIN clothing c ON c.id = w.clothingId WHERE w.userId=?', [req.body.id])
+    .then((result) => res.json(result));
   },
-  addToWardrobe: function(req, res, next) {
-    connection.query('SELECT id FROM clothing WHERE upc="' + req.body.clothing.UPC + '" OR asin="' + req.body.clothing.ASIN + '"', function(err, result) {
-      if (err) {
-        res.send(err);
-      } else if (result.length !== 0) {
+  addToWardrobe: (req, res, next) => {
+    return query('SELECT id FROM clothing WHERE upc="' + sqlEscape(req.body.clothing.UPC) + '" OR asin="' + sqlEscape(req.body.clothing.ASIN) + '"')
+    .then((result) => {
+      if (result.length !== 0) {
         var reqbody = {
           userId: req.body.id,
           clothingId: result[0].id,
           list: req.body.list
         };
-        connection.query('INSERT INTO wardrobe SET ?', reqbody, function(err, result) {
-          var response = err || result;
-          res.json(response);
-        });
+        return query('INSERT INTO wardrobe SET ?', reqbody)
+        .then((result) => res.json(result));
       } else {
         var clothing = {
           detailPageUrl: req.body.clothing.detailPageUrl,
@@ -34,28 +30,21 @@ module.exports = {
           title: req.body.clothing.title,
           position: req.body.position
         };
-        connection.query('INSERT into clothing SET ?', clothing, function(err, result) {
-          if (err) {
-            res.json(err);
-          } else {
-            var reqbody = {
-              userId: req.body.id,
-              clothingId: result.insertId,
-              list: req.body.list
-            };
-            connection.query('INSERT into wardrobe SET ?', reqbody, function(err, result) {
-              var response = err || result;
-              res.json(response);
-            });
-          }
+        return query('INSERT into clothing SET ?', clothing)
+        .then((result) => {
+          const reqbody = {
+            userId: req.body.id,
+            clothingId: result.insertId,
+            list: req.body.list
+          };
+          return query('INSERT into wardrobe SET ?', reqbody)
+          .then((result) => res.json(result));
         });
       }
     });
   },
-  removeFromWardrobe: function(req, res, next) {
-    connection.query('DELETE FROM wardrobe WHERE userId=' + req.body.id + ' and clothingId=' + req.body.clothingId, function(err, result) {
-      var response = err || result;
-      res.json(response);
-    });
+  removeFromWardrobe: (req, res, next) => {
+    return query('DELETE FROM wardrobe WHERE userId=' + req.body.id + ' and clothingId=' + sqlEscape(req.body.clothingId))
+    .then((result) => res.json(result));
   },
 };

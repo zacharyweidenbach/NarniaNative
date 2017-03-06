@@ -10,7 +10,7 @@ var opHelper = new apac.OperationHelper ({
 });
 
 module.exports = {
-  fetchClothes: function(req, res, next) {
+  fetchClothes: (req, res, next) => {
     opHelper.execute('ItemSearch', {
       'SearchIndex': 'Fashion',
       'Keywords': req.body.keyword,

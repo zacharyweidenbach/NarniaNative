@@ -1,34 +1,31 @@
 require('dotenv').config();
-var connection = require('../../db/index.js');
-var dbUser = require('./appUsers');
+var dbUsers = require('../queries/dbUsers');
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('jsonwebtoken');
-var SALT_WORK_FACTOR = 12;
+const SALT_WORK_FACTOR = 12;
 
 module.exports = {
-  findUser: function(req, res, next) {
+  findUser: (req, res, next) => {
     if (!req.body.username) {
       res.json('no username provided');
       return;
     }
-    return dbUser.getUser(req.body.username)
-    .then(function(result) {
-      res.json(result);
-    });
+    return dbUsers.getUser(req.body.username)
+    .then((result) => res.json(result));
   },
 
-  mbLogin: function(req, res, next) {
+  mbLogin: (req, res, next) => {
     if (!req.body.username || !req.body.password) {
       res.send('no username or password provided');
       return;
     }
-    return dbUser.getUser(req.body.username)
-    .then(function(result) {
-      if (Array.isArray(result) && result.length > 0) {
-        bcrypt.hash(req.body.username, result[0].salt, null, function (err, hash) {
+    return dbUsers.getUser(req.body.username)
+    .then((result) => {
+      if (!(result instanceof Error)) {
+        bcrypt.hash(req.body.username, result.salt, null, (err, hash) => {
           if (err) return next(err);
-          if (hash === result[0].password) {
-            var token = jwt.sign(result[0], 'secret');
+          if (hash === result.password) {
+            var token = jwt.sign(result, process.env.JWT_SECRET);
             res.json({// GIVE TOKEN AT THIS POINT
               success: true,
               token: token
@@ -43,19 +40,19 @@ module.exports = {
     });
   },
 
-  createUser: function(req, res, next) {
+  createUser: (req, res, next) => {
     if (!req.body.username) {
       res.json('no user information');
       return;
     }
-    return dbUser.getUser(req.body.username)
-    .then(function(response) {
-      if (response.length === 0) {
-        bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+    return dbUsers.getUser(req.body.username)
+    .then((response) => {
+      if (response instanceof Error) {
+        bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
           if (err) return next(err);
-          bcrypt.hash(req.body.username, salt, null, function (err, hash) {
+          bcrypt.hash(req.body.username, salt, null, (err, hash) => {
             if (err) return next(err);
-            var time = new Date();
+            const time = new Date();
             var newUser = {
               name: req.body.name || req.body.username,
               email: req.body.email,
@@ -65,12 +62,12 @@ module.exports = {
               createdAt: req.body.createdAt || time,
               updatedAt: req.body.updatedAt || time
             };
-            return dbUser.setUser(newUser)
-            .then(function(result) {
+            return dbUsers.setUser(newUser)
+            .then((result) => {
               newUser.id = result.insertId; 
               res.json({
                 success: true,
-                token: jwt.sign(newUser, 'secret')
+                token: jwt.sign(newUser, process.env.JWT_SECRET)
               });
             });
           });
@@ -81,17 +78,17 @@ module.exports = {
     });
   },
 
-  removeUser: function(req, res, next) {
+  removeUser: (req, res, next) => {
     if (!req.body.username) {
       res.json('no user information');
     }
-    return dbUser.deleteUser(req.body.username)
-    .then(function(response) {
+    return dbUsers.deleteUser(req.body.username)
+    .then((response) => {
       res.json(response);
     });
   },
   
-  test: function(req, res, next) {
+  test: (req, res, next) => {
     res.json('success');
   }
 };

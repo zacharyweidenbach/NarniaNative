@@ -1,15 +1,12 @@
-var connection = require('../../db/index.js');
+var query = require('../config').query;
 
 module.exports = {
-  checkClothingExists: function(req, res, next) {
-    connection.query('SELECT id, title FROM clothing where upc=' + req.body.clothing.upc, function(err, result) {
-      var response = err || result;
-      res.json(response);
-    });
+  checkClothingExists: (req, res, next) => {
+    return query('SELECT id, title FROM clothing where upc = ?', [req.body.clothing.upc])
+    .then((result) => res.json(result));
   },
-  getClothing: function(req, res, next) {
-    connection.query('SELECT largeImg, id, position FROM clothing', function(err, result) {
-      res.json(result);
-    });
+  getClothing: (req, res, next) => {
+    return query('SELECT largeImg, id, position FROM clothing')
+    .then((result) => res.json(result));
   }
 };
