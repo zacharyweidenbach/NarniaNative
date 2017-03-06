@@ -8,7 +8,8 @@
     "start-blind": "nodemon server/server.js 2>&1 | log/.predate.sh >> log/server.log & ",
     "tail": "tail -f log/server.log",
     "test": "mocha test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "db": "mysql -u root < ./db/schema.sql"
   },
   "repository": {
     "type": "git",
