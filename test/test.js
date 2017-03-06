@@ -27,14 +27,30 @@ describe('server should', function() {
     createdAt: new Date()
   };
 
+  var testToken;
 
+  // Create New User and set token
+  before((done) => {
+    request
+      .post('/api/users/mbSignup')
+      .send(testUser)
+      .end((err, res) => {
+        testToken = res.body.token || null;
+        expect(!!res.body.token).to.equal(true);
+        done();
+      });
+  });
+
+  // Delete New User
   after((done) => {
     request
     .post('/api/deletePost')
+    .set('x-access-token', testToken)
     .send({postId: testPostId});
 
     request
     .post('/api/test/removeUser')
+    .set('x-access-token', testToken)
     .send({username: testUser.username})
     .end(done);
   });
@@ -43,20 +59,8 @@ describe('server should', function() {
     it('returns "success"', (done) => {
       request
       .get('/api/test')
+      .set('x-access-token', testToken)
       .expect('"success"', done);
-    });
-  });
-
-  describe('POST from /api/users/mbSignup', () => {
-    it('returns response', (done) => {
-      request
-      .post('/api/users/mbSignup')
-      .send(testUser)
-      .end((err, res) => {
-        expect(!!res.body.token).to.equal(true);
-        expect(!!res.body.id).to.equal(true);
-        done();
-      });
     });
   });
 
@@ -64,9 +68,10 @@ describe('server should', function() {
     it('returns response', (done) => {
       request
       .post('/api/test/findUser')
+      .set('x-access-token', testToken)
       .send({username: testUser.username})
       .end((err, res) => {
-        expect(res.body[0].username).to.equal(testUser.username);
+        expect(res.body.username).to.equal(testUser.username);
         done();
       });
     });
@@ -76,13 +81,14 @@ describe('server should', function() {
     it('returns response', (done) => {
       request
       .post('/api/users/mbLogin')
+      .set('x-access-token', testToken)
       .send({
         username: testUser.username,
         password: testUser.password
       })
       .end((err, res) => {
         expect(!!res.body.token).to.equal(true);
-        expect(!!res.body.id).to.equal(true);
+        expect(!!res.body.success).to.equal(true);
         done();
       });
     });
@@ -92,6 +98,7 @@ describe('server should', function() {
     it('returns response', (done) => {
       request
       .post('/api/postToDb')
+      .set('x-access-token', testToken)
       .send(testPost)
       .expect((res) => {
         expect(res.body.affectedRows).to.equal(1);
@@ -100,6 +107,7 @@ describe('server should', function() {
       .end(() => {
         request
         .post('/api/getPostFromPostId')
+        .set('x-access-token', testToken)
         .send({postId: testPostId})
         .end((err, res) => {
           expect(res.body[0].body).to.equal(testPost.body);
@@ -108,8 +116,5 @@ describe('server should', function() {
       });
     });
   });
-
-
-
 
 });
