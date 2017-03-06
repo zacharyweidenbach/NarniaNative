@@ -3,7 +3,6 @@ var Multer = require('multer');
 var path = require('path');
 
 //CONTROLLERS
-var appController = require('./controllers/appController.js');
 var appAuth = require('./controllers/appAuth.js');
 var amazonAPI = require('./controllers/amazonAPI.js');
 var appPosts = require('./controllers/appPosts.js');
@@ -27,8 +26,6 @@ const multer = Multer({
 
 //ROUTES
 module.exports = function(app, express) {
-  app.get('/', appController.homepage);
-
   //AMAZON API
   app.post('/api/search', amazonAPI.fetchClothes);
 
